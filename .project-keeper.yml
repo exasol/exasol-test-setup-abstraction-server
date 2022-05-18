@@ -3,3 +3,6 @@ sources:
     path: server/pom.xml
     modules:
       - jar_artifact
+linkReplacements:
+  - https://javalin.io/javalin|https://javalin.io/
+  - https://www.mojohaus.org/flatten-maven-plugin/flatten-maven-plugin|https://www.mojohaus.org/flatten-maven-plugin/

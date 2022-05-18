@@ -48,6 +48,7 @@
 [42]: http://maven.apache.org/plugins/maven-clean-plugin/
 [1]: https://opensource.org/licenses/MIT
 [12]: https://github.com/mockito/mockito
+[20]: https://www.mojohaus.org/flatten-maven-plugin/
 [40]: http://www.mojohaus.org/exec-maven-plugin
 [28]: http://www.mojohaus.org/versions-maven-plugin/
 [11]: http://opensource.org/licenses/BSD-3-Clause
@@ -58,7 +59,6 @@
 [4]: http://code.google.com/p/rest-assured
 [13]: https://github.com/mockito/mockito/blob/main/LICENSE
 [24]: http://zlika.github.io/reproducible-build-maven-plugin
-[2]: https://javalin.io/javalin
 [14]: http://sonarsource.github.io/sonar-scanner-maven/
 [17]: https://www.apache.org/licenses/LICENSE-2.0.txt
 [18]: https://maven.apache.org/enforcer/maven-enforcer-plugin/
@@ -66,7 +66,7 @@
 [46]: http://maven.apache.org/plugins/maven-install-plugin/
 [6]: https://junit.org/junit5/
 [22]: https://sonatype.github.io/ossindex-maven/maven-plugin/
-[20]: https://www.mojohaus.org/flatten-maven-plugin/flatten-maven-plugin
+[2]: https://javalin.io/
 [10]: http://hamcrest.org/JavaHamcrest/
 [48]: http://maven.apache.org/plugins/maven-deploy-plugin/
 [50]: http://maven.apache.org/plugins/maven-site-plugin/
