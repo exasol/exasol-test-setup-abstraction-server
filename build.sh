@@ -6,5 +6,5 @@ java -jar "$HOME/.m2/repository/com/exasol/project-keeper-cli/$pk_version/projec
 mvn --file server/ install
 
 cd go-client
-#go test -v -coverprofile=coverage.out ./...
+go test -v -coverprofile=coverage.out ./...
 cd ..
