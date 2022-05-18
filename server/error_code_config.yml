@@ -1,0 +1,5 @@
+error-tags:
+  ETSAS:
+    packages:
+      - com.exasol.testsetupabstraction.server
+    highest-index: 3

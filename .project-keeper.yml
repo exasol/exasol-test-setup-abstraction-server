@@ -1,0 +1,5 @@
+sources:
+  - type: maven
+    path: server/pom.xml
+    modules:
+      - jar_artifact
