@@ -60,7 +60,12 @@ func downloadServerIfNotPresent() string {
 	serverFile := path.Join(serverDir, serverJar)
 	if _, err := os.Stat(serverFile); os.IsNotExist(err) {
 		out, err := os.Create(serverFile)
-		defer out.Close()
+		defer func() {
+			err = out.Close()
+			if err != nil {
+				panic(fmt.Sprintf("failed to close server file. Cause: %v", err.Error()))
+			}
+		}()
 		if err != nil {
 			panic(fmt.Sprintf("failed to create file for downloading test-setup-abstraction-server. Cause: %v", err.Error()))
 		}
@@ -96,7 +101,7 @@ func getServerPort(output *bytes.Buffer, errorStream *bytes.Buffer) int {
 	}
 	fmt.Println(errorStream.String())
 	fmt.Println(output.String())
-	panic(fmt.Sprintf("failed to start server. The server did not print a port number."))
+	panic("failed to start server. The server did not print a port number.")
 }
 
 func waitForServer(serverProcess *exec.Cmd, errorStream *bytes.Buffer, stopped *bool,
@@ -133,6 +138,9 @@ func (testSetup *TestSetupAbstraction) getConnectionInfo() *ConnectionInfo {
 func (testSetup *TestSetupAbstraction) makeApiRequest(method string, address string, jsonResult interface{}, payload url.Values) {
 	client := http.Client{}
 	req, err := http.NewRequest(method, testSetup.serverEndpoint+address, strings.NewReader(payload.Encode()))
+	if err != nil {
+		panic(fmt.Sprintf("failed to create http request for the server. Cause: %v", err.Error()))
+	}
 	if payload != nil {
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	}
