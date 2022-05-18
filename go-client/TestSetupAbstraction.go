@@ -89,6 +89,7 @@ func getServerPort(output *bytes.Buffer, errorStream *bytes.Buffer) int {
 			panic(err)
 		}
 		result := pattern.FindSubmatch(output.Bytes())
+
 		if len(result) != 0 {
 			portString := string(result[1])
 			port, err := strconv.ParseInt(portString, 10, 32)

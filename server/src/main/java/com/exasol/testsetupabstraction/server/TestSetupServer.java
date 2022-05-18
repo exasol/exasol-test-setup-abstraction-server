@@ -45,6 +45,10 @@ public class TestSetupServer implements AutoCloseable {
         });
     }
 
+    public void join() throws InterruptedException {
+        this.server.jettyServer().server().join();
+    }
+
     private void handleMakeDatabaseTcpServiceAccessibleFromLocalhost(final Context ctx) {
         final int databasePort = Integer.parseInt(Objects.requireNonNull(ctx.formParam("databasePort")));
         final List<Integer> ports = this.testSetup.makeDatabaseTcpServiceAccessibleFromLocalhost(databasePort);
