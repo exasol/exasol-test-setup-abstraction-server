@@ -2,4 +2,4 @@ error-tags:
   ETSAS:
     packages:
       - com.exasol.testsetupabstraction.server
-    highest-index: 4
+    highest-index: 5
