@@ -12,11 +12,12 @@ Code name: Initial Implementation
 
 * Added `com.exasol:exasol-test-setup-abstraction-java:0.3.0`
 * Added `io.javalin:javalin:4.5.0`
-* Added `io.rest-assured:rest-assured:5.0.1`
 
 ### Test Dependency Updates
 
+* Added `io.rest-assured:rest-assured:5.0.1`
 * Added `org.hamcrest:hamcrest:2.2`
+* Added `org.itsallcode:junit5-system-extensions:1.2.0`
 * Added `org.junit.jupiter:junit-jupiter-engine:5.8.2`
 * Added `org.junit.jupiter:junit-jupiter-params:5.8.2`
 * Added `org.mockito:mockito-junit-jupiter:4.5.1`

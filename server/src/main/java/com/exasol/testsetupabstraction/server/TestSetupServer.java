@@ -23,9 +23,7 @@ public class TestSetupServer implements AutoCloseable {
      */
     public TestSetupServer(final ExasolTestSetup testSetup, final int port) {
         this.testSetup = testSetup;
-        this.server = Javalin.create(config -> {
-            config.jsonMapper(new JsonBJsonMapper());
-        });
+        this.server = Javalin.create(config -> config.jsonMapper(new JsonBJsonMapper()));
         this.server.start(port);
         this.server.post("/makeDatabaseTcpServiceAccessibleFromLocalhost",
                 this::handleMakeDatabaseTcpServiceAccessibleFromLocalhost);
