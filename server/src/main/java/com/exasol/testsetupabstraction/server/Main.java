@@ -9,7 +9,8 @@ import com.exasol.exasoltestsetup.ExasolTestSetup;
 import com.exasol.exasoltestsetup.ExasolTestSetupFactory;
 
 public class Main {
-    @SuppressWarnings({ "java:S106" }) // we don't want to use a logger here
+    @SuppressWarnings({ "java:S106", "java:S4507" }) // we don't want to use a logger here, printStackTrace is ok here
+                                                     // since it's a tool for testing
     public static void main(final String[] args) {
         final int port = findFreePort();
         try (final ExasolTestSetup exasol = new ExasolTestSetupFactory(Path.of(args[0])).getTestSetup();
