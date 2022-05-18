@@ -33,7 +33,7 @@ const serverJar = "exasol-test-setup-abstraction-server-" + serverVersion + ".ja
 
 func Create(configFilePath string) TestSetupAbstraction {
 	serverPath := downloadServerIfNotPresent()
-	serverProcess := exec.Command("java", "-jar", serverPath, configFilePath) //todo
+	serverProcess := exec.Command("java", "-jar", serverPath, configFilePath)
 	var output, errorStream bytes.Buffer
 	serverProcess.Stdout = &output
 	serverProcess.Stderr = &errorStream

@@ -20,7 +20,7 @@ class MainTest {
             if (captured.contains("Server running on port:")) {
                 break;
             }
-            if (counter++ > 10 * 60) {
+            if (counter++ > 10 * 2 * 60) {// 10 mins
                 throw new AssertionError("timeout waiting for server to start");
             }
         }
