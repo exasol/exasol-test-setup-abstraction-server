@@ -147,7 +147,7 @@ func (testSetup *TestSetupAbstraction) makeApiRequest(method string, address str
 	}
 	response, err := client.Do(req)
 	if err != nil {
-		panic(fmt.Sprintf("failed to get %v from test stup abstraction server. Cause %v", address, err.Error()))
+		panic(fmt.Sprintf("failed to execute %v %v from test-setup-abstraction server. Cause %v", method, address, err.Error()))
 	}
 	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
@@ -155,7 +155,7 @@ func (testSetup *TestSetupAbstraction) makeApiRequest(method string, address str
 	}
 	err = json.Unmarshal(body, &jsonResult)
 	if err != nil {
-		panic(fmt.Sprintf("Invalid JSON response: \n%v \n Cause: %v", string(body), err.Error()))
+		panic(fmt.Sprintf("invalid JSON response:\n%v\nCause: %v", string(body), err.Error()))
 	}
 }
 

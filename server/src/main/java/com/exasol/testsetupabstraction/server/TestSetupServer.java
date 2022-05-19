@@ -19,7 +19,7 @@ public class TestSetupServer implements AutoCloseable {
      * Create a new instance of {@link TestSetupServer}.
      * 
      * @param testSetup Exasol test setup
-     * @param port      http port
+     * @param port      HTTP port
      */
     public TestSetupServer(final ExasolTestSetup testSetup, final int port) {
         this.testSetup = testSetup;

@@ -22,7 +22,7 @@ jobs:
           java-version: 11
           cache: 'maven'
       - name: Build with Maven skipping tests
-        run: mvn --batch-mode clean verify -DskipTests
+        run: mvn --file server/pom.xml --batch-mode clean verify -DskipTests
       - name: Generate sha256sum files
         run: find server/target -maxdepth 1 -name *.jar -exec bash -c 'sha256sum {} > {}.sha256' \;
       - name: Upload assets to the GitHub release draft

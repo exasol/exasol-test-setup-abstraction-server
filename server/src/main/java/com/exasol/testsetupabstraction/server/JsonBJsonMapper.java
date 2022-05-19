@@ -46,9 +46,8 @@ class JsonBJsonMapper implements JsonMapper {
     @NotNull
     @Override
     public <T> T fromJsonStream(@NotNull final InputStream json, @NotNull final Class<T> targetClass) {
-        final String jsonString;
         try {
-            jsonString = new String(json.readAllBytes(), StandardCharsets.UTF_8);
+            final String jsonString = new String(json.readAllBytes(), StandardCharsets.UTF_8);
             return this.fromJsonString(jsonString, targetClass);
         } catch (final IOException e) {
             throw new IllegalStateException(ExaError.messageBuilder("F-ETSAS-3").message("Failed to read JSON message.")

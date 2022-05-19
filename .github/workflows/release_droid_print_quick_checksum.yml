@@ -18,7 +18,7 @@ jobs:
           java-version: 11
           cache: 'maven'
       - name: Build with Maven skipping tests
-        run: mvn --file server/ --batch-mode clean verify -DskipTests
+        run: mvn --file server/pom.xml --batch-mode clean verify -DskipTests
       - name: Print checksum
         run: echo 'checksum_start==';find server/target -maxdepth 1 -name *.jar -exec sha256sum "{}" + | xargs;echo '==checksum_end'
 
