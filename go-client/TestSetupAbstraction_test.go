@@ -26,7 +26,7 @@ func (suite *TestSetupAbstractionSuite) TestCreateConnection() {
 	defer testSetup.Stop()
 	connection := testSetup.CreateConnection()
 	defer func() { suite.NoError(connection.Close()) }()
-	row := connection.QueryRow("SELECT 1 FROM DUAL")
+	row := connection.QueryRow("SELECT 1")
 	var result int
 	suite.NoError(row.Scan(&result))
 	suite.Assert().Equal(1, result)
