@@ -84,10 +84,7 @@ func downloadServerIfNotPresent() string {
 
 func getServerPort(output *bytes.Buffer, errorStream *bytes.Buffer) int {
 	for counter := 0; counter < 500; counter++ {
-		pattern, err := regexp.Compile("Server running on port: (\\d+)\n")
-		if err != nil {
-			panic(err)
-		}
+		pattern := regexp.MustCompile("Server running on port: (\\d+)\n")
 		result := pattern.FindSubmatch(output.Bytes())
 
 		if len(result) != 0 {
@@ -136,9 +133,9 @@ func (testSetup *TestSetupAbstraction) getConnectionInfo() *ConnectionInfo {
 	return &connectionDetails
 }
 
-func (testSetup *TestSetupAbstraction) makeApiRequest(method string, address string, jsonResult interface{}, payload url.Values) {
+func (testSetup *TestSetupAbstraction) makeApiRequest(method string, path string, jsonResult interface{}, payload url.Values) {
 	client := http.Client{}
-	req, err := http.NewRequest(method, testSetup.serverEndpoint+address, strings.NewReader(payload.Encode()))
+	req, err := http.NewRequest(method, testSetup.serverEndpoint+path, strings.NewReader(payload.Encode()))
 	if err != nil {
 		panic(fmt.Sprintf("failed to create http request for the server. Cause: %v", err.Error()))
 	}
@@ -147,7 +144,7 @@ func (testSetup *TestSetupAbstraction) makeApiRequest(method string, address str
 	}
 	response, err := client.Do(req)
 	if err != nil {
-		panic(fmt.Sprintf("failed to execute %v %v from test-setup-abstraction server. Cause %v", method, address, err.Error()))
+		panic(fmt.Sprintf("failed to execute %v %v from test-setup-abstraction server. Cause %v", method, path, err.Error()))
 	}
 	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
