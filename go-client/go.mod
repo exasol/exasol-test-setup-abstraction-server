@@ -1,4 +1,4 @@
-module github.com/exasol/test-setup-abstraction/go-client
+module github.com/exasol/exasol-test-setup-abstraction/go-client
 
 go 1.17
 
