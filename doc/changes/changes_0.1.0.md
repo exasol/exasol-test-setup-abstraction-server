@@ -1,4 +1,4 @@
-# Exasol Test-Setup Abstraction Server 0.1.0, released 2022-??-??
+# Exasol Test-Setup Abstraction Server 0.1.0, released 2022-05-20
 
 Code name: Initial Implementation
 
