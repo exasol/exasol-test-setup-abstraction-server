@@ -164,11 +164,16 @@ type ConnectionInfo struct {
 }
 
 func (testSetup *TestSetupAbstraction) CreateConnection() *sql.DB {
+	return testSetup.CreateConnectionWithConfig(true)
+}
+
+func (testSetup *TestSetupAbstraction) CreateConnectionWithConfig(autocommit bool) *sql.DB {
 	connectionDetails := testSetup.getConnectionInfo()
 	connection, err := sql.Open("exasol", exasol.NewConfig(connectionDetails.User, connectionDetails.Password).
 		Port(connectionDetails.Port).
 		Host(connectionDetails.Host).
 		ValidateServerCertificate(false).
+		Autocommit(autocommit).
 		String())
 	if err != nil {
 		panic(fmt.Sprintf("failed to connect to the database. Cause %v", err.Error()))
