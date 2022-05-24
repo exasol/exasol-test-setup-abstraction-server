@@ -13,4 +13,3 @@ Code name: 0.1.1: Fixed failing startup when docker is not running on localhost
 ### Compile Dependency Updates
 
 * Updated `com.exasol:exasol-test-setup-abstraction-java:0.3.0` to `0.3.1`
-* Updated `io.javalin:javalin:4.5.0` to `4.6.0`
