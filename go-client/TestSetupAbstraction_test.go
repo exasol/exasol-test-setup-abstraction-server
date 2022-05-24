@@ -1,10 +1,10 @@
 package exasol_test_setup_abstraction_go
 
 import (
+	"os"
 	"testing"
-)
 
-import (
+	"github.com/antchfx/xmlquery"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -53,4 +53,17 @@ func (suite *TestSetupAbstractionSuite) TestMakeTcpServiceAccessibleFromDatabase
 	serviceAddress := testSetup.MakeTcpServiceAccessibleFromDatabase(ServiceAddress{"localhost", 134})
 	suite.Assert().NotNil(serviceAddress)
 	suite.Assert().NotEmpty(serviceAddress)
+}
+
+func (suite *TestSetupAbstractionSuite) TestServerVersionCorrect() {
+	suite.Assert().Equal(suite.readVersionFromPom(), serverVersion, "version in pom.xml and constant match")
+}
+
+func (suite *TestSetupAbstractionSuite) readVersionFromPom() string {
+	pomFile, err := os.Open("../server/pom.xml")
+	suite.NoError(err)
+	defer pomFile.Close()
+	pom, err := xmlquery.Parse(pomFile)
+	suite.NoError(err)
+	return xmlquery.FindOne(pom, "/project/version").InnerText()
 }
