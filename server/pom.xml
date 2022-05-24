@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.exasol</groupId>
     <artifactId>exasol-test-setup-abstraction-server</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
     <name>Server for the Exasol Test-Setup Abstraction</name>
     <description>Test setup abstraction backend for Go and other languages.</description>
     <url>https://github.com/exasol/exasol-test-setup-abstraction-server/</url>
@@ -25,12 +25,12 @@
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>exasol-test-setup-abstraction-java</artifactId>
-            <version>0.3.0</version>
+            <version>0.3.1</version>
         </dependency>
         <dependency>
             <groupId>io.javalin</groupId>
             <artifactId>javalin</artifactId>
-            <version>4.5.0</version>
+            <version>4.6.0</version>
         </dependency>
         <!-- test dependencies -->
         <dependency>
@@ -98,9 +98,7 @@
                         <configuration>
                             <executable>${project.basedir}/installServerLocally.sh</executable>
                             <arguments>
-                                <argument>
-                                    ${project.basedir}/target/exasol-test-setup-abstraction-server-${project.version}.jar
-                                </argument>
+                                <argument>${project.basedir}/target/exasol-test-setup-abstraction-server-${project.version}.jar</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -111,7 +109,7 @@
     <parent>
         <artifactId>exasol-test-setup-abstraction-server-generated-parent</artifactId>
         <groupId>com.exasol</groupId>
-        <version>0.1.0</version>
+        <version>0.1.1</version>
         <relativePath>pk_generated_parent.pom</relativePath>
     </parent>
 </project>

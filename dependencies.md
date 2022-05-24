@@ -55,6 +55,7 @@
 [30]: http://www.mojohaus.org/versions-maven-plugin/
 [9]: http://opensource.org/licenses/BSD-3-Clause
 [18]: https://maven.apache.org/plugins/maven-compiler-plugin/
+[0]: https://github.com/exasol/exasol-test-setup-abstraction-java/
 [39]: https://www.eclipse.org/legal/epl-2.0/
 [17]: http://www.gnu.org/licenses/lgpl.txt
 [38]: https://www.jacoco.org/jacoco/trunk/doc/maven.html
@@ -76,6 +77,5 @@
 [46]: http://maven.apache.org/plugins/maven-resources-plugin/
 [36]: https://github.com/exasol/artifact-reference-checker-maven-plugin
 [40]: https://github.com/exasol/error-code-crawler-maven-plugin
-[0]: https://github.com/exasol/exasol-test-setup-abstraction-java
 [34]: https://maven.apache.org/plugins/maven-jar-plugin/
 [32]: https://maven.apache.org/plugins/maven-assembly-plugin/
