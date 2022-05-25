@@ -28,7 +28,7 @@ type TestSetupAbstraction struct {
 	stoppedMutex   *sync.Mutex
 }
 
-const serverVersion = "0.1.1"
+const serverVersion = "0.2.0"
 const serverJar = "exasol-test-setup-abstraction-server-" + serverVersion + ".jar"
 
 func Create(configFilePath string) TestSetupAbstraction {
