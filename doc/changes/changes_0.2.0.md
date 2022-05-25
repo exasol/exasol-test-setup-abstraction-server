@@ -1,10 +1,12 @@
-# Server for the Exasol Test-Setup Abstraction 0.1.1, released 2022-05-24
+# Server for the Exasol Test-Setup Abstraction 0.2.0, released 2022-??-??
 
-Code name: 0.1.1: Fixed failing startup when docker is not running on localhost
-
-## Summary
+Code name: Fixed failing startup when docker is not running on localhost
 
 ## Features
+
+* #7: Support for creating a connection with no autocommit
+
+## Bug Fixes
 
 * #5: Fixed failing startup when docker is not running on localhost
 
