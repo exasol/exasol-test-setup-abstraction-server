@@ -116,10 +116,10 @@ func (suite *TestSetupAbstractionSuite) TestUploadFile() {
 
 func (suite *TestSetupAbstractionSuite) createTestFile() string {
 	file, err := ioutil.TempFile(os.TempDir(), "my-temp-file-*")
-	defer file.Close()
 	if err != nil {
 		panic(err)
 	}
+	defer func() { suite.NoError(file.Close()) }()
 	_, err = file.WriteString("test")
 	if err != nil {
 		panic(err)
