@@ -5,6 +5,7 @@ Code name: Fixed failing startup when docker is not running on localhost
 ## Features
 
 * #7: Support for creating a connection with no autocommit
+* #9: Added API for accessing BucketFS
 
 ## Bug Fixes
 

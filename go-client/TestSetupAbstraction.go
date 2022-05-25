@@ -26,6 +26,7 @@ type TestSetupAbstraction struct {
 	serverEndpoint string
 	stopped        *bool
 	stoppedMutex   *sync.Mutex
+	errorStream    *bytes.Buffer
 }
 
 const serverVersion = "0.2.0"
@@ -42,7 +43,11 @@ func Create(configFilePath string) TestSetupAbstraction {
 	go waitForServer(serverProcess, &errorStream, &stopped, stoppedMutex)
 	port := getServerPort(&output, &errorStream)
 	serverEndpoint := fmt.Sprintf("http://localhost:%v/", port)
-	return TestSetupAbstraction{server: serverProcess, serverEndpoint: serverEndpoint, stopped: &stopped, stoppedMutex: stoppedMutex}
+	return TestSetupAbstraction{server: serverProcess, serverEndpoint: serverEndpoint, stopped: &stopped, stoppedMutex: stoppedMutex, errorStream: &errorStream}
+}
+
+func (testSetup *TestSetupAbstraction) printServerErrors() {
+	fmt.Println(testSetup.errorStream.String())
 }
 
 func downloadServerIfNotPresent() string {
@@ -204,6 +209,56 @@ func (testSetup *TestSetupAbstraction) MakeTcpServiceAccessibleFromDatabase(serv
 		"port":     {strconv.Itoa(serviceAddress.Port)},
 	})
 	return localAddress
+}
+
+func (testSetup TestSetupAbstraction) UploadFile(localPath string, remoteName string) {
+	testSetup.makeApiRequest("POST", "bfs/uploadFile", &successResult{}, url.Values{
+		"localPath":  {localPath},
+		"remoteName": {remoteName},
+	})
+}
+
+func (testSetup TestSetupAbstraction) UploadStringContent(stringContent string, remoteName string) {
+	testSetup.makeApiRequest("POST", "bfs/uploadStringContent", &successResult{}, url.Values{
+		"stringContent": {stringContent},
+		"remoteName":    {remoteName},
+	})
+}
+
+type downloadFileAsStringResult struct {
+	Content string `json:"content"`
+}
+
+func (testSetup TestSetupAbstraction) DownloadFileAsString(path string) string {
+	result := downloadFileAsStringResult{}
+	testSetup.makeApiRequest("GET", "bfs/downloadFileAsString?path="+url.QueryEscape(path), &result, url.Values{})
+	return result.Content
+}
+
+func (testSetup TestSetupAbstraction) DownloadFile(remotePath string, localPath string) {
+	testSetup.makeApiRequest("GET", "bfs/downloadFile?remotePath="+url.QueryEscape(remotePath)+"&localPath="+url.QueryEscape(localPath), &successResult{}, url.Values{})
+}
+
+func (testSetup TestSetupAbstraction) DeleteFile(path string) {
+	testSetup.makeApiRequest("DELETE", "bfs/deleteFile", &successResult{}, url.Values{
+		"path": {path},
+	})
+}
+
+func (testSetup TestSetupAbstraction) ListFiles(path string) []string {
+	result := &listResult{}
+	testSetup.makeApiRequest("GET", "bfs/listFiles?path="+url.QueryEscape(path), result, url.Values{
+		"path": {path},
+	})
+	return result.Files
+}
+
+type listResult struct {
+	Files []string `json:"files"`
+}
+
+type successResult struct {
+	Success bool `json:"success"`
 }
 
 type ServiceAddress struct {
