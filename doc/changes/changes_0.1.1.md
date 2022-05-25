@@ -13,3 +13,10 @@ Code name: 0.1.1: Fixed failing startup when docker is not running on localhost
 ### Compile Dependency Updates
 
 * Updated `com.exasol:exasol-test-setup-abstraction-java:0.3.0` to `0.3.1`
+* Updated `io.javalin:javalin:4.5.0` to `4.6.0`
+* Added `software.amazon.awssdk:cloudformation:2.17.198`
+
+### Test Dependency Updates
+
+* Added `commons-codec:commons-codec:1.15`
+* Updated `io.rest-assured:rest-assured:5.0.1` to `5.1.0`
