@@ -9,7 +9,7 @@ import com.exasol.exasoltestsetup.ExasolTestSetup;
 import com.exasol.exasoltestsetup.ExasolTestSetupFactory;
 
 public class Main {
-    @SuppressWarnings({ "java:S106", "java:S4507" }) // we don't want to use a logger here, printStackTrace is ok here
+    @SuppressWarnings({ "java:S106", "java:S4507" }) // we don't want to use a logger, printStackTrace is ok here
                                                      // since it's a tool for testing
     public static void main(final String[] args) {
         final int port = findFreePort();
@@ -21,8 +21,7 @@ public class Main {
             Thread.currentThread().interrupt();
         } catch (final Exception exception) {
             exception.printStackTrace();
-            System.exit(100); // system exit to killall deamon-threads of javalin (otherwise main terminates but not
-            // the app)
+            System.exit(100); // Exit to kill all daemon-threads of javalin, otherwise main terminates but not the app
         }
     }
 

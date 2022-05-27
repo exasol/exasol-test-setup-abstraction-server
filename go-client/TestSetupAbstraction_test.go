@@ -19,7 +19,9 @@ func TestTestSetupAbstractionSuite(t *testing.T) {
 }
 
 func (suite *TestSetupAbstractionSuite) SetupSuite() {
-	suite.testSetup = Create("nonExistingConfig.json")
+	testSetup, err := Create("nonExistingConfig.json")
+	suite.NoError(err)
+	suite.testSetup = *testSetup
 }
 
 func (suite *TestSetupAbstractionSuite) TearDownSuite() {
@@ -27,7 +29,8 @@ func (suite *TestSetupAbstractionSuite) TearDownSuite() {
 }
 
 func (suite *TestSetupAbstractionSuite) TestCreateConnection() {
-	connection := suite.testSetup.CreateConnection()
+	connection, err := suite.testSetup.CreateConnection()
+	suite.NoError(err)
 	defer func() { suite.NoError(connection.Close()) }()
 	row := connection.QueryRow("SELECT 1")
 	var result int
@@ -36,18 +39,21 @@ func (suite *TestSetupAbstractionSuite) TestCreateConnection() {
 }
 
 func (suite *TestSetupAbstractionSuite) TestMakeDatabaseTcpServiceAccessibleFromLocalhost() {
-	ports := suite.testSetup.MakeDatabaseTcpServiceAccessibleFromLocalhost(123)
+	ports, err := suite.testSetup.MakeDatabaseTcpServiceAccessibleFromLocalhost(123)
+	suite.NoError(err)
 	suite.Assert().Equal(1, len(ports))
 }
 
 func (suite *TestSetupAbstractionSuite) TestMakeLocalTcpServiceAccessibleFromDatabase() {
-	serviceAddress := suite.testSetup.MakeLocalTcpServiceAccessibleFromDatabase(123)
+	serviceAddress, err := suite.testSetup.MakeLocalTcpServiceAccessibleFromDatabase(123)
+	suite.NoError(err)
 	suite.Assert().NotNil(serviceAddress)
 	suite.Assert().NotEmpty(serviceAddress)
 }
 
 func (suite *TestSetupAbstractionSuite) TestMakeTcpServiceAccessibleFromDatabase() {
-	serviceAddress := suite.testSetup.MakeTcpServiceAccessibleFromDatabase(ServiceAddress{"localhost", 134})
+	serviceAddress, err := suite.testSetup.MakeTcpServiceAccessibleFromDatabase(ServiceAddress{"localhost", 134})
+	suite.NoError(err)
 	suite.Assert().NotNil(serviceAddress)
 	suite.Assert().NotEmpty(serviceAddress)
 }
@@ -66,30 +72,41 @@ func (suite *TestSetupAbstractionSuite) readVersionFromPom() string {
 }
 
 func (suite *TestSetupAbstractionSuite) TestUploadStringContent() {
-	suite.testSetup.UploadStringContent("test", "TestUploadStringContent.txt")
+	err := suite.testSetup.UploadStringContent("test", "TestUploadStringContent.txt")
+	suite.NoError(err)
 	defer suite.testSetup.DeleteFile("TestUploadStringContent.txt")
 	suite.Assert().Contains(suite.testSetup.ListFiles(""), "TestUploadStringContent.txt")
 }
 
 func (suite *TestSetupAbstractionSuite) TestDownloadStringContent() {
-	suite.testSetup.UploadStringContent("test", "TestDownloadStringContent.txt")
+	err := suite.testSetup.UploadStringContent("test", "TestDownloadStringContent.txt")
+	suite.NoError(err)
 	defer suite.testSetup.DeleteFile("TestDownloadStringContent.txt")
-	suite.Assert().Equal("test", suite.testSetup.DownloadFileAsString("TestDownloadStringContent.txt"))
+	content, err := suite.testSetup.DownloadFileAsString("TestDownloadStringContent.txt")
+	suite.NoError(err)
+	suite.Assert().Equal("test", content)
 }
 
 func (suite *TestSetupAbstractionSuite) TestDownloadFile() {
-	defer suite.testSetup.printServerErrors()
-	suite.testSetup.UploadStringContent("test", "TestDownloadFile.txt")
+	err := suite.testSetup.UploadStringContent("test", "TestDownloadFile.txt")
+	suite.NoError(err)
 	defer suite.testSetup.DeleteFile("TestDownloadFile.txt")
 	tempDir := createTempDir()
 	defer suite.deleteFileOrFolder(tempDir)
 	targetFile := path.Join(tempDir, "myFile.txt")
-	suite.testSetup.DownloadFile("TestDownloadFile.txt", targetFile)
+	err = suite.testSetup.DownloadFile("TestDownloadFile.txt", targetFile)
+	suite.NoError(err)
 	content, err := ioutil.ReadFile(targetFile)
-	if err != nil {
-		panic(err)
-	}
+	suite.NoError(err)
 	suite.Assert().Equal("test", string(content))
+}
+
+func (suite *TestSetupAbstractionSuite) TestDownloadNonExistingFileFails() {
+	tempDir := createTempDir()
+	defer suite.deleteFileOrFolder(tempDir)
+	targetFile := path.Join(tempDir, "myFile.txt")
+	err := suite.testSetup.DownloadFile("non-existing-file.txt", targetFile)
+	suite.ErrorContains(err, "request failed with status 500 (500 Server Error). Response: \"E-BFSJ-2: File or directory not found trying to download http://")
 }
 
 func createTempDir() string {
@@ -101,18 +118,30 @@ func createTempDir() string {
 }
 
 func (suite *TestSetupAbstractionSuite) TestDeleteFile() {
-	suite.testSetup.UploadStringContent("test", "TestDeleteFile.txt")
-	suite.testSetup.DeleteFile("TestDeleteFile.txt")
+	err := suite.testSetup.UploadStringContent("test", "TestDeleteFile.txt")
+	suite.NoError(err)
+	err = suite.testSetup.DeleteFile("TestDeleteFile.txt")
+	suite.NoError(err)
 	suite.Assert().NotContains(suite.testSetup.ListFiles(""), "TestDeleteFile.txt")
 }
 
+func (suite *TestSetupAbstractionSuite) TestDeleteNonExistingFileSucceeds() {
+	err := suite.testSetup.DeleteFile("non-existing-file.txt")
+	suite.NoError(err)
+}
+
 func (suite *TestSetupAbstractionSuite) TestUploadFile() {
-	defer suite.testSetup.printServerErrors()
 	tmpFile := suite.createTestFile()
 	defer suite.deleteFileOrFolder(tmpFile)
-	suite.testSetup.UploadFile(tmpFile, "TestUploadFile.txt")
+	err := suite.testSetup.UploadFile(tmpFile, "TestUploadFile.txt")
+	suite.NoError(err)
 	defer suite.testSetup.DeleteFile("TestUploadFile.txt")
 	suite.Assert().Contains(suite.testSetup.ListFiles(""), "TestUploadFile.txt")
+}
+
+func (suite *TestSetupAbstractionSuite) TestUploadNonExistingFileFails() {
+	err := suite.testSetup.UploadFile("non-existing-local-file.txt", "TestUploadFile.txt")
+	suite.ErrorContains(err, "non-existing-local-file.txt not found")
 }
 
 func (suite *TestSetupAbstractionSuite) createTestFile() string {
