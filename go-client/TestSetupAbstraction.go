@@ -6,7 +6,6 @@ import (
 	_ "embed"
 	"encoding/json"
 	"fmt"
-	"github.com/exasol/exasol-driver-go"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -19,6 +18,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/exasol/exasol-driver-go"
 )
 
 type TestSetupAbstraction struct {
@@ -37,6 +38,7 @@ func Create(configFilePath string) (*TestSetupAbstraction, error) {
 	if err != nil {
 		return nil, err
 	}
+	fmt.Printf("Starting server jar %q with configuration %q...\n", serverPath, configFilePath)
 	serverProcess := exec.Command("java", "-jar", serverPath, configFilePath)
 	var output, errorStream bytes.Buffer
 	serverProcess.Stdout = &output
@@ -44,7 +46,7 @@ func Create(configFilePath string) (*TestSetupAbstraction, error) {
 	stoppedMutex := &sync.Mutex{}
 	stopped := false
 	go waitForServer(serverProcess, &errorStream, &stopped, stoppedMutex)
-	port, err := getServerPort(&output, &errorStream)
+	port, err := getServerPort(&stopped, &output, &errorStream)
 	if err != nil {
 		return nil, err
 	}
@@ -89,11 +91,10 @@ func downloadServerIfNotPresent() (string, error) {
 	return serverFile, nil
 }
 
-func getServerPort(output *bytes.Buffer, errorStream *bytes.Buffer) (int, error) {
-	for counter := 0; counter < 500; counter++ {
+func getServerPort(stopped *bool, output *bytes.Buffer, errorStream *bytes.Buffer) (int, error) {
+	for counter := 0; counter < 10; counter++ {
 		pattern := regexp.MustCompile("Server running on port: (\\d+)\n")
 		result := pattern.FindSubmatch(output.Bytes())
-
 		if len(result) != 0 {
 			portString := string(result[1])
 			port, err := strconv.ParseInt(portString, 10, 32)
@@ -102,18 +103,21 @@ func getServerPort(output *bytes.Buffer, errorStream *bytes.Buffer) (int, error)
 			}
 			return int(port), nil
 		}
-		time.Sleep(1 * time.Second)
+		if !*stopped {
+			time.Sleep(1 * time.Second)
+		}
 	}
 	return -1, fmt.Errorf("failed to start server. The server did not print a port number. Output: %q, error stream: %q", output, errorStream)
 }
 
-func waitForServer(serverProcess *exec.Cmd, errorStream *bytes.Buffer, stopped *bool, stoppedMutex *sync.Mutex) error {
+func waitForServer(serverProcess *exec.Cmd, errorStream *bytes.Buffer, stopped *bool, stoppedMutex *sync.Mutex) {
 	err := serverProcess.Run()
 	if err != nil && !isStopped(stopped, stoppedMutex) { // after we killed the thread we expect an error
 		fmt.Println(errorStream.String())
-		return fmt.Errorf("failed to start test-setup-abstraction server. Cause: %v", err.Error())
 	}
-	return nil
+	stoppedMutex.Lock()
+	*stopped = true
+	stoppedMutex.Unlock()
 }
 
 func isStopped(stopped *bool, stoppedMutex *sync.Mutex) bool {

@@ -1,12 +1,14 @@
 package exasol_test_setup_abstraction_go
 
 import (
-	"github.com/antchfx/xmlquery"
-	"github.com/stretchr/testify/suite"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path"
 	"testing"
+
+	"github.com/antchfx/xmlquery"
+	"github.com/stretchr/testify/suite"
 )
 
 type TestSetupAbstractionSuite struct {
@@ -20,7 +22,9 @@ func TestTestSetupAbstractionSuite(t *testing.T) {
 
 func (suite *TestSetupAbstractionSuite) SetupSuite() {
 	testSetup, err := Create("nonExistingConfig.json")
-	suite.NoError(err)
+	if err != nil {
+		panic(fmt.Sprintf("failed to create test setup. Cause: %v", err.Error()))
+	}
 	suite.testSetup = *testSetup
 }
 
