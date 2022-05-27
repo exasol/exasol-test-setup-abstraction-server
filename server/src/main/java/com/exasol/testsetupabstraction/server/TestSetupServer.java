@@ -3,6 +3,7 @@ package com.exasol.testsetupabstraction.server;
 import java.nio.file.Path;
 import java.util.*;
 
+import com.exasol.errorreporting.ExaError;
 import com.exasol.exasoltestsetup.*;
 
 import io.javalin.Javalin;
@@ -33,17 +34,27 @@ public class TestSetupServer implements AutoCloseable {
         this.server.start(port);
     }
 
+    private void validatePort(final int port) {
+        if (port < 0) {
+            throw new IllegalArgumentException(
+                    ExaError.messageBuilder("E-ETSAS-8").message("Port number {{port}} is negative.", port)
+                            .mitigation("Please specify a valid port.").toString());
+        }
+    }
+
     private void configureRequests() {
         this.server.post("/makeDatabaseTcpServiceAccessibleFromLocalhost",
                 this::handleMakeDatabaseTcpServiceAccessibleFromLocalhost);
         this.server.post("/makeLocalTcpServiceAccessibleFromDatabase", ctx -> {
             final int localPort = Integer.parseInt(Objects.requireNonNull(ctx.formParam("localPort")));
+            validatePort(localPort);
             final ServiceAddress serviceAddress = this.testSetup.makeLocalTcpServiceAccessibleFromDatabase(localPort);
             ctx.json(serviceAddress);
         });
         this.server.post("/makeTcpServiceAccessibleFromDatabase", ctx -> {
             final String hostName = Objects.requireNonNull(ctx.formParam("hostName"));
             final int portNumber = Integer.parseInt(Objects.requireNonNull(ctx.formParam("port")));
+            validatePort(portNumber);
             final ServiceAddress serviceAddress = this.testSetup
                     .makeTcpServiceAccessibleFromDatabase(new ServiceAddress(hostName, portNumber));
             ctx.json(serviceAddress);
@@ -93,6 +104,7 @@ public class TestSetupServer implements AutoCloseable {
 
     private void handleMakeDatabaseTcpServiceAccessibleFromLocalhost(final Context ctx) {
         final int databasePort = Integer.parseInt(Objects.requireNonNull(ctx.formParam("databasePort")));
+        validatePort(databasePort);
         final List<Integer> ports = this.testSetup.makeDatabaseTcpServiceAccessibleFromLocalhost(databasePort);
         ctx.json(ports);
     }

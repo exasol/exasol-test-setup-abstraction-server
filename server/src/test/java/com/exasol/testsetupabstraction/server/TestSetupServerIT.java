@@ -8,6 +8,7 @@ import static org.mockito.Mockito.*;
 
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
@@ -54,6 +55,13 @@ class TestSetupServerIT {
                 .post("/makeDatabaseTcpServiceAccessibleFromLocalhost").then().statusCode(200).assertThat()
                 .body(equalTo("[345]"));
         verify(testSetup).makeDatabaseTcpServiceAccessibleFromLocalhost(123);
+    }
+
+    @Test
+    void testPOST_makeDatabaseTcpServiceAccessibleFromLocalhost_validatesPort() {
+        given().param("databasePort", -123)//
+                .post("/makeDatabaseTcpServiceAccessibleFromLocalhost").then().assertThat().statusCode(500)
+                .body(equalTo("E-ETSAS-8: Port number -123 is negative. Please specify a valid port."));
     }
 
     @Test
@@ -173,6 +181,38 @@ class TestSetupServerIT {
         doThrowMockException().when(testSetup).getDefaultBucket();
         given().formParam("path", "myFile.txt").delete("/bfs/deleteFile").then().statusCode(500)
                 .body(equalTo(MOCKED_EXCEPTION));
+    }
+
+    @Test
+    void testGET_downloadFileAsString_succeeds() throws BucketAccessException {
+        doReturn(bucket).when(testSetup).getDefaultBucket();
+        doReturn("mockContent").when(bucket).downloadFileAsString("/pathInBucket");
+        given().formParam("path", "/pathInBucket").get("/bfs/downloadFileAsString").then().statusCode(200)
+                .body(equalTo("{\"content\":\"mockContent\"}"));
+    }
+
+    @Test
+    void testGET_downloadFileAsString_fails() throws BucketAccessException {
+        doReturn(bucket).when(testSetup).getDefaultBucket();
+        doThrowMockException().when(bucket).downloadFileAsString("/pathInBucket");
+        given().formParam("path", "/pathInBucket").get("/bfs/downloadFileAsString").then().statusCode(500)
+                .body(equalTo(MOCKED_EXCEPTION));
+    }
+
+    @Test
+    void testGET_downloadFile_succeeds() throws BucketAccessException {
+        doReturn(bucket).when(testSetup).getDefaultBucket();
+        given().formParam("remotePath", "/remotePath").formParam("localPath", "/localPath").get("/bfs/downloadFile")
+                .then().statusCode(200).body(equalTo("{\"ok\":true}"));
+        verify(bucket).downloadFile("/remotePath", Paths.get("/localPath"));
+    }
+
+    @Test
+    void testGET_downloadFile_fails() throws BucketAccessException {
+        doReturn(bucket).when(testSetup).getDefaultBucket();
+        doThrowMockException().when(bucket).downloadFile("/remotePath", Paths.get("/localPath"));
+        given().formParam("remotePath", "/remotePath").formParam("localPath", "/localPath").get("/bfs/downloadFile")
+                .then().statusCode(500).body(equalTo(MOCKED_EXCEPTION));
     }
 
     private Stubber doThrowMockException() {

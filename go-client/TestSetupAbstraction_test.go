@@ -49,6 +49,11 @@ func (suite *TestSetupAbstractionSuite) TestMakeDatabaseTcpServiceAccessibleFrom
 	suite.Assert().Equal(1, len(ports))
 }
 
+func (suite *TestSetupAbstractionSuite) TestMakeDatabaseTcpServiceAccessibleFromLocalhostFails() {
+	_, err := suite.testSetup.MakeDatabaseTcpServiceAccessibleFromLocalhost(-123)
+	suite.ErrorContains(err, "request failed with status 500 (500 Server Error). Response: \"E-ETSAS-8: Port number -123 is negative. Please specify a valid port.\"")
+}
+
 func (suite *TestSetupAbstractionSuite) TestMakeLocalTcpServiceAccessibleFromDatabase() {
 	serviceAddress, err := suite.testSetup.MakeLocalTcpServiceAccessibleFromDatabase(123)
 	suite.NoError(err)
@@ -56,11 +61,21 @@ func (suite *TestSetupAbstractionSuite) TestMakeLocalTcpServiceAccessibleFromDat
 	suite.Assert().NotEmpty(serviceAddress)
 }
 
+func (suite *TestSetupAbstractionSuite) TestMakeLocalTcpServiceAccessibleFromDatabaseFails() {
+	_, err := suite.testSetup.MakeLocalTcpServiceAccessibleFromDatabase(-123)
+	suite.ErrorContains(err, "request failed with status 500 (500 Server Error). Response: \"E-ETSAS-8: Port number -123 is negative. Please specify a valid port.\"")
+}
+
 func (suite *TestSetupAbstractionSuite) TestMakeTcpServiceAccessibleFromDatabase() {
 	serviceAddress, err := suite.testSetup.MakeTcpServiceAccessibleFromDatabase(ServiceAddress{"localhost", 134})
 	suite.NoError(err)
 	suite.Assert().NotNil(serviceAddress)
 	suite.Assert().NotEmpty(serviceAddress)
+}
+
+func (suite *TestSetupAbstractionSuite) TestMakeTcpServiceAccessibleFromDatabaseFails() {
+	_, err := suite.testSetup.MakeTcpServiceAccessibleFromDatabase(ServiceAddress{"localhost", -123})
+	suite.ErrorContains(err, "request failed with status 500 (500 Server Error). Response: \"E-ETSAS-8: Port number -123 is negative. Please specify a valid port.\"")
 }
 
 func (suite *TestSetupAbstractionSuite) TestServerVersionCorrect() {
