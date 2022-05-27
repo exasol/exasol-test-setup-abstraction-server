@@ -155,6 +155,18 @@ func (suite *TestSetupAbstractionSuite) TestUploadNonExistingFileFails() {
 	suite.ErrorContains(err, "non-existing-local-file.txt not found")
 }
 
+func (suite *TestSetupAbstractionSuite) TestListFilesInRootDir() {
+	files, err := suite.testSetup.ListFiles("/")
+	suite.NoError(err)
+	suite.Equal(1, len(files))
+	suite.Contains(files, "EXAClusterOS")
+}
+
+func (suite *TestSetupAbstractionSuite) TestListFilesNonExistingDirectory() {
+	_, err := suite.testSetup.ListFiles("non-existing-dir")
+	suite.ErrorContains(err, "request failed with status 500 (500 Server Error). Response: \"E-BFSJ-11: Unable to list contents of 'non-existing-dir' in bucket bfsdefault/default: No such file or directory.\"")
+}
+
 func (suite *TestSetupAbstractionSuite) createTestFile() string {
 	file, err := ioutil.TempFile(os.TempDir(), "my-temp-file-*")
 	if err != nil {
