@@ -272,12 +272,12 @@ func (testSetup TestSetupAbstraction) DeleteFile(path string) error {
 	})
 }
 
-func (testSetup TestSetupAbstraction) ListFiles(path string) []string {
+func (testSetup TestSetupAbstraction) ListFiles(path string) ([]string, error) {
 	result := &listResult{}
-	testSetup.makeApiRequest("GET", "bfs/listFiles?path="+url.QueryEscape(path), result, url.Values{
+	err := testSetup.makeApiRequest("GET", "bfs/listFiles?path="+url.QueryEscape(path), result, url.Values{
 		"path": {path},
 	})
-	return result.Files
+	return result.Files, err
 }
 
 type listResult struct {

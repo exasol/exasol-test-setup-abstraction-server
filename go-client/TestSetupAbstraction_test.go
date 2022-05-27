@@ -29,7 +29,8 @@ func (suite *TestSetupAbstractionSuite) SetupSuite() {
 }
 
 func (suite *TestSetupAbstractionSuite) TearDownSuite() {
-	suite.testSetup.Stop()
+	err := suite.testSetup.Stop()
+	suite.NoError(err)
 }
 
 func (suite *TestSetupAbstractionSuite) TestCreateConnection() {
@@ -78,14 +79,16 @@ func (suite *TestSetupAbstractionSuite) readVersionFromPom() string {
 func (suite *TestSetupAbstractionSuite) TestUploadStringContent() {
 	err := suite.testSetup.UploadStringContent("test", "TestUploadStringContent.txt")
 	suite.NoError(err)
-	defer suite.testSetup.DeleteFile("TestUploadStringContent.txt")
-	suite.Assert().Contains(suite.testSetup.ListFiles(""), "TestUploadStringContent.txt")
+	defer func() { suite.NoError(suite.testSetup.DeleteFile("TestUploadStringContent.txt")) }()
+	files, err := suite.testSetup.ListFiles("")
+	suite.NoError(err)
+	suite.Assert().Contains(files, "TestUploadStringContent.txt")
 }
 
 func (suite *TestSetupAbstractionSuite) TestDownloadStringContent() {
 	err := suite.testSetup.UploadStringContent("test", "TestDownloadStringContent.txt")
 	suite.NoError(err)
-	defer suite.testSetup.DeleteFile("TestDownloadStringContent.txt")
+	defer func() { suite.NoError(suite.testSetup.DeleteFile("TestDownloadStringContent.txt")) }()
 	content, err := suite.testSetup.DownloadFileAsString("TestDownloadStringContent.txt")
 	suite.NoError(err)
 	suite.Assert().Equal("test", content)
@@ -94,7 +97,7 @@ func (suite *TestSetupAbstractionSuite) TestDownloadStringContent() {
 func (suite *TestSetupAbstractionSuite) TestDownloadFile() {
 	err := suite.testSetup.UploadStringContent("test", "TestDownloadFile.txt")
 	suite.NoError(err)
-	defer suite.testSetup.DeleteFile("TestDownloadFile.txt")
+	defer func() { suite.NoError(suite.testSetup.DeleteFile("TestDownloadFile.txt")) }()
 	tempDir := createTempDir()
 	defer suite.deleteFileOrFolder(tempDir)
 	targetFile := path.Join(tempDir, "myFile.txt")
@@ -126,7 +129,9 @@ func (suite *TestSetupAbstractionSuite) TestDeleteFile() {
 	suite.NoError(err)
 	err = suite.testSetup.DeleteFile("TestDeleteFile.txt")
 	suite.NoError(err)
-	suite.Assert().NotContains(suite.testSetup.ListFiles(""), "TestDeleteFile.txt")
+	files, err := suite.testSetup.ListFiles("")
+	suite.NoError(err)
+	suite.Assert().NotContains(files, "TestDeleteFile.txt")
 }
 
 func (suite *TestSetupAbstractionSuite) TestDeleteNonExistingFileSucceeds() {
@@ -139,8 +144,10 @@ func (suite *TestSetupAbstractionSuite) TestUploadFile() {
 	defer suite.deleteFileOrFolder(tmpFile)
 	err := suite.testSetup.UploadFile(tmpFile, "TestUploadFile.txt")
 	suite.NoError(err)
-	defer suite.testSetup.DeleteFile("TestUploadFile.txt")
-	suite.Assert().Contains(suite.testSetup.ListFiles(""), "TestUploadFile.txt")
+	defer func() { suite.NoError(suite.testSetup.DeleteFile("TestUploadFile.txt")) }()
+	files, err := suite.testSetup.ListFiles("")
+	suite.NoError(err)
+	suite.Assert().Contains(files, "TestUploadFile.txt")
 }
 
 func (suite *TestSetupAbstractionSuite) TestUploadNonExistingFileFails() {

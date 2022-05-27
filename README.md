@@ -36,8 +36,8 @@ func myTest() {
 }
 ```
 
-## Additional Informaton
+## Additional Information
 
 * [Changelog](doc/changes/changelog.md)
 * [Dependencies](dependencies.md)
-* [Developers guide for native-image projects](https://github.com/exasol/project-keeper/blob/main/doc/developers_guide/preparing_a_project_for_native_image_builds.md)
+* [Developers Guide](doc/developers_guide/developers_guide.md)
