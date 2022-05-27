@@ -17,9 +17,12 @@ Code name: Fixed failing startup when docker is not running on localhost
 
 * Updated `com.exasol:exasol-test-setup-abstraction-java:0.3.0` to `0.3.2`
 * Updated `io.javalin:javalin:4.5.0` to `4.6.0`
-* Added `software.amazon.awssdk:cloudformation:2.17.198`
 
 ### Test Dependency Updates
 
 * Added `commons-codec:commons-codec:1.15`
 * Updated `io.rest-assured:rest-assured:5.0.1` to `5.1.0`
+
+### Plugin Dependency Updates
+
+* Added `org.apache.maven.plugins:maven-failsafe-plugin:3.0.0-M5`

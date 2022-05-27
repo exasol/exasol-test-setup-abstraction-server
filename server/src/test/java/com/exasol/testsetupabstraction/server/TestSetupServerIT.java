@@ -3,6 +3,7 @@ package com.exasol.testsetupabstraction.server;
 import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
@@ -17,7 +18,7 @@ import com.exasol.bucketfs.Bucket;
 import com.exasol.bucketfs.BucketAccessException;
 import com.exasol.exasoltestsetup.*;
 
-class TestSetupServerTest {
+class TestSetupServerIT {
 
     private static TestSetupServer server;
     private static ExasolTestSetup testSetup;
