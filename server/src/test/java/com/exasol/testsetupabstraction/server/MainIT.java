@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(SystemOutGuard.class)
-class MainTest {
+class MainIT {
     @Test
     @SuppressWarnings({ "java:S2699", "java:S2925" }) // no assertions required, sleep is ok here
     void test(final Capturable stream) throws InterruptedException {
