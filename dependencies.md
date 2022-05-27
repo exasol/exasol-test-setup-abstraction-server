@@ -5,7 +5,7 @@
 
 | Dependency                                          | License                                       |
 | --------------------------------------------------- | --------------------------------------------- |
-| [exasol-test-setup-abstraction-java][0]             | [MIT][1]                                      |
+| [exasol-test-setup-abstraction-java][0]             | [MIT License][1]                              |
 | [javalin][2]                                        | [The Apache Software License, Version 2.0][3] |
 | [AWS Java SDK :: Services :: AWS CloudFormation][4] | [Apache License, Version 2.0][5]              |
 
@@ -36,9 +36,9 @@
 | [Versions Maven Plugin][36]                             | [Apache License, Version 2.0][17]             |
 | [Apache Maven Assembly Plugin][38]                      | [Apache License, Version 2.0][17]             |
 | [Apache Maven JAR Plugin][40]                           | [Apache License, Version 2.0][17]             |
-| [Artifact reference checker and unifier][42]            | [MIT][1]                                      |
+| [Artifact reference checker and unifier][42]            | [MIT][43]                                     |
 | [JaCoCo :: Maven Plugin][44]                            | [Eclipse Public License 2.0][45]              |
-| [error-code-crawler-maven-plugin][46]                   | [MIT][1]                                      |
+| [error-code-crawler-maven-plugin][46]                   | [MIT][43]                                     |
 | [Maven Clean Plugin][48]                                | [The Apache Software License, Version 2.0][3] |
 | [Maven Resources Plugin][50]                            | [The Apache Software License, Version 2.0][3] |
 | [Maven Install Plugin][52]                              | [The Apache Software License, Version 2.0][3] |
@@ -51,8 +51,8 @@
 [15]: http://www.apache.org/licenses/LICENSE-2.0.html
 [48]: http://maven.apache.org/plugins/maven-clean-plugin/
 [4]: https://aws.amazon.com/sdkforjava
-[1]: https://opensource.org/licenses/MIT
 [12]: https://github.com/mockito/mockito
+[43]: https://opensource.org/licenses/MIT
 [26]: https://www.mojohaus.org/flatten-maven-plugin/
 [28]: http://www.mojohaus.org/exec-maven-plugin
 [16]: https://commons.apache.org/proper/commons-codec/
@@ -67,6 +67,7 @@
 [14]: http://code.google.com/p/rest-assured
 [13]: https://github.com/mockito/mockito/blob/main/LICENSE
 [32]: http://zlika.github.io/reproducible-build-maven-plugin
+[1]: https://github.com/exasol/exasol-test-setup-abstraction-java/blob/main/LICENSE
 [17]: https://www.apache.org/licenses/LICENSE-2.0.txt
 [20]: http://sonarsource.github.io/sonar-scanner-maven/
 [24]: https://maven.apache.org/enforcer/maven-enforcer-plugin/
