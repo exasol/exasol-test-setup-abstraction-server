@@ -32,7 +32,9 @@ public class Main {
                                                      // since it's a tool for testing
     public static void main(final String[] args) {
         final int port = findFreePort();
-        try (final ExasolTestSetup exasol = new ExasolTestSetupFactory(Path.of(args[0])).getTestSetup();
+        final Path configPath = Path.of(args[0]).toAbsolutePath();
+        LOGGER.info(() -> "Starting exasol test setup using config file " + configPath + "...");
+        try (final ExasolTestSetup exasol = new ExasolTestSetupFactory(configPath).getTestSetup();
                 final TestSetupServer server = new TestSetupServer(exasol, port)) {
             System.out.println("Server running on port: " + port);
             server.join();
