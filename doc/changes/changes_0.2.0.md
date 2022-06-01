@@ -1,4 +1,4 @@
-# Server for the Exasol Test-Setup Abstraction 0.2.0, released 2022-05-01
+# Server for the Exasol Test-Setup Abstraction 0.2.0, released 2022-05-02
 
 Code name: Add BucketFS support
 
