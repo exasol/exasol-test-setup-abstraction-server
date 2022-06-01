@@ -50,6 +50,8 @@ jobs:
           skip-pkg-cache: true # Caching already done by actions/cache
           skip-build-cache: true
           working-directory: go-client
+      - name: Install Go tools
+        run: go install github.com/google/go-licenses@latest
       - name: Enable testcontainer reuse
         run: echo 'testcontainers.reuse.enable=true' > "$HOME/.testcontainers.properties"
       - name: Run tests
