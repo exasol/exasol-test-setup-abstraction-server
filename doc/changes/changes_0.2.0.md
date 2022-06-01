@@ -17,16 +17,6 @@ This release adds support for accessing BucketFS, allows creating a DB connectio
 
 ## Dependency Updates
 
-### Go-client
-
-#### Compile Dependency Updates
-
-* Updated `github.com/exasol/exasol-driver-go:v0.4.0` to `v0.4.2`
-
-#### Test Dependency Updates
-
-* Added `github.com/antchfx/xmlquery:v1.3.11`
-
 ### Server for the Exasol Test-Setup Abstraction
 
 #### Compile Dependency Updates
@@ -42,3 +32,13 @@ This release adds support for accessing BucketFS, allows creating a DB connectio
 #### Plugin Dependency Updates
 
 * Added `org.apache.maven.plugins:maven-failsafe-plugin:3.0.0-M5`
+
+### Go-client
+
+#### Compile Dependency Updates
+
+* Updated `github.com/exasol/exasol-driver-go:v0.4.0` to `v0.4.2`
+
+#### Test Dependency Updates
+
+* Added `github.com/antchfx/xmlquery:v1.3.11`

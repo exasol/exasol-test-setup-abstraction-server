@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eo pipefail
 
-readonly pk_version=2.4.5
+readonly pk_version=2.4.6
 
 base_dir="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 readonly base_dir
