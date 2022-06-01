@@ -21,8 +21,11 @@ This release adds support for accessing BucketFS, allows creating a DB connectio
 
 #### Compile Dependency Updates
 
-* Added `github.com/antchfx/xmlquery:v1.3.11`
 * Updated `github.com/exasol/exasol-driver-go:v0.4.0` to `v0.4.2`
+
+#### Test Dependency Updates
+
+* Added `github.com/antchfx/xmlquery:v1.3.11`
 
 ### Server for the Exasol Test-Setup Abstraction
 
