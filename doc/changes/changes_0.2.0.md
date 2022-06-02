@@ -4,12 +4,13 @@ Code name: Add BucketFS support
 
 ## Summary
 
-This release adds support for accessing BucketFS, allows creating a DB connection with autocommit deactivated and fixes the failing startup when docker is not running on localhost.
+This release adds support for accessing BucketFS, allows creating a DB connection with autocommit deactivated and fixes the failing startup when docker is not running on localhost. We also upgraded project-keeper to generate dependency list and dependency changes also for the Go module.
 
 ## Features
 
 * #7: Support for creating a connection with no autocommit
 * #9: Added API for accessing BucketFS
+* #3: Upgraded to latest project-keeper to generate dependency information for the Go module
 
 ## Bug Fixes
 
