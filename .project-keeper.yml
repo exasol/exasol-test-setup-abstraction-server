@@ -4,6 +4,8 @@ sources:
     modules:
       - jar_artifact
       - integration_tests
+  - type: golang
+    path: go-client/go.mod
+version: 0.2.0
 linkReplacements:
   - https://javalin.io/javalin|https://javalin.io/
-  - https://www.mojohaus.org/flatten-maven-plugin/flatten-maven-plugin|https://www.mojohaus.org/flatten-maven-plugin/

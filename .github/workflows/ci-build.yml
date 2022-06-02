@@ -22,12 +22,18 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 11
-          cache: 'maven'
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
           go-version: ${{ matrix.go }}
         id: go
+      - name: Cache local Maven repository
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml', 'build.sh') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
         with:
@@ -50,6 +56,8 @@ jobs:
           skip-pkg-cache: true # Caching already done by actions/cache
           skip-build-cache: true
           working-directory: go-client
+      - name: Install Go tools
+        run: go install github.com/google/go-licenses@latest
       - name: Enable testcontainer reuse
         run: echo 'testcontainers.reuse.enable=true' > "$HOME/.testcontainers.properties"
       - name: Run tests

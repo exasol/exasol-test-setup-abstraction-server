@@ -1,14 +1,16 @@
 <!-- @formatter:off -->
 # Dependencies
 
-## Compile Dependencies
+## Server for the Exasol Test-setup Abstraction
+
+### Compile Dependencies
 
 | Dependency                              | License                                       |
 | --------------------------------------- | --------------------------------------------- |
 | [exasol-test-setup-abstraction-java][0] | [MIT License][1]                              |
 | [javalin][2]                            | [The Apache Software License, Version 2.0][3] |
 
-## Test Dependencies
+### Test Dependencies
 
 | Dependency                     | License                           |
 | ------------------------------ | --------------------------------- |
@@ -20,7 +22,7 @@
 | [Apache Commons Codec][14]     | [Apache License, Version 2.0][15] |
 | [JUnit5 System Extensions][16] | [Eclipse Public License v2.0][17] |
 
-## Plugin Dependencies
+### Plugin Dependencies
 
 | Dependency                                              | License                                       |
 | ------------------------------------------------------- | --------------------------------------------- |
@@ -44,6 +46,21 @@
 | [Maven Install Plugin][52]                              | [The Apache Software License, Version 2.0][3] |
 | [Maven Deploy Plugin][54]                               | [The Apache Software License, Version 2.0][3] |
 | [Maven Site Plugin 3][56]                               | [The Apache Software License, Version 2.0][3] |
+
+## Go-client
+
+### Compile Dependencies
+
+| Dependency                         | License   |
+| ---------------------------------- | --------- |
+| github.com/exasol/exasol-driver-go | [MIT][58] |
+
+### Test Dependencies
+
+| Dependency                  | License   |
+| --------------------------- | --------- |
+| github.com/antchfx/xmlquery | [MIT][59] |
+| github.com/stretchr/testify | [MIT][60] |
 
 [17]: http://www.eclipse.org/legal/epl-v20.html
 [3]: http://www.apache.org/licenses/LICENSE-2.0.txt
@@ -70,11 +87,14 @@
 [15]: https://www.apache.org/licenses/LICENSE-2.0.txt
 [18]: http://sonarsource.github.io/sonar-scanner-maven/
 [22]: https://maven.apache.org/enforcer/maven-enforcer-plugin/
+[58]: https://github.com/exasol/exasol-driver-go/blob/v0.4.2/LICENSE
 [5]: https://www.eclipse.org/legal/epl-v20.html
 [52]: http://maven.apache.org/plugins/maven-install-plugin/
+[59]: https://github.com/antchfx/xmlquery/blob/v1.3.11/LICENSE
 [4]: https://junit.org/junit5/
 [28]: https://sonatype.github.io/ossindex-maven/maven-plugin/
 [16]: https://github.com/itsallcode/junit5-system-extensions
+[60]: https://github.com/stretchr/testify/blob/v1.7.1/LICENSE
 [2]: https://javalin.io/
 [8]: http://hamcrest.org/JavaHamcrest/
 [54]: http://maven.apache.org/plugins/maven-deploy-plugin/
