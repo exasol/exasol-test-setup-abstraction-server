@@ -30,7 +30,7 @@ type TestSetupAbstraction struct {
 	errorStream    *bytes.Buffer
 }
 
-const serverVersion = "0.2.0"
+const serverVersion = "0.2.1"
 const serverJar = "exasol-test-setup-abstraction-server-" + serverVersion + ".jar"
 
 func Create(configFilePath string) (*TestSetupAbstraction, error) {
@@ -92,7 +92,7 @@ func downloadServerIfNotPresent() (string, error) {
 }
 
 func getServerPort(stopped *bool, output *bytes.Buffer, errorStream *bytes.Buffer) (int, error) {
-	for counter := 0; counter < 10; counter++ {
+	for counter := 0; counter < 500; counter++ { //we need to wait quite long here if the server can't reuse a testcontainer
 		pattern := regexp.MustCompile("Server running on port: (\\d+)\n")
 		result := pattern.FindSubmatch(output.Bytes())
 		if len(result) != 0 {
