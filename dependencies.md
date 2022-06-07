@@ -70,6 +70,7 @@
 [10]: https://github.com/mockito/mockito
 [41]: https://opensource.org/licenses/MIT
 [42]: https://maven.apache.org/surefire/maven-failsafe-plugin/
+[58]: https://github.com/exasol/exasol-driver-go/blob/master/LICENSE
 [24]: https://www.mojohaus.org/flatten-maven-plugin/
 [26]: http://www.mojohaus.org/exec-maven-plugin
 [14]: https://commons.apache.org/proper/commons-codec/
@@ -87,14 +88,12 @@
 [15]: https://www.apache.org/licenses/LICENSE-2.0.txt
 [18]: http://sonarsource.github.io/sonar-scanner-maven/
 [22]: https://maven.apache.org/enforcer/maven-enforcer-plugin/
-[58]: https://github.com/exasol/exasol-driver-go/blob/v0.4.2/LICENSE
 [5]: https://www.eclipse.org/legal/epl-v20.html
 [52]: http://maven.apache.org/plugins/maven-install-plugin/
-[59]: https://github.com/antchfx/xmlquery/blob/v1.3.11/LICENSE
 [4]: https://junit.org/junit5/
 [28]: https://sonatype.github.io/ossindex-maven/maven-plugin/
+[60]: https://github.com/stretchr/testify/blob/master/LICENSE
 [16]: https://github.com/itsallcode/junit5-system-extensions
-[60]: https://github.com/stretchr/testify/blob/v1.7.1/LICENSE
 [2]: https://javalin.io/
 [8]: http://hamcrest.org/JavaHamcrest/
 [54]: http://maven.apache.org/plugins/maven-deploy-plugin/
@@ -102,5 +101,6 @@
 [50]: http://maven.apache.org/plugins/maven-resources-plugin/
 [40]: https://github.com/exasol/artifact-reference-checker-maven-plugin
 [46]: https://github.com/exasol/error-code-crawler-maven-plugin
+[59]: https://github.com/antchfx/xmlquery/blob/master/LICENSE
 [38]: https://maven.apache.org/plugins/maven-jar-plugin/
 [36]: https://maven.apache.org/plugins/maven-assembly-plugin/
