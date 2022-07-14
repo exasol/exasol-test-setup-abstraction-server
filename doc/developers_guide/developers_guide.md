@@ -49,3 +49,5 @@ tag=go-client/v$version
 git tag $tag
 git push origin $tag
 ```
+
+See [the Go documentation](https://go.dev/doc/modules/managing-source#multiple-module-source) for details.
