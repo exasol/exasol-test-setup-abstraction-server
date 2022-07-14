@@ -1,6 +1,6 @@
 # Exasol Test Setup Abstraction Server 0.2.2, released 2022-07-14
 
-Code name: Upgrade dependencies
+Code name: Upgrade dependencies and allow using release tags in Go
 
 ## Summary
 
@@ -13,6 +13,10 @@ This release upgrades dependencies to fix the following vulnerabilities:
 * Go client:
   * github.com/containerd/containerd: CVE-2022-31030
   * github.com/opencontainers/runc: CVE-2022-29162
+
+## Bugfixes
+
+* #15: Fixed using release tags of the Go client
 
 ## Dependency Updates
 

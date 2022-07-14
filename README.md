@@ -14,6 +14,8 @@
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Aexasol-test-setup-abstraction-server&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=com.exasol%3Aexasol-test-setup-abstraction-server)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Aexasol-test-setup-abstraction-server&metric=ncloc)](https://sonarcloud.io/dashboard?id=com.exasol%3Aexasol-test-setup-abstraction-server)
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/exasol/exasol-test-setup-abstraction-server/go-client.svg)](https://pkg.go.dev/github.com/exasol/exasol-test-setup-abstraction-server/go-client)
+
 This project makes the features
 of [exasol-test-setup-abstraction-java](https://github.com/exasol/exasol-test-setup-abstraction-java/) available in the
 following languages:
