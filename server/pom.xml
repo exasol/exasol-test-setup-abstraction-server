@@ -3,12 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.exasol</groupId>
     <artifactId>exasol-test-setup-abstraction-server</artifactId>
-    <version>0.2.2</version>
+    <version>0.2.3</version>
     <name>Server for the Exasol Test-Setup Abstraction</name>
     <description>Test setup abstraction backend for Go and other languages.</description>
     <url>https://github.com/exasol/exasol-test-setup-abstraction-server/</url>
     <properties>
-        <junit.version>5.8.2</junit.version>
+        <junit.version>5.9.0</junit.version>
     </properties>
     <distributionManagement>
         <snapshotRepository>
@@ -124,8 +124,8 @@
                 <artifactId>ossindex-maven-plugin</artifactId>
                 <configuration>
                     <excludeVulnerabilityIds>
-                        <!-- Vulnerability in io.netty:netty-handler:4.1.77.Final https://ossindex.sonatype.org/vulnerability/sonatype-2020-0026
-                    Excluded until a fixed version is available. -->
+                        <!-- Transitive test dependency io.netty:netty-handler:4.1.77 used by software.amazon.awssdk:cloudformation -->
+                        <!-- We are not affected, see https://github.com/aws/aws-sdk-java-v2/issues/3263 for details -->
                         <exclude>sonatype-2020-0026</exclude>
                     </excludeVulnerabilityIds>
                 </configuration>
@@ -135,7 +135,7 @@
     <parent>
         <artifactId>exasol-test-setup-abstraction-server-generated-parent</artifactId>
         <groupId>com.exasol</groupId>
-        <version>0.2.2</version>
+        <version>0.2.3</version>
         <relativePath>pk_generated_parent.pom</relativePath>
     </parent>
 </project>
