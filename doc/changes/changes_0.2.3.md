@@ -1,4 +1,4 @@
-# Exasol Test Setup Abstraction Server 0.2.3, released 2022-??-??
+# Exasol Test Setup Abstraction Server 0.2.3, released 2022-08-11
 
 Code name: Add GetConnectionInfo() method to Go client
 
