@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/url"
 	"os"
@@ -30,7 +29,7 @@ type TestSetupAbstraction struct {
 	errorStream    *bytes.Buffer
 }
 
-const serverVersion = "0.2.2"
+const serverVersion = "0.2.3"
 const serverJar = "exasol-test-setup-abstraction-server-" + serverVersion + ".jar"
 
 func Create(configFilePath string) (*TestSetupAbstraction, error) {
@@ -137,7 +136,7 @@ func (testSetup *TestSetupAbstraction) Stop() error {
 	return nil
 }
 
-func (testSetup *TestSetupAbstraction) getConnectionInfo() (*ConnectionInfo, error) {
+func (testSetup *TestSetupAbstraction) GetConnectionInfo() (*ConnectionInfo, error) {
 	var connectionDetails ConnectionInfo
 	err := testSetup.makeApiRequest("GET", "connectionInfo", &connectionDetails, nil)
 	if err != nil {
@@ -159,7 +158,7 @@ func (testSetup *TestSetupAbstraction) makeApiRequest(method string, path string
 	if err != nil {
 		return fmt.Errorf("failed to execute %v %v from test-setup-abstraction server. Cause %v", method, path, err.Error())
 	}
-	body, err := ioutil.ReadAll(response.Body)
+	body, err := io.ReadAll(response.Body)
 	if err != nil {
 		return fmt.Errorf("failed to read response body. Cause %v", err.Error())
 	}
@@ -180,12 +179,14 @@ type ConnectionInfo struct {
 	Password string `json:"password"`
 }
 
+// CreateConnection returns a new database connection with autocommit enabled.
 func (testSetup *TestSetupAbstraction) CreateConnection() (*sql.DB, error) {
 	return testSetup.CreateConnectionWithConfig(true)
 }
 
+// CreateConnection returns a new database connection with autocommit on or off.
 func (testSetup *TestSetupAbstraction) CreateConnectionWithConfig(autocommit bool) (*sql.DB, error) {
-	connectionDetails, err := testSetup.getConnectionInfo()
+	connectionDetails, err := testSetup.GetConnectionInfo()
 	if err != nil {
 		return nil, err
 	}
@@ -201,6 +202,9 @@ func (testSetup *TestSetupAbstraction) CreateConnectionWithConfig(autocommit boo
 	return connection, nil
 }
 
+// MakeDatabaseTcpServiceAccessibleFromLocalhost makes the port of a database node available from localhost.
+// If the target is a cluster, this methods sets up a redirect for each node and returns multiple local port numbers.
+// You can use this method for example to connect from your test PC to a profiling agent that listens on a TCP socket in an UDF.
 func (testSetup *TestSetupAbstraction) MakeDatabaseTcpServiceAccessibleFromLocalhost(databasePort int) ([]int, error) {
 	var ports []int
 	err := testSetup.makeApiRequest("POST", "makeDatabaseTcpServiceAccessibleFromLocalhost", &ports, url.Values{
@@ -212,6 +216,10 @@ func (testSetup *TestSetupAbstraction) MakeDatabaseTcpServiceAccessibleFromLocal
 	return ports, nil
 }
 
+// MakeLocalTcpServiceAccessibleFromDatabase makes a local TCP service available from within the Exasol database.
+// You can use this method for example for accessing a local s3 bucket implementation from inside the Exasol database.
+// Another example is to connect from UDFs to a debugger running on the test PC.
+// Returns the address under which the service is available from within the exasol database (same port)
 func (testSetup *TestSetupAbstraction) MakeLocalTcpServiceAccessibleFromDatabase(localPort int) (*ServiceAddress, error) {
 	var serviceAddress ServiceAddress
 	err := testSetup.makeApiRequest("POST", "makeLocalTcpServiceAccessibleFromDatabase", &serviceAddress, url.Values{
@@ -223,6 +231,7 @@ func (testSetup *TestSetupAbstraction) MakeLocalTcpServiceAccessibleFromDatabase
 	return &serviceAddress, nil
 }
 
+// MakeTcpServiceAccessibleFromDatabase makes a given TCP service available inside of the Exasol database and returns the modified service address.
 func (testSetup *TestSetupAbstraction) MakeTcpServiceAccessibleFromDatabase(serviceAddress ServiceAddress) (*ServiceAddress, error) {
 	var localAddress ServiceAddress
 	err := testSetup.makeApiRequest("POST", "makeTcpServiceAccessibleFromDatabase", &localAddress, url.Values{
@@ -235,6 +244,7 @@ func (testSetup *TestSetupAbstraction) MakeTcpServiceAccessibleFromDatabase(serv
 	return &localAddress, err
 }
 
+// UploadFile uploads a local file to the default BucketFS bucket.
 func (testSetup TestSetupAbstraction) UploadFile(localPath string, remoteName string) error {
 	return testSetup.makeApiRequest("POST", "bfs/uploadFile", &successResult{}, url.Values{
 		"localPath":  {localPath},
@@ -242,6 +252,7 @@ func (testSetup TestSetupAbstraction) UploadFile(localPath string, remoteName st
 	})
 }
 
+// UploadStringContent uploads the given string content to a file in the default BucketFS bucket.
 func (testSetup TestSetupAbstraction) UploadStringContent(stringContent string, remoteName string) error {
 	return testSetup.makeApiRequest("POST", "bfs/uploadStringContent", &successResult{}, url.Values{
 		"stringContent": {stringContent},
@@ -253,6 +264,7 @@ type downloadFileAsStringResult struct {
 	Content string `json:"content"`
 }
 
+// DownloadFileAsString downloads a file from the default BucketFS bucket.
 func (testSetup TestSetupAbstraction) DownloadFileAsString(path string) (string, error) {
 	result := downloadFileAsStringResult{}
 	err := testSetup.makeApiRequest("GET", "bfs/downloadFileAsString?path="+url.QueryEscape(path), &result, url.Values{})
@@ -262,16 +274,19 @@ func (testSetup TestSetupAbstraction) DownloadFileAsString(path string) (string,
 	return result.Content, nil
 }
 
+// DownloadFile downloads a file from the default BucketFS bucket to a local file.
 func (testSetup TestSetupAbstraction) DownloadFile(remotePath string, localPath string) error {
 	return testSetup.makeApiRequest("GET", "bfs/downloadFile?remotePath="+url.QueryEscape(remotePath)+"&localPath="+url.QueryEscape(localPath), &successResult{}, url.Values{})
 }
 
+// DeleteFile deletes a file from the default BucketFS bucket.
 func (testSetup TestSetupAbstraction) DeleteFile(path string) error {
 	return testSetup.makeApiRequest("DELETE", "bfs/deleteFile", &successResult{}, url.Values{
 		"path": {path},
 	})
 }
 
+// ListFiles lists files in the default BucketFS bucket.
 func (testSetup TestSetupAbstraction) ListFiles(path string) ([]string, error) {
 	result := &listResult{}
 	err := testSetup.makeApiRequest("GET", "bfs/listFiles?path="+url.QueryEscape(path), result, url.Values{

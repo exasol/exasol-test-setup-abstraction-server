@@ -1,13 +1,14 @@
 package exasol_test_setup_abstraction_go
 
 import (
+	"database/sql"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path"
 	"testing"
 
 	"github.com/antchfx/xmlquery"
+	"github.com/exasol/exasol-driver-go"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -38,6 +39,41 @@ func (suite *TestSetupAbstractionSuite) TestCreateConnection() {
 	suite.NoError(err)
 	defer func() { suite.NoError(connection.Close()) }()
 	row := connection.QueryRow("SELECT 1")
+	var result int
+	suite.NoError(row.Scan(&result))
+	suite.Assert().Equal(1, result)
+}
+
+func (suite *TestSetupAbstractionSuite) TestCreateConnectionWithAutocommitOff() {
+	connection, err := suite.testSetup.CreateConnectionWithConfig(false)
+	suite.NoError(err)
+	defer func() { suite.NoError(connection.Close()) }()
+	row := connection.QueryRow("SELECT 1")
+	var result int
+	suite.NoError(row.Scan(&result))
+	suite.Assert().Equal(1, result)
+}
+
+func (suite *TestSetupAbstractionSuite) TestGetConnectionInfo() {
+	info, err := suite.testSetup.GetConnectionInfo()
+	suite.NoError(err)
+	suite.Equal("SYS", info.User)
+	suite.Equal("exasol", info.Password)
+	suite.NotEmpty(info.Host)
+	suite.Greater(info.Port, 0)
+}
+
+func (suite *TestSetupAbstractionSuite) TestGetConnectionInfoReturnsValidSettings() {
+	info, err := suite.testSetup.GetConnectionInfo()
+	suite.NoError(err)
+	db, err := sql.Open("exasol", exasol.NewConfig(info.User, info.Password).
+		Port(info.Port).
+		Host(info.Host).
+		ValidateServerCertificate(false).
+		String())
+	suite.NoError(err)
+	defer func() { suite.NoError(db.Close()) }()
+	row := db.QueryRow("SELECT 1")
 	var result int
 	suite.NoError(row.Scan(&result))
 	suite.Assert().Equal(1, result)
@@ -118,7 +154,7 @@ func (suite *TestSetupAbstractionSuite) TestDownloadFile() {
 	targetFile := path.Join(tempDir, "myFile.txt")
 	err = suite.testSetup.DownloadFile("TestDownloadFile.txt", targetFile)
 	suite.NoError(err)
-	content, err := ioutil.ReadFile(targetFile)
+	content, err := os.ReadFile(targetFile)
 	suite.NoError(err)
 	suite.Assert().Equal("test", string(content))
 }
@@ -183,7 +219,7 @@ func (suite *TestSetupAbstractionSuite) TestListFilesNonExistingDirectory() {
 }
 
 func (suite *TestSetupAbstractionSuite) createTestFile() string {
-	file, err := ioutil.TempFile(os.TempDir(), "my-temp-file-*")
+	file, err := os.CreateTemp(os.TempDir(), "my-temp-file-*")
 	if err != nil {
 		panic(err)
 	}
