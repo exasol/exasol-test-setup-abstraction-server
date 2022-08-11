@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/url"
 	"os"
@@ -159,7 +158,7 @@ func (testSetup *TestSetupAbstraction) makeApiRequest(method string, path string
 	if err != nil {
 		return fmt.Errorf("failed to execute %v %v from test-setup-abstraction server. Cause %v", method, path, err.Error())
 	}
-	body, err := ioutil.ReadAll(response.Body)
+	body, err := io.ReadAll(response.Body)
 	if err != nil {
 		return fmt.Errorf("failed to read response body. Cause %v", err.Error())
 	}

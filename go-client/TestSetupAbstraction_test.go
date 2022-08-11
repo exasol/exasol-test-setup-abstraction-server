@@ -3,7 +3,6 @@ package exasol_test_setup_abstraction_go
 import (
 	"database/sql"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path"
 	"testing"
@@ -155,7 +154,7 @@ func (suite *TestSetupAbstractionSuite) TestDownloadFile() {
 	targetFile := path.Join(tempDir, "myFile.txt")
 	err = suite.testSetup.DownloadFile("TestDownloadFile.txt", targetFile)
 	suite.NoError(err)
-	content, err := ioutil.ReadFile(targetFile)
+	content, err := os.ReadFile(targetFile)
 	suite.NoError(err)
 	suite.Assert().Equal("test", string(content))
 }
@@ -220,7 +219,7 @@ func (suite *TestSetupAbstractionSuite) TestListFilesNonExistingDirectory() {
 }
 
 func (suite *TestSetupAbstractionSuite) createTestFile() string {
-	file, err := ioutil.TempFile(os.TempDir(), "my-temp-file-*")
+	file, err := os.CreateTemp(os.TempDir(), "my-temp-file-*")
 	if err != nil {
 		panic(err)
 	}
