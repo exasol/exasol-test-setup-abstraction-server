@@ -135,7 +135,7 @@
     <parent>
         <artifactId>exasol-test-setup-abstraction-server-generated-parent</artifactId>
         <groupId>com.exasol</groupId>
-        <version>0.2.3</version>
+        <version>0.2.4</version>
         <relativePath>pk_generated_parent.pom</relativePath>
     </parent>
 </project>
