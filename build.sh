@@ -6,7 +6,7 @@ readonly base_dir
 
 cd "$base_dir"
 
-mvn --batch-mode --file server/ --batch-mode install
+mvn --batch-mode --file server/ clean install
 
 cd "$base_dir/go-client"
-go test -v -coverprofile=coverage.out ./...
+go test -count 1 -p 1 -v -coverprofile=coverage.out ./...
