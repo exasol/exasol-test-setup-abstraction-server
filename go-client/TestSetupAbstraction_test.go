@@ -7,7 +7,6 @@ import (
 	"path"
 	"testing"
 
-	"github.com/antchfx/xmlquery"
 	"github.com/exasol/exasol-driver-go"
 	"github.com/stretchr/testify/suite"
 )
@@ -112,19 +111,6 @@ func (suite *TestSetupAbstractionSuite) TestMakeTcpServiceAccessibleFromDatabase
 func (suite *TestSetupAbstractionSuite) TestMakeTcpServiceAccessibleFromDatabaseFails() {
 	_, err := suite.testSetup.MakeTcpServiceAccessibleFromDatabase(ServiceAddress{"localhost", -123})
 	suite.ErrorContains(err, "request failed with status 500 (500 Server Error). Response: \"E-ETSAS-8: Port number -123 is negative. Please specify a valid port.\"")
-}
-
-func (suite *TestSetupAbstractionSuite) TestServerVersionCorrect() {
-	suite.Assert().Equal(suite.readVersionFromPom(), serverVersion, "version in pom.xml and constant match")
-}
-
-func (suite *TestSetupAbstractionSuite) readVersionFromPom() string {
-	pomFile, err := os.Open("../server/pom.xml")
-	suite.NoError(err)
-	defer pomFile.Close()
-	pom, err := xmlquery.Parse(pomFile)
-	suite.NoError(err)
-	return xmlquery.FindOne(pom, "/project/version").InnerText()
 }
 
 func (suite *TestSetupAbstractionSuite) TestUploadStringContent() {
