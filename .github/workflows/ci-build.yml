@@ -25,13 +25,13 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
-          go-version: 1.18
+          go-version: 1.19
         id: go
       - name: Cache local Maven repository
         uses: actions/cache@v3
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml', 'build.sh') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml', '.github/workflows/project-keeper.sh') }}
           restore-keys: |
             ${{ runner.os }}-maven-
       - name: Cache SonarCloud packages
@@ -67,3 +67,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Project Keeper verify
+        run: ./.github/workflows/project-keeper.sh verify

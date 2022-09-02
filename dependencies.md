@@ -61,6 +61,7 @@
 | --------------------------- | --------- |
 | github.com/antchfx/xmlquery | [MIT][41] |
 | github.com/stretchr/testify | [MIT][42] |
+| gopkg.in/yaml.v3            | [MIT][43] |
 
 [0]: https://github.com/exasol/exasol-test-setup-abstraction-java/
 [1]: https://github.com/exasol/exasol-test-setup-abstraction-java/blob/main/LICENSE
@@ -105,3 +106,4 @@
 [40]: https://github.com/exasol/exasol-driver-go/blob/v0.4.5/LICENSE
 [41]: https://github.com/antchfx/xmlquery/blob/HEAD/LICENSE
 [42]: https://github.com/stretchr/testify/blob/HEAD/LICENSE
+[43]: https://github.com/go-yaml/yaml/blob/v3.0.1/LICENSE

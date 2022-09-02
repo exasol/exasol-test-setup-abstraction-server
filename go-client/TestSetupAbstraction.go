@@ -29,7 +29,7 @@ type TestSetupAbstraction struct {
 	errorStream    *bytes.Buffer
 }
 
-const serverVersion = "0.2.3"
+const serverVersion = "0.2.4"
 const serverJar = "exasol-test-setup-abstraction-server-" + serverVersion + ".jar"
 
 func Create(configFilePath string) (*TestSetupAbstraction, error) {
@@ -62,36 +62,22 @@ func downloadServerIfNotPresent() (string, error) {
 	if _, err := os.Stat(serverDir); os.IsNotExist(err) {
 		err := os.Mkdir(serverDir, 0700)
 		if err != nil {
-			return "", fmt.Errorf("failed to create directory for the test-setup-abstraction-server. Cause: %v", err.Error())
+			return "", fmt.Errorf("failed to create directory %q: %v", serverDir, err.Error())
 		}
 	}
-	serverFile := path.Join(serverDir, serverJar)
-	if _, err := os.Stat(serverFile); os.IsNotExist(err) {
-		out, err := os.Create(serverFile)
-		defer func() {
-			err = out.Close()
-			if err != nil {
-				panic(fmt.Sprintf("failed to close server file. Cause: %v", err.Error()))
-			}
-		}()
+	localPath := path.Join(serverDir, serverJar)
+	url := "https://github.com/exasol/exasol-test-setup-abstraction-server/releases/download/" + serverVersion + "/" + serverJar
+	if _, err := os.Stat(localPath); os.IsNotExist(err) {
+		err = downloadFile(url, localPath)
 		if err != nil {
-			return "", fmt.Errorf("failed to create file for downloading test-setup-abstraction-server. Cause: %v", err.Error())
-		}
-		resp, err := http.Get("https://github.com/exasol/exasol-test-setup-abstraction-server/releases/download/" + serverVersion + "/" + serverJar)
-		if err != nil {
-			return "", fmt.Errorf("failed to download test-setup-abstraction-server. Cause: %v", err.Error())
-		}
-		defer resp.Body.Close()
-		_, err = io.Copy(out, resp.Body)
-		if err != nil {
-			return "", fmt.Errorf("failed to download test-setup-abstraction-server. Cause: %v", err.Error())
+			return "", nil
 		}
 	}
-	return serverFile, nil
+	return localPath, nil
 }
 
 func getServerPort(stopped *bool, output *bytes.Buffer, errorStream *bytes.Buffer) (int, error) {
-	for counter := 0; counter < 500; counter++ { //we need to wait quite long here if the server can't reuse a testcontainer
+	for counter := 0; counter < 500; counter++ { // we need to wait quite long here if the server can't reuse a testcontainer
 		pattern := regexp.MustCompile("Server running on port: (\\d+)\n")
 		result := pattern.FindSubmatch(output.Bytes())
 		if len(result) != 0 {
