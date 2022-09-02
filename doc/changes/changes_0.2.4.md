@@ -16,6 +16,7 @@ Code name: Minor fixes
 
 * Updated `org.junit.jupiter:junit-jupiter-engine:5.8.2` to `5.9.0`
 * Updated `org.junit.jupiter:junit-jupiter-params:5.8.2` to `5.9.0`
+* Updated `org.mockito:mockito-junit-jupiter:4.6.1` to `4.7.0`
 
 #### Plugin Dependency Updates
 
