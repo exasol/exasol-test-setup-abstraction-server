@@ -40,7 +40,7 @@ func readProjectKeeperConf(t *testing.T) *projectKeeperConfig {
 	config := &projectKeeperConfig{}
 	err = yaml.Unmarshal(yamlFile, config)
 	if err != nil {
-		t.Fatalf("unmarshal failed: %v", err.Error())
+		t.Fatalf("Failed to parse YAML in project keeper configuration: %v", err.Error())
 	}
 	return config
 }
