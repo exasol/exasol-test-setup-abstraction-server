@@ -46,7 +46,7 @@ func (suite *VersionSuite) readProjectKeeperConf() *projectKeeperConfig {
 	config := &projectKeeperConfig{}
 	err = yaml.Unmarshal(yamlFile, config)
 	if err != nil {
-		suite.FailNowf("unmarshal failed: %v", err.Error())
+		suite.FailNowf("Failed to parse YAML in project keeper configuration: %v", err.Error())
 	}
 	return config
 }
