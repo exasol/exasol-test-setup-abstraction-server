@@ -1,7 +1,6 @@
 package exasol_test_setup_abstraction_go
 
 import (
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -40,7 +39,7 @@ type projectKeeperConfig struct {
 }
 
 func (suite *VersionSuite) readProjectKeeperConf() *projectKeeperConfig {
-	yamlFile, err := ioutil.ReadFile("../.project-keeper.yml")
+	yamlFile, err := os.ReadFile("../.project-keeper.yml")
 	if err != nil {
 		suite.FailNowf("failed to read project keeper file: %v", err.Error())
 	}

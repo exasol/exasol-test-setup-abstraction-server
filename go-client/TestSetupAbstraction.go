@@ -29,7 +29,7 @@ type TestSetupAbstraction struct {
 	errorStream    *bytes.Buffer
 }
 
-const serverVersion = "0.2.3"
+const serverVersion = "0.2.4"
 const serverJar = "exasol-test-setup-abstraction-server-" + serverVersion + ".jar"
 
 func Create(configFilePath string) (*TestSetupAbstraction, error) {
