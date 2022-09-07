@@ -67,5 +67,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      - name: Project Keeper verify
-        run: ./.github/workflows/project-keeper.sh verify

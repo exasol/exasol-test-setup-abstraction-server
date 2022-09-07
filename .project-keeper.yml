@@ -6,9 +6,6 @@ sources:
       - integration_tests
   - type: golang
     path: go-client/go.mod
-excludes:
-  - "E-PK-CORE-17: Missing required file: '.github/workflows/project-keeper-verify.yml'"
-  - "E-PK-CORE-17: Missing required file: '.github/workflows/project-keeper.sh'"
 linkReplacements:
   - https://javalin.io/javalin|https://javalin.io/
 version: 0.2.4

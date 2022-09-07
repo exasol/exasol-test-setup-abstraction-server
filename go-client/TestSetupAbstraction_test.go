@@ -2,7 +2,6 @@ package exasol_test_setup_abstraction_go
 
 import (
 	"database/sql"
-	"fmt"
 	"os"
 	"path"
 	"testing"
@@ -23,7 +22,7 @@ func TestTestSetupAbstractionSuite(t *testing.T) {
 func (suite *TestSetupAbstractionSuite) SetupSuite() {
 	testSetup, err := Create("nonExistingConfig.json")
 	if err != nil {
-		panic(fmt.Sprintf("failed to create test setup. Cause: %v", err.Error()))
+		suite.FailNowf("failed to create test setup. Cause: %v", err.Error())
 	}
 	suite.testSetup = *testSetup
 }
@@ -135,8 +134,7 @@ func (suite *TestSetupAbstractionSuite) TestDownloadFile() {
 	err := suite.testSetup.UploadStringContent("test", "TestDownloadFile.txt")
 	suite.NoError(err)
 	defer func() { suite.NoError(suite.testSetup.DeleteFile("TestDownloadFile.txt")) }()
-	tempDir := createTempDir()
-	defer suite.deleteFileOrFolder(tempDir)
+	tempDir := suite.T().TempDir()
 	targetFile := path.Join(tempDir, "myFile.txt")
 	err = suite.testSetup.DownloadFile("TestDownloadFile.txt", targetFile)
 	suite.NoError(err)
@@ -146,19 +144,10 @@ func (suite *TestSetupAbstractionSuite) TestDownloadFile() {
 }
 
 func (suite *TestSetupAbstractionSuite) TestDownloadNonExistingFileFails() {
-	tempDir := createTempDir()
-	defer suite.deleteFileOrFolder(tempDir)
+	tempDir := suite.T().TempDir()
 	targetFile := path.Join(tempDir, "myFile.txt")
 	err := suite.testSetup.DownloadFile("non-existing-file.txt", targetFile)
 	suite.ErrorContains(err, "request failed with status 500 (500 Server Error). Response: \"E-BFSJ-2: File or directory not found trying to download http://")
-}
-
-func createTempDir() string {
-	tempDir, err := os.MkdirTemp(os.TempDir(), "TestDownloadFile")
-	if err != nil {
-		panic(err)
-	}
-	return tempDir
 }
 
 func (suite *TestSetupAbstractionSuite) TestDeleteFile() {
@@ -178,7 +167,6 @@ func (suite *TestSetupAbstractionSuite) TestDeleteNonExistingFileSucceeds() {
 
 func (suite *TestSetupAbstractionSuite) TestUploadFile() {
 	tmpFile := suite.createTestFile()
-	defer suite.deleteFileOrFolder(tmpFile)
 	err := suite.testSetup.UploadFile(tmpFile, "TestUploadFile.txt")
 	suite.NoError(err)
 	defer func() { suite.NoError(suite.testSetup.DeleteFile("TestUploadFile.txt")) }()
@@ -205,7 +193,8 @@ func (suite *TestSetupAbstractionSuite) TestListFilesNonExistingDirectory() {
 }
 
 func (suite *TestSetupAbstractionSuite) createTestFile() string {
-	file, err := os.CreateTemp(os.TempDir(), "my-temp-file-*")
+	tempDir := suite.T().TempDir()
+	file, err := os.CreateTemp(tempDir, "my-temp-file-*")
 	if err != nil {
 		panic(err)
 	}
@@ -215,11 +204,4 @@ func (suite *TestSetupAbstractionSuite) createTestFile() string {
 		panic(err)
 	}
 	return file.Name()
-}
-
-func (suite *TestSetupAbstractionSuite) deleteFileOrFolder(file string) {
-	err := os.RemoveAll(file)
-	if err != nil {
-		panic(err)
-	}
 }

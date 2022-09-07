@@ -7,6 +7,7 @@ Code name: Minor fixes
 ## Bugfixes
 
 * #14: Added check for response code when downloading the server
+* #23: Fixed license URL for go-client
 
 ## Dependency Updates
 

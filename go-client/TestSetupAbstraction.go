@@ -1,7 +1,6 @@
 package exasol_test_setup_abstraction_go
 
 import (
-	"bytes"
 	"database/sql"
 	_ "embed"
 	"encoding/json"
@@ -9,119 +8,35 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-	"os"
-	"os/exec"
-	"path"
-	"regexp"
 	"strconv"
 	"strings"
-	"sync"
-	"time"
 
 	"github.com/exasol/exasol-driver-go"
 )
 
 type TestSetupAbstraction struct {
-	server         *exec.Cmd
-	serverEndpoint string
-	stopped        *bool
-	stoppedMutex   *sync.Mutex
-	errorStream    *bytes.Buffer
+	server *serverProcess
 }
 
 const serverVersion = "0.2.4"
-const serverJar = "exasol-test-setup-abstraction-server-" + serverVersion + ".jar"
 
+// Create creates a new Exasol test setup with the given path to the config file
+// and starts a local server.
+// If the file does not exists, a local Docker container will be started.
 func Create(configFilePath string) (*TestSetupAbstraction, error) {
-	serverPath, err := downloadServerIfNotPresent()
+	server, err := startServer(serverVersion, configFilePath)
 	if err != nil {
 		return nil, err
 	}
-	fmt.Printf("Starting server jar %q with configuration %q...\n", serverPath, configFilePath)
-	serverProcess := exec.Command("java", "-jar", serverPath, configFilePath)
-	var output, errorStream bytes.Buffer
-	serverProcess.Stdout = &output
-	serverProcess.Stderr = &errorStream
-	stoppedMutex := &sync.Mutex{}
-	stopped := false
-	go waitForServer(serverProcess, &errorStream, &stopped, stoppedMutex)
-	port, err := getServerPort(&stopped, &output, &errorStream)
-	if err != nil {
-		return nil, err
-	}
-	serverEndpoint := fmt.Sprintf("http://localhost:%v/", port)
-	return &TestSetupAbstraction{server: serverProcess, serverEndpoint: serverEndpoint, stopped: &stopped, stoppedMutex: stoppedMutex, errorStream: &errorStream}, nil
+	return &TestSetupAbstraction{server: server}, nil
 }
 
-func downloadServerIfNotPresent() (string, error) {
-	homeDir, err := os.UserHomeDir()
-	if err != nil {
-		return "", fmt.Errorf("failed to get home dir. Cause: %v", err.Error())
-	}
-	serverDir := path.Join(homeDir, ".test-setup-abstraction-server")
-	if _, err := os.Stat(serverDir); os.IsNotExist(err) {
-		err := os.Mkdir(serverDir, 0700)
-		if err != nil {
-			return "", fmt.Errorf("failed to create directory %q: %v", serverDir, err.Error())
-		}
-	}
-	localPath := path.Join(serverDir, serverJar)
-	url := "https://github.com/exasol/exasol-test-setup-abstraction-server/releases/download/" + serverVersion + "/" + serverJar
-	if _, err := os.Stat(localPath); os.IsNotExist(err) {
-		err = downloadFile(url, localPath)
-		if err != nil {
-			return "", nil
-		}
-	}
-	return localPath, nil
-}
-
-func getServerPort(stopped *bool, output *bytes.Buffer, errorStream *bytes.Buffer) (int, error) {
-	for counter := 0; counter < 500; counter++ { // we need to wait quite long here if the server can't reuse a testcontainer
-		pattern := regexp.MustCompile("Server running on port: (\\d+)\n")
-		result := pattern.FindSubmatch(output.Bytes())
-		if len(result) != 0 {
-			portString := string(result[1])
-			port, err := strconv.ParseInt(portString, 10, 32)
-			if err != nil {
-				return -1, fmt.Errorf("failed to parse port %q", portString)
-			}
-			return int(port), nil
-		}
-		if !*stopped {
-			time.Sleep(1 * time.Second)
-		}
-	}
-	return -1, fmt.Errorf("failed to start server. The server did not print a port number. Output: %q, error stream: %q", output, errorStream)
-}
-
-func waitForServer(serverProcess *exec.Cmd, errorStream *bytes.Buffer, stopped *bool, stoppedMutex *sync.Mutex) {
-	err := serverProcess.Run()
-	if err != nil && !isStopped(stopped, stoppedMutex) { // after we killed the thread we expect an error
-		fmt.Println(errorStream.String())
-	}
-	stoppedMutex.Lock()
-	*stopped = true
-	stoppedMutex.Unlock()
-}
-
-func isStopped(stopped *bool, stoppedMutex *sync.Mutex) bool {
-	stoppedMutex.Lock()
-	defer stoppedMutex.Unlock()
-	return *stopped
-}
-
+// Stop stops the local server. Docker containers will keep running if reuse is enabled in ~/.testcontainers.properties.
 func (testSetup *TestSetupAbstraction) Stop() error {
-	testSetup.stoppedMutex.Lock()
-	*testSetup.stopped = true
-	testSetup.stoppedMutex.Unlock()
-	err := testSetup.server.Process.Signal(os.Kill)
-	if err != nil {
-		return fmt.Errorf("failed to stop test-setup-abstraction server. Cause: %v", err.Error())
-	}
-	return nil
+	return testSetup.server.stop()
 }
 
+// GetConnectionInfo returns details required to connect to the Exasol database.
 func (testSetup *TestSetupAbstraction) GetConnectionInfo() (*ConnectionInfo, error) {
 	var connectionDetails ConnectionInfo
 	err := testSetup.makeApiRequest("GET", "connectionInfo", &connectionDetails, nil)
@@ -133,7 +48,7 @@ func (testSetup *TestSetupAbstraction) GetConnectionInfo() (*ConnectionInfo, err
 
 func (testSetup *TestSetupAbstraction) makeApiRequest(method string, path string, jsonResult interface{}, payload url.Values) error {
 	client := http.Client{}
-	req, err := http.NewRequest(method, testSetup.serverEndpoint+path, strings.NewReader(payload.Encode()))
+	req, err := http.NewRequest(method, testSetup.server.serverEndpoint+path, strings.NewReader(payload.Encode()))
 	if err != nil {
 		return fmt.Errorf("failed to create http request for the server. Cause: %v", err.Error())
 	}
@@ -158,11 +73,12 @@ func (testSetup *TestSetupAbstraction) makeApiRequest(method string, path string
 	return nil
 }
 
+// Contains information required for connecting to an exasol database
 type ConnectionInfo struct {
-	Host     string `json:"host"`
-	Port     int    `json:"port"`
-	User     string `json:"user"`
-	Password string `json:"password"`
+	Host     string `json:"host"`     // Host name
+	Port     int    `json:"port"`     // Port number
+	User     string `json:"user"`     // User name
+	Password string `json:"password"` // Password
 }
 
 // CreateConnection returns a new database connection with autocommit enabled.
@@ -289,6 +205,7 @@ type successResult struct {
 	Success bool `json:"success"`
 }
 
+// Address of a service with hostname and port.
 type ServiceAddress struct {
 	HostName string `json:"hostName"`
 	Port     int    `json:"port"`

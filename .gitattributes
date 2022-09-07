@@ -1,8 +1,12 @@
 *.sh    text eol=lf
 *.bat   text eol=crlf
 
-server/pk_generated_parent.pom       linguist-generated=true
-server/versionsMavenPluginRules.xml  linguist-generated=true
-dependencies.md                      linguist-generated=true
-doc/changes/changelog.md             linguist-generated=true
-go-client/go.sum                     linguist-generated=true
+.github/workflows/broken_links_checker.yml                         linguist-generated=true
+.github/workflows/project-keeper-verify.yml                        linguist-generated=true
+.github/workflows/project-keeper.sh                                linguist-generated=true
+.github/workflows/release_droid_upload_github_release_assets.yml   linguist-generated=true
+server/pk_generated_parent.pom                                     linguist-generated=true
+server/versionsMavenPluginRules.xml                                linguist-generated=true
+dependencies.md                                                    linguist-generated=true
+doc/changes/changelog.md                                           linguist-generated=true
+go-client/go.sum                                                   linguist-generated=true
