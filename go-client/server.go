@@ -26,7 +26,6 @@ func startServer(serverVersion, configFilePath string) (*serverProcess, error) {
 	if err != nil {
 		return nil, err
 	}
-	fmt.Printf("Starting server jar %q with configuration %q...\n", serverPath, configFilePath)
 	process := exec.Command("java", "-jar", serverPath, configFilePath)
 	var output, errorStream bytes.Buffer
 	process.Stdout = &output
