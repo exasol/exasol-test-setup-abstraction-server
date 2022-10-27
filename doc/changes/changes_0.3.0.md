@@ -14,9 +14,18 @@ In this release we changed the way how to configure the test setup. Instead of c
 
 ### Server for the Exasol Test-Setup Abstraction
 
+#### Compile Dependency Updates
+
+* Updated `com.exasol:exasol-test-setup-abstraction-java:0.3.2` to `1.0.0`
+* Updated `io.javalin:javalin:4.6.4` to `5.1.2`
+
 #### Test Dependency Updates
 
-* Updated `org.mockito:mockito-junit-jupiter:4.6.1` to `4.7.0`
+* Removed `commons-codec:commons-codec:1.15`
+* Updated `io.rest-assured:rest-assured:5.1.1` to `5.2.0`
+* Updated `org.junit.jupiter:junit-jupiter-engine:5.9.0` to `5.9.1`
+* Updated `org.junit.jupiter:junit-jupiter-params:5.9.0` to `5.9.1`
+* Updated `org.mockito:mockito-junit-jupiter:4.7.0` to `4.8.1`
 
 ### Go-client
 
