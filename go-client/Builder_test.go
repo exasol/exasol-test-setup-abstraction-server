@@ -8,6 +8,10 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
+// Default version specified in exasol-test-setup-abstraction-java
+const DEFAULT_EXASOL_VERSION = "7.1.15"
+const NON_DEFAULT_EXASOL_VERSION = "7.1.14"
+
 type BuilderSuite struct {
 	suite.Suite
 	setup *TestSetupAbstraction
@@ -31,14 +35,14 @@ func (suite *BuilderSuite) TestDefaultConfiguration() {
 	var err error
 	suite.setup, err = New().Start()
 	suite.NoError(err)
-	suite.NotNil(suite.getExasolDbVersion())
+	suite.Equal(DEFAULT_EXASOL_VERSION, suite.getExasolDbVersion())
 }
 
 func (suite *BuilderSuite) TestCustomMissingConfigFile() {
 	var err error
 	suite.setup, err = New().CloudSetupConfigFilePath("missing-config-file.json").Start()
 	suite.NoError(err)
-	suite.NotNil(suite.getExasolDbVersion())
+	suite.Equal(DEFAULT_EXASOL_VERSION, suite.getExasolDbVersion())
 }
 
 func (suite *BuilderSuite) TestConfigFileWithInvalidContent() {
@@ -51,9 +55,9 @@ func (suite *BuilderSuite) TestConfigFileWithInvalidContent() {
 
 func (suite *BuilderSuite) TestCustomExasolVersion() {
 	var err error
-	suite.setup, err = New().DockerDbVersion("7.1.14").Start()
+	suite.setup, err = New().DockerDbVersion(NON_DEFAULT_EXASOL_VERSION).Start()
 	suite.NoError(err)
-	suite.Equal("7.1.14", suite.getExasolDbVersion())
+	suite.Equal(NON_DEFAULT_EXASOL_VERSION, suite.getExasolDbVersion())
 }
 
 func (suite *BuilderSuite) writeTempFile(content string) string {
