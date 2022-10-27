@@ -1,9 +1,8 @@
 package com.exasol.testsetupabstraction.server;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.ServerSocket;
-import java.nio.file.Path;
+import java.nio.file.*;
 import java.util.logging.*;
 
 import com.exasol.errorreporting.ExaError;
@@ -31,6 +30,7 @@ public class Main {
     @SuppressWarnings({ "java:S106", "java:S4507" }) // we don't want to use a logger, printStackTrace is ok here
                                                      // since it's a tool for testing
     public static void main(final String[] args) {
+        applyTargetDirWorkaround();
         final int port = findFreePort();
         final Path configPath = Path.of(args[0]).toAbsolutePath();
         LOGGER.info(() -> "Starting exasol test setup using config file '" + configPath + "'...");
@@ -46,6 +46,24 @@ public class Main {
                             .message("Failed to start server: {{error|q}}", exception.getMessage()).toString(),
                     exception);
             System.exit(100); // Exit to kill all daemon-threads of javalin, otherwise main terminates but not the app
+        }
+    }
+
+    /**
+     * Apply workaround for https://github.com/exasol/exasol-test-setup-abstraction-java/issues/46
+     */
+    private static void applyTargetDirWorkaround() {
+        Path targetPath = Paths.get("target").toAbsolutePath();
+        if (!Files.exists(targetPath)) {
+            try {
+                LOGGER.info(
+                        () -> "Applying workaround for https://github.com/exasol/exasol-test-setup-abstraction-java/issues/46: create directory "
+                                + targetPath);
+                Files.createDirectories(targetPath);
+            } catch (IOException exception) {
+                throw new UncheckedIOException("Failed to apply workaround by creating directory " + targetPath,
+                        exception);
+            }
         }
     }
 
