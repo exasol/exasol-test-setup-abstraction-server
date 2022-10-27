@@ -1,4 +1,4 @@
-# Exasol Test Setup Abstraction Server 0.3.0, released 2022-10-27
+# Exasol Test Setup Abstraction Server 0.3.0, released 2022-10-28
 
 Code name: Specify Exasol version
 
