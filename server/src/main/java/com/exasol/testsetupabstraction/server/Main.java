@@ -33,7 +33,7 @@ public class Main {
     public static void main(final String[] args) {
         final int port = findFreePort();
         final Path configPath = Path.of(args[0]).toAbsolutePath();
-        LOGGER.info(() -> "Starting exasol test setup using config file " + configPath + "...");
+        LOGGER.info(() -> "Starting exasol test setup using config file '" + configPath + "'...");
         try (final ExasolTestSetup exasol = new ExasolTestSetupFactory(configPath).getTestSetup();
                 final TestSetupServer server = new TestSetupServer(exasol, port)) {
             System.out.println("Server running on port: " + port);
@@ -43,7 +43,7 @@ public class Main {
         } catch (final Exception exception) {
             LOGGER.log(Level.SEVERE,
                     ExaError.messageBuilder("E-ETSAS-7")
-                            .message("Failed to start server: {{error}}", exception.getMessage()).toString(),
+                            .message("Failed to start server: {{error|q}}", exception.getMessage()).toString(),
                     exception);
             System.exit(100); // Exit to kill all daemon-threads of javalin, otherwise main terminates but not the app
         }
