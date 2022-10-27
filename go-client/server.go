@@ -59,7 +59,7 @@ func downloadServerIfNotPresent() (string, error) {
 	if _, err := os.Stat(localPath); os.IsNotExist(err) {
 		err = downloadFile(url, localPath)
 		if err != nil {
-			return "", nil
+			return "", err
 		}
 	}
 	return localPath, nil
