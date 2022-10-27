@@ -20,7 +20,7 @@ func TestTestSetupAbstractionSuite(t *testing.T) {
 }
 
 func (suite *TestSetupAbstractionSuite) SetupSuite() {
-	testSetup, err := Create("nonExistingConfig.json")
+	testSetup, err := New().Start()
 	if err != nil {
 		suite.FailNowf("failed to create test setup. Cause: %v", err.Error())
 	}
@@ -147,7 +147,7 @@ func (suite *TestSetupAbstractionSuite) TestDownloadNonExistingFileFails() {
 	tempDir := suite.T().TempDir()
 	targetFile := path.Join(tempDir, "myFile.txt")
 	err := suite.testSetup.DownloadFile("non-existing-file.txt", targetFile)
-	suite.ErrorContains(err, "request failed with status 500 (500 Server Error). Response: \"E-BFSJ-2: File or directory not found trying to download http://")
+	suite.ErrorContains(err, "request failed with status 500 (500 Server Error). Response: \"E-BFSJ-2: File or directory not found trying to download 'http://")
 }
 
 func (suite *TestSetupAbstractionSuite) TestDeleteFile() {

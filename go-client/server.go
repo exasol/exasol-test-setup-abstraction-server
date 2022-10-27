@@ -26,6 +26,9 @@ func startServer(serverVersion, configFilePath string) (*serverProcess, error) {
 	if err != nil {
 		return nil, err
 	}
+	if configFilePath == "" {
+		configFilePath = fmt.Sprintf("non-existing-config-file-%d.json", time.Now().Unix())
+	}
 	process := exec.Command("java", "-jar", serverPath, configFilePath)
 	var output, errorStream bytes.Buffer
 	process.Stdout = &output

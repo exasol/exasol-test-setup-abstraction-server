@@ -18,13 +18,13 @@ type TestSetupAbstraction struct {
 	server *serverProcess
 }
 
-const serverVersion = "0.2.4"
+const serverVersion = "0.3.0"
 
 // Create creates a new Exasol test setup with the given path to the config file
 // and starts a local server.
 // If the file does not exists, a local Docker container will be started.
-func Create(configFilePath string) (*TestSetupAbstraction, error) {
-	server, err := startServer(serverVersion, configFilePath)
+func startTestSetupAbstraction(config Configuration) (*TestSetupAbstraction, error) {
+	server, err := startServer(serverVersion, config.configFilePath)
 	if err != nil {
 		return nil, err
 	}
