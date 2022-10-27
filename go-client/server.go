@@ -3,6 +3,7 @@ package exasol_test_setup_abstraction_go
 import (
 	"bytes"
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
 	"path"
@@ -21,15 +22,14 @@ type serverProcess struct {
 }
 
 // startServer starts the server in the given version and with the given config file
-func startServer(serverVersion, configFilePath string) (*serverProcess, error) {
+func startServer(serverVersion string, config Builder) (*serverProcess, error) {
 	serverPath, err := downloadServerIfNotPresent()
 	if err != nil {
 		return nil, err
 	}
-	if configFilePath == "" {
-		configFilePath = fmt.Sprintf("non-existing-config-file-%d.json", time.Now().Unix())
-	}
-	process := exec.Command("java", "-jar", serverPath, configFilePath)
+	args := getServerProcessArguments(serverPath, config)
+	log.Printf("Starting server with arguments %v", args)
+	process := exec.Command("java", args...)
 	var output, errorStream bytes.Buffer
 	process.Stdout = &output
 	process.Stderr = &errorStream
@@ -42,6 +42,18 @@ func startServer(serverVersion, configFilePath string) (*serverProcess, error) {
 	}
 	serverEndpoint := fmt.Sprintf("http://localhost:%v/", port)
 	return &serverProcess{process: process, serverEndpoint: serverEndpoint, stopped: &stopped, stoppedMutex: stoppedMutex, errorStream: &errorStream}, nil
+}
+
+func getServerProcessArguments(serverPath string, config Builder) []string {
+	var args = []string{}
+	if config.dockerDbVersion != "" {
+		args = append(args, "-Dcom.exasol.dockerdb.image="+config.dockerDbVersion)
+	}
+	args = append(args, "-jar", serverPath)
+	if config.configFilePath != "" {
+		args = append(args, config.configFilePath)
+	}
+	return args
 }
 
 func downloadServerIfNotPresent() (string, error) {

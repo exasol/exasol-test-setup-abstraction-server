@@ -23,8 +23,8 @@ const serverVersion = "0.3.0"
 // Create creates a new Exasol test setup with the given path to the config file
 // and starts a local server.
 // If the file does not exists, a local Docker container will be started.
-func startTestSetupAbstraction(config Configuration) (*TestSetupAbstraction, error) {
-	server, err := startServer(serverVersion, config.configFilePath)
+func startTestSetupAbstraction(config Builder) (*TestSetupAbstraction, error) {
+	server, err := startServer(serverVersion, config)
 	if err != nil {
 		return nil, err
 	}

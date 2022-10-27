@@ -32,9 +32,7 @@ public class Main {
     public static void main(final String[] args) {
         applyTargetDirWorkaround();
         final int port = findFreePort();
-        final Path configPath = Path.of(args[0]).toAbsolutePath();
-        LOGGER.info(() -> "Starting exasol test setup using config file '" + configPath + "'...");
-        try (final ExasolTestSetup exasol = new ExasolTestSetupFactory(configPath).getTestSetup();
+        try (final ExasolTestSetup exasol = new ExasolTestSetupFactory(getConfigPath(args)).getTestSetup();
                 final TestSetupServer server = new TestSetupServer(exasol, port)) {
             System.out.println("Server running on port: " + port);
             server.join();
@@ -46,6 +44,17 @@ public class Main {
                             .message("Failed to start server: {{error|q}}", exception.getMessage()).toString(),
                     exception);
             System.exit(100); // Exit to kill all daemon-threads of javalin, otherwise main terminates but not the app
+        }
+    }
+
+    private static Path getConfigPath(final String[] args) {
+        if (args.length>0){
+            final Path configPath = Path.of(args[0]).toAbsolutePath();
+            LOGGER.info(() -> "Starting exasol test setup using config file '" + configPath + "'");
+            return configPath;
+        }else {
+            LOGGER.info(() -> "Starting exasol test setup using dummy config file");
+            return Paths.get("non-existing-config-file-"+System.currentTimeMillis()+".json");
         }
     }
 
