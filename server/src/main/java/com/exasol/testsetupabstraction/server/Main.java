@@ -27,8 +27,7 @@ public class Main {
         }
     }
 
-    @SuppressWarnings({ "java:S106", "java:S4507" }) // we don't want to use a logger, printStackTrace is ok here
-                                                     // since it's a tool for testing
+    @SuppressWarnings({ "java:S106" }) // Using System.out by intention to log server port
     public static void main(final String[] args) {
         applyTargetDirWorkaround();
         final int port = findFreePort();
@@ -48,13 +47,13 @@ public class Main {
     }
 
     private static Path getConfigPath(final String[] args) {
-        if (args.length>0){
+        if (args.length > 0) {
             final Path configPath = Path.of(args[0]).toAbsolutePath();
             LOGGER.info(() -> "Starting exasol test setup using config file '" + configPath + "'");
             return configPath;
-        }else {
+        } else {
             LOGGER.info(() -> "Starting exasol test setup using dummy config file");
-            return Paths.get("non-existing-config-file-"+System.currentTimeMillis()+".json");
+            return Paths.get("non-existing-config-file-" + System.currentTimeMillis() + ".json");
         }
     }
 
