@@ -103,7 +103,7 @@
 [37]: http://maven.apache.org/plugins/maven-install-plugin/
 [38]: http://maven.apache.org/plugins/maven-deploy-plugin/
 [39]: http://maven.apache.org/plugins/maven-site-plugin/
-[40]: https://github.com/exasol/exasol-driver-go/blob/v0.4.5/LICENSE
+[40]: https://github.com/exasol/exasol-driver-go/blob/v0.4.6/LICENSE
 [41]: https://github.com/antchfx/xmlquery/blob/HEAD/LICENSE
 [42]: https://github.com/stretchr/testify/blob/HEAD/LICENSE
 [43]: https://github.com/go-yaml/yaml/blob/v3.0.1/LICENSE

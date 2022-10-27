@@ -17,3 +17,13 @@ In this release we changed the way how to configure the test setup. Instead of c
 #### Test Dependency Updates
 
 * Updated `org.mockito:mockito-junit-jupiter:4.6.1` to `4.7.0`
+
+### Go-client
+
+#### Compile Dependency Updates
+
+* Updated `github.com/exasol/exasol-driver-go:v0.4.5` to `v0.4.6`
+
+#### Test Dependency Updates
+
+* Updated `github.com/stretchr/testify:v1.8.0` to `v1.8.1`
