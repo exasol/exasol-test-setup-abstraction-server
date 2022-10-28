@@ -8,7 +8,7 @@ import com.exasol.exasoltestsetup.*;
 
 import io.javalin.Javalin;
 import io.javalin.http.Context;
-import io.javalin.http.HttpCode;
+import io.javalin.http.HttpStatus;
 
 /**
  * Server that exposes the functions of the exasol-test-setup-abstraction-java via a REST API.
@@ -19,7 +19,7 @@ public class TestSetupServer implements AutoCloseable {
 
     /**
      * Create a new instance of {@link TestSetupServer}.
-     * 
+     *
      * @param testSetup Exasol test setup
      * @param port      HTTP port
      */
@@ -32,7 +32,7 @@ public class TestSetupServer implements AutoCloseable {
         configureRequests();
         this.server.exception(Exception.class, (exception, ctx) -> {
             ctx.result(exception.getMessage());
-            ctx.status(HttpCode.INTERNAL_SERVER_ERROR);
+            ctx.status(HttpStatus.INTERNAL_SERVER_ERROR);
         });
         this.server.start(port);
     }

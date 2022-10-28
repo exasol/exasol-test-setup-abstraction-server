@@ -8,11 +8,35 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @ExtendWith(SystemOutGuard.class)
 class MainIT {
     @Test
-    @SuppressWarnings({ "java:S2699", "java:S2925" }) // no assertions required, sleep is ok here
-    void test(final Capturable stream) throws InterruptedException {
+    void testWithArgument(final Capturable stream) throws InterruptedException {
         stream.capture();
-        final Thread threadRunningMainMethod = new Thread(() -> Main.main(new String[] { "unknown" }));
+        final Thread threadRunningMainMethod = startMainMethod("unknown");
+        try {
+            assertServerLogsStartupMessage(stream);
+        } finally {
+            threadRunningMainMethod.interrupt();
+        }
+    }
+
+    @Test
+    void testWithoutArgument(final Capturable stream) throws InterruptedException {
+        stream.capture();
+        final Thread threadRunningMainMethod = startMainMethod();
+        try {
+            assertServerLogsStartupMessage(stream);
+        } finally {
+            threadRunningMainMethod.interrupt();
+        }
+    }
+
+    private Thread startMainMethod(String... args) {
+        final Thread threadRunningMainMethod = new Thread(() -> Main.main(args));
         threadRunningMainMethod.start();
+        return threadRunningMainMethod;
+    }
+
+    @SuppressWarnings("java:S2925") // Sleep is required for waiting for output
+    private void assertServerLogsStartupMessage(final Capturable stream) throws InterruptedException, AssertionError {
         int counter = 0;
         while (true) {
             Thread.sleep(500);
@@ -24,6 +48,5 @@ class MainIT {
                 throw new AssertionError("timeout waiting for server to start");
             }
         }
-        threadRunningMainMethod.interrupt();
     }
 }

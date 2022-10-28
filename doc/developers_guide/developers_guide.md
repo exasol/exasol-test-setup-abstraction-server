@@ -25,7 +25,7 @@ You must [install the server](#install-server) before running the client tests.
 
 ```shell
 cd go-client
-go test ./...
+go test -p 1 ./...
 ```
 
 ### Linter

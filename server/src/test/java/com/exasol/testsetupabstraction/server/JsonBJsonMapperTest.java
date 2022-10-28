@@ -12,13 +12,13 @@ import org.junit.jupiter.api.Test;
 class JsonBJsonMapperTest {
     @Test
     void testToJsonString() {
-        final String result = new JsonBJsonMapper().toJsonString(Map.of("test", true));
+        final String result = new JsonBJsonMapper().toJsonString(Map.of("test", true), Map.class);
         assertThat(result, equalTo("{\"test\":true}"));
     }
 
     @Test
     void testToJsonStream() throws IOException {
-        try (final InputStream stream = new JsonBJsonMapper().toJsonStream(Map.of("test", true))) {
+        try (final InputStream stream = new JsonBJsonMapper().toJsonStream(Map.of("test", true), Map.class)) {
             final String result = new String(stream.readAllBytes(), StandardCharsets.UTF_8);
             assertThat(result, equalTo("{\"test\":true}"));
         }
