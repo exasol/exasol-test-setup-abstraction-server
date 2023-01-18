@@ -28,14 +28,14 @@
 | [SonarQube Scanner for Maven][14]                       | [GNU LGPL 3][15]                              |
 | [Apache Maven Compiler Plugin][16]                      | [Apache License, Version 2.0][17]             |
 | [Apache Maven Enforcer Plugin][18]                      | [Apache License, Version 2.0][17]             |
-| [Maven Flatten Plugin][19]                              | [Apache Software Licenese][3]                 |
+| [Maven Flatten Plugin][19]                              | [Apache Software Licenese][17]                |
 | [Exec Maven Plugin][20]                                 | [Apache License 2][3]                         |
 | [org.sonatype.ossindex.maven:ossindex-maven-plugin][21] | [ASL2][3]                                     |
 | [Maven Surefire Plugin][22]                             | [Apache License, Version 2.0][17]             |
 | [Versions Maven Plugin][23]                             | [Apache License, Version 2.0][17]             |
 | [Apache Maven Assembly Plugin][24]                      | [Apache License, Version 2.0][17]             |
 | [Apache Maven JAR Plugin][25]                           | [Apache License, Version 2.0][17]             |
-| [Artifact reference checker and unifier][26]            | [MIT][27]                                     |
+| [Artifact reference checker and unifier][26]            | [MIT License][27]                             |
 | [Maven Failsafe Plugin][28]                             | [Apache License, Version 2.0][17]             |
 | [JaCoCo :: Maven Plugin][29]                            | [Eclipse Public License 2.0][30]              |
 | [error-code-crawler-maven-plugin][31]                   | [MIT License][32]                             |
@@ -85,11 +85,11 @@
 [20]: http://www.mojohaus.org/exec-maven-plugin
 [21]: https://sonatype.github.io/ossindex-maven/maven-plugin/
 [22]: https://maven.apache.org/surefire/maven-surefire-plugin/
-[23]: http://www.mojohaus.org/versions-maven-plugin/
+[23]: https://www.mojohaus.org/versions-maven-plugin/
 [24]: https://maven.apache.org/plugins/maven-assembly-plugin/
 [25]: https://maven.apache.org/plugins/maven-jar-plugin/
-[26]: https://github.com/exasol/artifact-reference-checker-maven-plugin
-[27]: https://opensource.org/licenses/MIT
+[26]: https://github.com/exasol/artifact-reference-checker-maven-plugin/
+[27]: https://github.com/exasol/artifact-reference-checker-maven-plugin/blob/main/LICENSE
 [28]: https://maven.apache.org/surefire/maven-failsafe-plugin/
 [29]: https://www.jacoco.org/jacoco/trunk/doc/maven.html
 [30]: https://www.eclipse.org/legal/epl-2.0/
