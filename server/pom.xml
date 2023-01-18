@@ -119,6 +119,11 @@
                 <artifactId>ossindex-maven-plugin</artifactId>
                 <configuration>
                     <excludeVulnerabilityIds>
+                        <!-- Transitive dependency fr.turri:aXMLRPC used by
+                        com.exasol:exasol-test-setup-abstraction-java / com.exasol:bucketfs-java.
+                        CVE-2020-36641 is reported to be fixed in aXMLRPC 1.12.1. We use version
+                        1.13.0, so this is a false positive. -->
+                        <exclude>CVE-2020-36641</exclude>
                         <!-- Transitive test dependency io.netty:netty-handler:4.1.77 used by
                         software.amazon.awssdk:cloudformation -->
                         <!-- We are not affected, see
