@@ -29,7 +29,7 @@
 | [Apache Maven Compiler Plugin][16]                      | [Apache License, Version 2.0][17]             |
 | [Apache Maven Enforcer Plugin][18]                      | [Apache License, Version 2.0][17]             |
 | [Maven Flatten Plugin][19]                              | [Apache Software Licenese][17]                |
-| [Exec Maven Plugin][20]                                 | [Apache License 2][3]                         |
+| [Exec Maven Plugin][20]                                 | [Apache License 2][17]                        |
 | [org.sonatype.ossindex.maven:ossindex-maven-plugin][21] | [ASL2][3]                                     |
 | [Maven Surefire Plugin][22]                             | [Apache License, Version 2.0][17]             |
 | [Versions Maven Plugin][23]                             | [Apache License, Version 2.0][17]             |
@@ -82,7 +82,7 @@
 [17]: https://www.apache.org/licenses/LICENSE-2.0.txt
 [18]: https://maven.apache.org/enforcer/maven-enforcer-plugin/
 [19]: https://www.mojohaus.org/flatten-maven-plugin/
-[20]: http://www.mojohaus.org/exec-maven-plugin
+[20]: https://www.mojohaus.org/exec-maven-plugin
 [21]: https://sonatype.github.io/ossindex-maven/maven-plugin/
 [22]: https://maven.apache.org/surefire/maven-surefire-plugin/
 [23]: https://www.mojohaus.org/versions-maven-plugin/

@@ -3,12 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.exasol</groupId>
     <artifactId>exasol-test-setup-abstraction-server</artifactId>
-    <version>0.3.0</version>
+    <version>0.3.1</version>
     <name>Server for the Exasol Test-Setup Abstraction</name>
     <description>Test setup abstraction backend for Go and other languages.</description>
     <url>https://github.com/exasol/exasol-test-setup-abstraction-server/</url>
     <properties>
-        <junit.version>5.9.1</junit.version>
+        <junit.version>5.9.2</junit.version>
     </properties>
     <distributionManagement>
         <snapshotRepository>
@@ -24,12 +24,12 @@
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>exasol-test-setup-abstraction-java</artifactId>
-            <version>1.0.0</version>
+            <version>1.1.1</version>
         </dependency>
         <dependency>
             <groupId>io.javalin</groupId>
             <artifactId>javalin</artifactId>
-            <version>5.1.2</version>
+            <version>5.3.1</version>
         </dependency>
         <!-- test dependencies -->
         <dependency>
@@ -53,13 +53,13 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>4.8.1</version>
+            <version>5.0.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
-            <version>5.2.0</version>
+            <version>5.3.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -76,7 +76,9 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <configuration>
                     <!-- Required to avoid error running integration tests:
-                        java.lang.module.ResolutionException: Module jakarta.json.bind contains package jakarta.json, module jakarta.json exports package jakarta.json to jakarta.json.bind -->
+                    java.lang.module.ResolutionException: Module jakarta.json.bind contains package
+                    jakarta.json, module jakarta.json exports package jakarta.json to
+                    jakarta.json.bind -->
                     <useModulePath>false</useModulePath>
                 </configuration>
             </plugin>
@@ -95,7 +97,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <id>installLocally</id>
@@ -117,8 +119,10 @@
                 <artifactId>ossindex-maven-plugin</artifactId>
                 <configuration>
                     <excludeVulnerabilityIds>
-                        <!-- Transitive test dependency io.netty:netty-handler:4.1.77 used by software.amazon.awssdk:cloudformation -->
-                        <!-- We are not affected, see https://github.com/aws/aws-sdk-java-v2/issues/3263 for details -->
+                        <!-- Transitive test dependency io.netty:netty-handler:4.1.77 used by
+                        software.amazon.awssdk:cloudformation -->
+                        <!-- We are not affected, see
+                        https://github.com/aws/aws-sdk-java-v2/issues/3263 for details -->
                         <exclude>sonatype-2020-0026</exclude>
                     </excludeVulnerabilityIds>
                 </configuration>
@@ -128,7 +132,7 @@
     <parent>
         <artifactId>exasol-test-setup-abstraction-server-generated-parent</artifactId>
         <groupId>com.exasol</groupId>
-        <version>0.3.0</version>
+        <version>0.3.1</version>
         <relativePath>pk_generated_parent.pom</relativePath>
     </parent>
 </project>

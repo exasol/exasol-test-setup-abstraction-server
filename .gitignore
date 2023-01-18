@@ -22,3 +22,5 @@ pom.xml.versionsBackup
 *.md.html
 *.flattened-pom.xml
 coverage.out
+server/.settings/org.eclipse.jdt.apt.core.prefs
+server/.settings/org.eclipse.core.resources.prefs
