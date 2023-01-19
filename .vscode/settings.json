@@ -1,4 +1,5 @@
 {
+    "go.testTimeout": "2m",
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
         "source.organizeImports": true,
@@ -13,5 +14,9 @@
         "vmArgs": [
             "-Djava.util.logging.config.file=src/test/resources/logging.properties"
         ]
+    },
+    "sonarlint.connectedMode.project": {
+        "connectionId": "exasol",
+        "projectKey": "com.exasol:exasol-test-setup-abstraction-server"
     },
 }
