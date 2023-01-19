@@ -1,10 +1,12 @@
 package com.exasol.testsetupabstraction.server;
 
+import java.net.InetSocketAddress;
 import java.nio.file.Path;
 import java.util.*;
 
 import com.exasol.errorreporting.ExaError;
-import com.exasol.exasoltestsetup.*;
+import com.exasol.exasoltestsetup.ExasolTestSetup;
+import com.exasol.exasoltestsetup.SqlConnectionInfo;
 
 import io.javalin.Javalin;
 import io.javalin.http.Context;
@@ -51,16 +53,17 @@ public class TestSetupServer implements AutoCloseable {
         this.server.post("/makeLocalTcpServiceAccessibleFromDatabase", ctx -> {
             final int localPort = Integer.parseInt(Objects.requireNonNull(ctx.formParam("localPort")));
             validatePort(localPort);
-            final ServiceAddress serviceAddress = this.testSetup.makeLocalTcpServiceAccessibleFromDatabase(localPort);
-            ctx.json(serviceAddress);
+            final InetSocketAddress serviceAddress = this.testSetup
+                    .makeLocalTcpServiceAccessibleFromDatabase(localPort);
+            ctx.json(toMap(serviceAddress));
         });
         this.server.post("/makeTcpServiceAccessibleFromDatabase", ctx -> {
             final String hostName = Objects.requireNonNull(ctx.formParam("hostName"));
             final int portNumber = Integer.parseInt(Objects.requireNonNull(ctx.formParam("port")));
             validatePort(portNumber);
-            final ServiceAddress serviceAddress = this.testSetup
-                    .makeTcpServiceAccessibleFromDatabase(new ServiceAddress(hostName, portNumber));
-            ctx.json(serviceAddress);
+            final InetSocketAddress serviceAddress = this.testSetup
+                    .makeTcpServiceAccessibleFromDatabase(new InetSocketAddress(hostName, portNumber));
+            ctx.json(toMap(serviceAddress));
         });
         this.server.get("/connectionInfo", ctx -> {
             final SqlConnectionInfo connectionInfo = this.testSetup.getConnectionInfo();
@@ -99,6 +102,10 @@ public class TestSetupServer implements AutoCloseable {
             this.testSetup.getDefaultBucket().downloadFile(path, Path.of(localPath));
             ctx.json(Map.of("ok", true));
         });
+    }
+
+    private Map<String, Object> toMap(final InetSocketAddress address) {
+        return Map.of("hostName", address.getHostName(), "port", address.getPort());
     }
 
     public void join() throws InterruptedException {

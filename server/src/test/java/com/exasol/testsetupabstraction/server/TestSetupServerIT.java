@@ -7,6 +7,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import java.io.FileNotFoundException;
+import java.net.InetSocketAddress;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -21,7 +22,8 @@ import org.mockito.stubbing.Stubber;
 
 import com.exasol.bucketfs.Bucket;
 import com.exasol.bucketfs.BucketAccessException;
-import com.exasol.exasoltestsetup.*;
+import com.exasol.exasoltestsetup.ExasolTestSetup;
+import com.exasol.exasoltestsetup.SqlConnectionInfo;
 
 @ExtendWith(MockitoExtension.class)
 class TestSetupServerIT {
@@ -75,10 +77,11 @@ class TestSetupServerIT {
 
     @Test
     void testPOST_makeLocalTcpServiceAccessibleFromDatabase_succeeds() {
-        doReturn(new ServiceAddress("localhost", 456)).when(testSetup).makeLocalTcpServiceAccessibleFromDatabase(123);
+        doReturn(new InetSocketAddress("localhost", 456)).when(testSetup)
+                .makeLocalTcpServiceAccessibleFromDatabase(123);
         given().param("localPort", 123) //
                 .post("/makeLocalTcpServiceAccessibleFromDatabase").then().statusCode(200).assertThat()
-                .body(equalTo("{\"hostName\":\"localhost\",\"local\":true,\"port\":456}"));
+                .body("hostName", equalTo("localhost")).body("port", equalTo(456));
         verify(testSetup).makeLocalTcpServiceAccessibleFromDatabase(123);
     }
 
@@ -93,11 +96,11 @@ class TestSetupServerIT {
 
     @Test
     void testPOST_makeTcpServiceAccessibleFromDatabase_succeeds() {
-        doReturn(new ServiceAddress("localhost", 456)).when(testSetup).makeTcpServiceAccessibleFromDatabase(any());
+        doReturn(new InetSocketAddress("localhost", 456)).when(testSetup).makeTcpServiceAccessibleFromDatabase(any());
         given().param("port", 123)//
                 .param("hostName", "localhost").post("/makeTcpServiceAccessibleFromDatabase").then().statusCode(200)
-                .assertThat().body(equalTo("{\"hostName\":\"localhost\",\"local\":true,\"port\":456}"));
-        verify(testSetup).makeTcpServiceAccessibleFromDatabase(new ServiceAddress("localhost", 123));
+                .assertThat().body("hostName", equalTo("localhost")).body("port", equalTo(456));
+        verify(testSetup).makeTcpServiceAccessibleFromDatabase(new InetSocketAddress("localhost", 123));
     }
 
     @Test
@@ -106,14 +109,15 @@ class TestSetupServerIT {
         given().param("port", 123)//
                 .param("hostName", "localhost").post("/makeTcpServiceAccessibleFromDatabase").then().statusCode(500)
                 .assertThat().body(equalTo(MOCKED_EXCEPTION));
-        verify(testSetup).makeTcpServiceAccessibleFromDatabase(new ServiceAddress("localhost", 123));
+        verify(testSetup).makeTcpServiceAccessibleFromDatabase(new InetSocketAddress("localhost", 123));
     }
 
     @Test
     void testGET_connectionInfo_succeeds() {
         doReturn(new SqlConnectionInfo("localhost", 123, "myUser", "myPass")).when(testSetup).getConnectionInfo();
-        get("/connectionInfo").then().statusCode(200)
-                .body(equalTo("{\"host\":\"localhost\",\"password\":\"myPass\",\"port\":123,\"user\":\"myUser\"}"));
+        get("/connectionInfo").then().statusCode(200) //
+                .body("host", equalTo("localhost")).body("port", equalTo(123)).body("user", equalTo("myUser"))
+                .body("password", equalTo("myPass"));
     }
 
     @Test
