@@ -1,4 +1,4 @@
-# Exasol Test Setup Abstraction Server 0.3.1, released 2023-01-18
+# Exasol Test Setup Abstraction Server 0.3.1, released 2023-01-19
 
 Code name: Upgrade dependencies
 
