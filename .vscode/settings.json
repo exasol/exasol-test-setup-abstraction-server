@@ -18,5 +18,5 @@
     "sonarlint.connectedMode.project": {
         "connectionId": "exasol",
         "projectKey": "com.exasol:exasol-test-setup-abstraction-server"
-    },
+    }
 }
