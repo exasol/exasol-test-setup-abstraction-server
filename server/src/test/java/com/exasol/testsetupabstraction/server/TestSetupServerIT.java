@@ -81,7 +81,7 @@ class TestSetupServerIT {
                 .makeLocalTcpServiceAccessibleFromDatabase(123);
         given().param("localPort", 123) //
                 .post("/makeLocalTcpServiceAccessibleFromDatabase").then().statusCode(200).assertThat()
-                .body(equalTo("{\"port\":456,\"hostName\":\"localhost\"}"));
+                .body("hostName", equalTo("localhost")).body("port", equalTo(456));
         verify(testSetup).makeLocalTcpServiceAccessibleFromDatabase(123);
     }
 
@@ -99,7 +99,7 @@ class TestSetupServerIT {
         doReturn(new InetSocketAddress("localhost", 456)).when(testSetup).makeTcpServiceAccessibleFromDatabase(any());
         given().param("port", 123)//
                 .param("hostName", "localhost").post("/makeTcpServiceAccessibleFromDatabase").then().statusCode(200)
-                .assertThat().body(equalTo("{\"port\":456,\"hostName\":\"localhost\"}"));
+                .assertThat().body("hostName", equalTo("localhost")).body("port", equalTo(456));
         verify(testSetup).makeTcpServiceAccessibleFromDatabase(new InetSocketAddress("localhost", 123));
     }
 
@@ -115,8 +115,9 @@ class TestSetupServerIT {
     @Test
     void testGET_connectionInfo_succeeds() {
         doReturn(new SqlConnectionInfo("localhost", 123, "myUser", "myPass")).when(testSetup).getConnectionInfo();
-        get("/connectionInfo").then().statusCode(200)
-                .body(equalTo("{\"host\":\"localhost\",\"password\":\"myPass\",\"port\":123,\"user\":\"myUser\"}"));
+        get("/connectionInfo").then().statusCode(200) //
+                .body("host", equalTo("localhost")).body("port", equalTo(123)).body("user", equalTo("myUser"))
+                .body("password", equalTo("myPass"));
     }
 
     @Test
