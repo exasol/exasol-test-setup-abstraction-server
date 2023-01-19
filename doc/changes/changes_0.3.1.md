@@ -16,7 +16,7 @@ In this release we removed a workaround for fixed issue [exasol-test-setup-abstr
 
 #### Compile Dependency Updates
 
-* Updated `com.exasol:exasol-test-setup-abstraction-java:1.0.0` to `1.1.1`
+* Updated `com.exasol:exasol-test-setup-abstraction-java:1.0.0` to `2.0.0`
 * Updated `io.javalin:javalin:5.1.2` to `5.3.1`
 
 #### Test Dependency Updates
