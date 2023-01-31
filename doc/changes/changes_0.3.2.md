@@ -18,6 +18,10 @@ This release avoids starting new Docker containers for each working directory in
 * Added `com.exasol:exasol-testcontainers:6.5.1`
 * Updated `io.javalin:javalin:5.3.1` to `5.3.2`
 
+#### Runtime Dependency Updates
+
+* Added `org.slf4j:slf4j-jdk14:2.0.6`
+
 #### Test Dependency Updates
 
 * Updated `org.mockito:mockito-junit-jupiter:5.0.0` to `5.1.1`
