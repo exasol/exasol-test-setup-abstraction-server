@@ -85,6 +85,7 @@
                     java.lang.module.ResolutionException: Module jakarta.json.bind contains package
                     jakarta.json, module jakarta.json exports package jakarta.json to
                     jakarta.json.bind -->
+                    <useModulePath>false</useModulePath>
                 </configuration>
             </plugin>
             <plugin>
