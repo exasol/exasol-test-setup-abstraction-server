@@ -18,7 +18,7 @@ type TestSetupAbstraction struct {
 	server *serverProcess
 }
 
-const serverVersion = "0.3.2"
+const serverVersion = "0.3.3"
 
 // Create creates a new Exasol test setup with the given path to the config file
 // and starts a local server.

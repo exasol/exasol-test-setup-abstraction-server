@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.exasol</groupId>
     <artifactId>exasol-test-setup-abstraction-server</artifactId>
-    <version>0.3.2</version>
+    <version>0.3.3</version>
     <name>Server for the Exasol Test-Setup Abstraction</name>
     <description>Test setup abstraction backend for Go and other languages.</description>
     <url>https://github.com/exasol/exasol-test-setup-abstraction-server/</url>
@@ -28,13 +28,13 @@
         <dependency>
             <groupId>io.javalin</groupId>
             <artifactId>javalin</artifactId>
-            <version>5.3.2</version>
+            <version>5.4.2</version>
         </dependency>
         <!-- -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-jdk14</artifactId>
-            <version>2.0.6</version>
+            <version>2.0.7</version>
             <scope>runtime</scope>
         </dependency>
         <!-- test dependencies -->
@@ -59,7 +59,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>5.1.1</version>
+            <version>5.2.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -85,7 +85,6 @@
                     java.lang.module.ResolutionException: Module jakarta.json.bind contains package
                     jakarta.json, module jakarta.json exports package jakarta.json to
                     jakarta.json.bind -->
-                    <useModulePath>false</useModulePath>
                 </configuration>
             </plugin>
             <plugin>
@@ -114,19 +113,11 @@
                         <configuration>
                             <executable>${project.basedir}/installServerLocally.sh</executable>
                             <arguments>
-                                <argument>
-                                    ${project.basedir}/target/exasol-test-setup-abstraction-server-${project.version}.jar</argument>
+                                <argument>${project.basedir}/target/exasol-test-setup-abstraction-server-${project.version}.jar</argument>
                             </arguments>
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <configuration>
-                    <useModulePath>false</useModulePath>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.sonatype.ossindex.maven</groupId>
@@ -151,7 +142,7 @@
     <parent>
         <artifactId>exasol-test-setup-abstraction-server-generated-parent</artifactId>
         <groupId>com.exasol</groupId>
-        <version>0.3.2</version>
+        <version>0.3.3</version>
         <relativePath>pk_generated_parent.pom</relativePath>
     </parent>
 </project>

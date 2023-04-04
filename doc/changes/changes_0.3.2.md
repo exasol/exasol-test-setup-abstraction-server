@@ -9,6 +9,7 @@ This release avoids starting new Docker containers for each working directory in
 ## Bugfixes
 
 * #31: Fixed starting new Docker containers for each working directory
+
 ## Dependency Updates
 
 ### Server for the Exasol Test-Setup Abstraction
