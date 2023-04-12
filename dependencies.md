@@ -34,7 +34,7 @@
 | ------------------------------------------------------- | --------------------------------------------- |
 | [SonarQube Scanner for Maven][18]                       | [GNU LGPL 3][19]                              |
 | [Apache Maven Compiler Plugin][20]                      | [Apache License, Version 2.0][21]             |
-| [Apache Maven Enforcer Plugin][22]                      | [Apache License, Version 2.0][21]             |
+| [Apache Maven Enforcer Plugin][22]                      | [Apache-2.0][21]                              |
 | [Maven Flatten Plugin][23]                              | [Apache Software Licenese][21]                |
 | [Exec Maven Plugin][24]                                 | [Apache License 2][21]                        |
 | [org.sonatype.ossindex.maven:ossindex-maven-plugin][25] | [ASL2][5]                                     |
@@ -96,7 +96,7 @@
 [24]: https://www.mojohaus.org/exec-maven-plugin
 [25]: https://sonatype.github.io/ossindex-maven/maven-plugin/
 [26]: https://maven.apache.org/surefire/maven-surefire-plugin/
-[27]: https://www.mojohaus.org/versions-maven-plugin/
+[27]: https://www.mojohaus.org/versions/versions-maven-plugin/
 [28]: https://maven.apache.org/plugins/maven-assembly-plugin/
 [29]: https://maven.apache.org/plugins/maven-jar-plugin/
 [30]: https://github.com/exasol/artifact-reference-checker-maven-plugin/
@@ -112,7 +112,7 @@
 [40]: http://maven.apache.org/plugins/maven-install-plugin/
 [41]: http://maven.apache.org/plugins/maven-deploy-plugin/
 [42]: http://maven.apache.org/plugins/maven-site-plugin/
-[43]: https://github.com/exasol/exasol-driver-go/blob/v0.4.6/LICENSE
+[43]: https://github.com/exasol/exasol-driver-go/blob/v0.4.7/LICENSE
 [44]: https://github.com/antchfx/xmlquery/blob/HEAD/LICENSE
 [45]: https://github.com/stretchr/testify/blob/HEAD/LICENSE
 [46]: https://github.com/go-yaml/yaml/blob/v3.0.1/LICENSE
