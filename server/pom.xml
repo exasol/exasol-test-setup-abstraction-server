@@ -10,25 +10,18 @@
     <description>Test setup abstraction backend for Go and other languages.</description>
     <url>https://github.com/exasol/exasol-test-setup-abstraction-server/</url>
     <properties>
-        <junit.version>5.9.2</junit.version>
+        <junit.version>5.9.3</junit.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>exasol-test-setup-abstraction-java</artifactId>
-            <version>2.0.0</version>
-        </dependency>
-        <!-- Explicitly upgrade exasol-testcontainers to fix bug #31. This can be removed once
-        exasol-test-setup-abstraction-java includes the latest version. -->
-        <dependency>
-            <groupId>com.exasol</groupId>
-            <artifactId>exasol-testcontainers</artifactId>
-            <version>6.5.1</version>
+            <version>2.0.2</version>
         </dependency>
         <dependency>
             <groupId>io.javalin</groupId>
             <artifactId>javalin</artifactId>
-            <version>5.4.2</version>
+            <version>5.6.1</version>
         </dependency>
         <!-- -->
         <dependency>
@@ -59,13 +52,13 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>5.2.0</version>
+            <version>5.4.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
-            <version>5.3.0</version>
+            <version>5.3.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -130,12 +123,17 @@
                         CVE-2020-36641 is reported to be fixed in aXMLRPC 1.12.1. We use version
                         1.13.0, so this is a false positive. -->
                         <exclude>CVE-2020-36641</exclude>
-                        <!-- Transitive test dependency io.netty:netty-handler:4.1.77 used by
-                        software.amazon.awssdk:cloudformation -->
-                        <!-- We are not affected, see
-                        https://github.com/aws/aws-sdk-java-v2/issues/3263 for details -->
-                        <exclude>sonatype-2020-0026</exclude>
                     </excludeVulnerabilityIds>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.basepom.maven</groupId>
+                <artifactId>duplicate-finder-maven-plugin</artifactId>
+                <configuration>
+                    <ignoredResourcePatterns>
+                        <!-- Duplicate resources in [io.javalin:javalin:5.4.2, org.eclipse.jetty:jetty-http:11.0.14] -->
+                        <ignoredResourcePattern>org/eclipse/jetty/http/encoding.properties</ignoredResourcePattern>
+                    </ignoredResourcePatterns>
                 </configuration>
             </plugin>
         </plugins>

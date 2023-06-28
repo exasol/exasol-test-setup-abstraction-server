@@ -9,8 +9,8 @@ import (
 )
 
 // Default version specified in exasol-test-setup-abstraction-java
-const DEFAULT_EXASOL_VERSION = "7.1.15"
-const NON_DEFAULT_EXASOL_VERSION = "7.1.16"
+const DEFAULT_EXASOL_VERSION = "7.1.19"
+const NON_DEFAULT_EXASOL_VERSION = "7.1.21"
 
 type BuilderSuite struct {
 	suite.Suite
