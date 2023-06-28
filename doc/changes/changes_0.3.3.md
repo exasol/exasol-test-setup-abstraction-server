@@ -1,10 +1,10 @@
-# Exasol Test Setup Abstraction Server 0.3.3, released 2023-04-??
+# Exasol Test Setup Abstraction Server 0.3.3, released 2023-06-28
 
 Code name: Upgrade dependencies on top of 0.3.2
 
 ## Summary
 
-This release fixes CVE-2022-41723 in dependency `golang.org/x/net` and CVE-2023-34462 in `io.netty:netty-handler`. It also upgrades the default Exasol version to 7.1.21
+This release fixes CVE-2022-41723 in dependency `golang.org/x/net` and CVE-2023-34462 in `io.netty:netty-handler`. It also upgrades the default Exasol version to 7.1.19.
 
 ## Bugfixes
 
