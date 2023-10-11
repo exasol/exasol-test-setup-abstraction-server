@@ -81,7 +81,8 @@ func downloadServerIfNotPresent() (string, error) {
 }
 
 func getServerPort(stopped *bool, output *bytes.Buffer, errorStream *bytes.Buffer) (int, error) {
-	for counter := 0; counter < 500; counter++ { // we need to wait quite long here if the server can't reuse a testcontainer
+	secondsToWait := 500
+	for counter := 0; counter < secondsToWait; counter++ { // we need to wait quite long here if the server can't reuse a testcontainer
 		pattern := regexp.MustCompile("Server running on port: (\\d+)\n")
 		result := pattern.FindSubmatch(output.Bytes())
 		if len(result) != 0 {
@@ -96,17 +97,18 @@ func getServerPort(stopped *bool, output *bytes.Buffer, errorStream *bytes.Buffe
 			time.Sleep(1 * time.Second)
 		}
 	}
-	return -1, fmt.Errorf("failed to start server. The server did not print a port number. Output: %q, error stream: %q", output, errorStream)
+	return -1, fmt.Errorf("failed to start server. Server did not print a port number after %d seconds. Output: '%s', Error: '%s'", secondsToWait, output, errorStream)
 }
 
-func waitForServer(serverProcess *exec.Cmd, errorStream *bytes.Buffer, stopped *bool, stoppedMutex *sync.Mutex) {
+func waitForServer(serverProcess *exec.Cmd, errorStream *bytes.Buffer, outputStream *bytes.Buffer, stopped *bool, stoppedMutex *sync.Mutex) {
 	err := serverProcess.Run()
 	if err != nil && !isStopped(stopped, stoppedMutex) { // after we killed the thread we expect an error
-		fmt.Println(errorStream.String())
+		fmt.Printf("failed to start server: %v. Error output: '%s', output stream: '%s'", err, errorStream.String(), outputStream.String())
 	}
 	stoppedMutex.Lock()
 	*stopped = true
 	stoppedMutex.Unlock()
+	fmt.Println("Server stopped.")
 }
 
 func isStopped(stopped *bool, stoppedMutex *sync.Mutex) bool {

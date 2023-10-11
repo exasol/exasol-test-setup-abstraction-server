@@ -16,6 +16,7 @@ Code name:
 
 * Updated `com.exasol:exasol-test-setup-abstraction-java:2.0.2` to `2.0.4`
 * Updated `io.javalin:javalin:5.6.1` to `5.6.2`
+* Added `org.eclipse.jetty:jetty-http:11.0.17`
 
 #### Runtime Dependency Updates
 
