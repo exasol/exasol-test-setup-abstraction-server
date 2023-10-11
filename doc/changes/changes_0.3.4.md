@@ -4,6 +4,12 @@ Code name:
 
 ## Summary
 
+**Note**: This release contains the following third party libraries with vulnerabilities:
+* `io.netty:netty-handler`: CVE-2023-4586 CWE-300: Channel Accessible by Non-Endpoint ('Man-in-the-Middle') (6.5);
+* `fr.turri:aXMLRPC`: CVE-2020-36641 CWE-611: Improper Restriction of XML External Entity Reference ('XXE') (9.8);
+
+We assume that these vulnerabilities are not exploitable.
+
 ## Features
 
 * ISSUE_NUMBER: description
