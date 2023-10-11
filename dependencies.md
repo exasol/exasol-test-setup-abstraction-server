@@ -17,15 +17,15 @@
 | [JUnit Jupiter Engine][4]      | [Eclipse Public License v2.0][5]  |
 | [JUnit Jupiter Params][4]      | [Eclipse Public License v2.0][5]  |
 | [Hamcrest][6]                  | [BSD License 3][7]                |
-| [mockito-junit-jupiter][8]     | [The MIT License][9]              |
+| [mockito-junit-jupiter][8]     | [MIT][9]                          |
 | [REST Assured][10]             | [Apache 2.0][11]                  |
 | [JUnit5 System Extensions][12] | [Eclipse Public License v2.0][13] |
 
 ### Runtime Dependencies
 
-| Dependency                | License           |
-| ------------------------- | ----------------- |
-| [SLF4J JDK14 Binding][14] | [MIT License][15] |
+| Dependency                 | License           |
+| -------------------------- | ----------------- |
+| [SLF4J JDK14 Provider][14] | [MIT License][15] |
 
 ### Plugin Dependencies
 
@@ -40,7 +40,7 @@
 | [Maven Surefire Plugin][24]                             | [Apache-2.0][19]                              |
 | [Versions Maven Plugin][25]                             | [Apache License, Version 2.0][19]             |
 | [duplicate-finder-maven-plugin Maven Mojo][26]          | [Apache License 2.0][11]                      |
-| [Apache Maven Assembly Plugin][27]                      | [Apache License, Version 2.0][19]             |
+| [Apache Maven Assembly Plugin][27]                      | [Apache-2.0][19]                              |
 | [Apache Maven JAR Plugin][28]                           | [Apache License, Version 2.0][19]             |
 | [Artifact reference checker and unifier][29]            | [MIT License][30]                             |
 | [Maven Failsafe Plugin][31]                             | [Apache-2.0][19]                              |
@@ -95,7 +95,7 @@
 [23]: https://sonatype.github.io/ossindex-maven/maven-plugin/
 [24]: https://maven.apache.org/surefire/maven-surefire-plugin/
 [25]: https://www.mojohaus.org/versions/versions-maven-plugin/
-[26]: https://github.com/basepom/duplicate-finder-maven-plugin
+[26]: https://basepom.github.io/duplicate-finder-maven-plugin
 [27]: https://maven.apache.org/plugins/maven-assembly-plugin/
 [28]: https://maven.apache.org/plugins/maven-jar-plugin/
 [29]: https://github.com/exasol/artifact-reference-checker-maven-plugin/
