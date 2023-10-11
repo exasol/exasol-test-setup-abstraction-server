@@ -50,25 +50,25 @@ func (testSetup *TestSetupAbstraction) makeApiRequest(method string, path string
 	client := http.Client{}
 	req, err := http.NewRequest(method, testSetup.server.serverEndpoint+path, strings.NewReader(payload.Encode()))
 	if err != nil {
-		return fmt.Errorf("failed to create http request for the server. Cause: %v", err.Error())
+		return fmt.Errorf("failed to create http request for the server. Cause: %w", err)
 	}
 	if payload != nil {
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	}
 	response, err := client.Do(req)
 	if err != nil {
-		return fmt.Errorf("failed to execute %v %v from test-setup-abstraction server. Cause %v", method, path, err.Error())
+		return fmt.Errorf("failed to execute %v %v from test-setup-abstraction server. Cause %w", method, path, err)
 	}
 	body, err := io.ReadAll(response.Body)
 	if err != nil {
-		return fmt.Errorf("failed to read response body. Cause %v", err.Error())
+		return fmt.Errorf("failed to read response body. Cause %w", err)
 	}
 	if response.StatusCode != 200 {
 		return fmt.Errorf("request failed with status %d (%v). Response: %q", response.StatusCode, response.Status, body)
 	}
 	err = json.Unmarshal(body, &jsonResult)
 	if err != nil {
-		return fmt.Errorf("invalid JSON response:\n%v\nCause: %v", string(body), err.Error())
+		return fmt.Errorf("invalid JSON response:\n%v\nCause: %w", string(body), err)
 	}
 	return nil
 }
@@ -99,7 +99,7 @@ func (testSetup *TestSetupAbstraction) CreateConnectionWithConfig(autocommit boo
 		Autocommit(autocommit).
 		String())
 	if err != nil {
-		return nil, fmt.Errorf("failed to connect to the database. Cause %v", err.Error())
+		return nil, fmt.Errorf("failed to connect to the database. Cause %w", err)
 	}
 	return connection, nil
 }

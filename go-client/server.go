@@ -59,13 +59,13 @@ func getServerProcessArguments(serverPath string, config Builder) []string {
 func downloadServerIfNotPresent() (string, error) {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
-		return "", fmt.Errorf("failed to get home dir. Cause: %v", err.Error())
+		return "", fmt.Errorf("failed to get home dir. Cause: %w", err)
 	}
 	serverDir := path.Join(homeDir, ".test-setup-abstraction-server")
 	if _, err := os.Stat(serverDir); os.IsNotExist(err) {
 		err := os.Mkdir(serverDir, 0700)
 		if err != nil {
-			return "", fmt.Errorf("failed to create directory %q: %v", serverDir, err.Error())
+			return "", fmt.Errorf("failed to create directory %q: %w", serverDir, err)
 		}
 	}
 	const serverJar = "exasol-test-setup-abstraction-server-" + serverVersion + ".jar"
@@ -123,7 +123,7 @@ func (testSetup *serverProcess) stop() error {
 	testSetup.stoppedMutex.Unlock()
 	err := testSetup.process.Process.Signal(os.Kill)
 	if err != nil {
-		return fmt.Errorf("failed to stop test-setup-abstraction server. Cause: %v", err.Error())
+		return fmt.Errorf("failed to stop test-setup-abstraction server. Cause: %w", err)
 	}
 	return nil
 }
