@@ -30,13 +30,13 @@ func startServer(serverVersion string, config Builder) (*serverProcess, error) {
 	args := getServerProcessArguments(serverPath, config)
 	log.Printf("Starting server with arguments %v", args)
 	process := exec.Command("java", args...)
-	var output, errorStream bytes.Buffer
-	process.Stdout = &output
+	var outputStream, errorStream bytes.Buffer
+	process.Stdout = &outputStream
 	process.Stderr = &errorStream
 	stoppedMutex := &sync.Mutex{}
 	stopped := false
-	go waitForServer(process, &errorStream, &stopped, stoppedMutex)
-	port, err := getServerPort(&stopped, &output, &errorStream)
+	go waitForServer(process, &errorStream, &outputStream, &stopped, stoppedMutex)
+	port, err := getServerPort(&stopped, &outputStream, &errorStream)
 	if err != nil {
 		return nil, err
 	}
@@ -81,8 +81,8 @@ func downloadServerIfNotPresent() (string, error) {
 }
 
 func getServerPort(stopped *bool, output *bytes.Buffer, errorStream *bytes.Buffer) (int, error) {
-	secondsToWait := 500
-	for counter := 0; counter < secondsToWait; counter++ { // we need to wait quite long here if the server can't reuse a testcontainer
+	startTime := time.Now()
+	for counter := 0; counter < 500; counter++ { // we need to wait quite long here if the server can't reuse a testcontainer
 		pattern := regexp.MustCompile("Server running on port: (\\d+)\n")
 		result := pattern.FindSubmatch(output.Bytes())
 		if len(result) != 0 {
@@ -97,7 +97,8 @@ func getServerPort(stopped *bool, output *bytes.Buffer, errorStream *bytes.Buffe
 			time.Sleep(1 * time.Second)
 		}
 	}
-	return -1, fmt.Errorf("failed to start server. Server did not print a port number after %d seconds. Output: '%s', Error: '%s'", secondsToWait, output, errorStream)
+	duration := time.Now().Sub(startTime)
+	return -1, fmt.Errorf("failed to start server. Server did not print a port number after %v seconds. Output: '%s', Error: '%s'", duration, output, errorStream)
 }
 
 func waitForServer(serverProcess *exec.Cmd, errorStream *bytes.Buffer, outputStream *bytes.Buffer, stopped *bool, stoppedMutex *sync.Mutex) {
