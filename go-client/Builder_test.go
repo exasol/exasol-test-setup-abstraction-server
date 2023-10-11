@@ -48,7 +48,7 @@ func (suite *BuilderSuite) TestCustomMissingConfigFile() {
 func (suite *BuilderSuite) TestConfigFileWithInvalidContent() {
 	var err error
 	suite.setup, err = New().CloudSetupConfigFilePath(suite.writeTempFile("invalid json content")).Start()
-	suite.ErrorContains(err, "failed to start server. The server did not print a port number")
+	suite.ErrorContains(err, "failed to start server. Server did not print a port number")
 	suite.ErrorContains(err, "E-ETSAS-7: Failed to start server: 'Unexpected char 105 at")
 	suite.Nil(suite.setup)
 }

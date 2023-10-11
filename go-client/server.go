@@ -97,19 +97,18 @@ func getServerPort(stopped *bool, output *bytes.Buffer, errorStream *bytes.Buffe
 			time.Sleep(1 * time.Second)
 		}
 	}
-	duration := time.Now().Sub(startTime)
+	duration := time.Since(startTime)
 	return -1, fmt.Errorf("failed to start server. Server did not print a port number after %v seconds. Output: '%s', Error: '%s'", duration, output, errorStream)
 }
 
 func waitForServer(serverProcess *exec.Cmd, errorStream *bytes.Buffer, outputStream *bytes.Buffer, stopped *bool, stoppedMutex *sync.Mutex) {
 	err := serverProcess.Run()
 	if err != nil && !isStopped(stopped, stoppedMutex) { // after we killed the thread we expect an error
-		fmt.Printf("failed to start server: %v. Error output: '%s', output stream: '%s'", err, errorStream.String(), outputStream.String())
+		fmt.Printf("failed to start server: %v. Error output: '%s', output stream: '%s'\n", err, errorStream.String(), outputStream.String())
 	}
 	stoppedMutex.Lock()
 	*stopped = true
 	stoppedMutex.Unlock()
-	fmt.Println("Server stopped.")
 }
 
 func isStopped(stopped *bool, stoppedMutex *sync.Mutex) bool {
