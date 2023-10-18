@@ -21,14 +21,14 @@ type serverProcess struct {
 	errorStream    *bytes.Buffer
 }
 
-// startServer starts the server in the given version and with the given config file
+// startServer starts the server in the given version and with the given config file.
 func startServer(serverVersion string, config Builder) (*serverProcess, error) {
 	serverPath, err := downloadServerIfNotPresent()
 	if err != nil {
 		return nil, err
 	}
 	args := getServerProcessArguments(serverPath, config)
-	log.Printf("Starting server with arguments %v", args)
+	log.Printf("Starting server version %s with arguments %v", serverVersion, args)
 	process := exec.Command("java", args...)
 	var outputStream, errorStream bytes.Buffer
 	process.Stdout = &outputStream

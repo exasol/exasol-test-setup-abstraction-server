@@ -10,6 +10,7 @@ import (
 
 func downloadFile(url, localPath string) error {
 	log.Printf("Downloading %q to local path %q...", url, localPath)
+	//nolint:gosec,noctx // HTTP request with variable URL is wanted here, omitting context is ok here
 	resp, err := http.Get(url)
 	if err != nil {
 		return fmt.Errorf("download failed: %w", err)

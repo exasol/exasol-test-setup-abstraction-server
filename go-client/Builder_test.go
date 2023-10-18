@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-// Default version specified in exasol-test-setup-abstraction-java
+// Default version specified in exasol-test-setup-abstraction-java.
 const DEFAULT_EXASOL_VERSION = "7.1.23"
 const NON_DEFAULT_EXASOL_VERSION = "8.23.0"
 

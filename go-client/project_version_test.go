@@ -37,6 +37,7 @@ func readProjectKeeperConf(t *testing.T) *projectKeeperConfig {
 	if err != nil {
 		t.Fatalf("failed to read project keeper file: %v", err)
 	}
+	//nolint:exhaustruct // struct will be filled during unmarshal
 	config := &projectKeeperConfig{}
 	err = yaml.Unmarshal(yamlFile, config)
 	if err != nil {
