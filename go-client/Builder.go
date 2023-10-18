@@ -1,13 +1,20 @@
 package exasol_test_setup_abstraction_go
 
+import "time"
+
 type Builder struct {
 	configFilePath  string
 	dockerDbVersion string
+	startupTimeout  time.Duration
 }
 
 // New creates a new builder that allows creating a new TestSetupAbstraction.
 func New() Builder {
-	return Builder{}
+	return Builder{
+		configFilePath:  "",
+		dockerDbVersion: "",
+		startupTimeout:  time.Minute * 6,
+	}
 }
 
 // CloudSetupConfigFilePath sets the path to the cloud setup config file.
@@ -22,6 +29,13 @@ func (c Builder) CloudSetupConfigFilePath(path string) Builder {
 // This defaults to the version defined in exasol-test-setup-abstraction-java.
 func (c Builder) DockerDbVersion(dockerDbVersion string) Builder {
 	c.dockerDbVersion = dockerDbVersion
+	return c
+}
+
+// StartupTimeout sets the timeout for starting the Exasol test setup.
+// This defaults to 6 minutes.
+func (c Builder) StartupTimeout(timeout time.Duration) Builder {
+	c.startupTimeout = timeout
 	return c
 }
 
