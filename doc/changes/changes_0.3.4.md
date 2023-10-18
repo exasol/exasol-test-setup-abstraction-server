@@ -23,8 +23,7 @@ We assume that these vulnerabilities are not exploitable.
 #### Compile Dependency Updates
 
 * Updated `com.exasol:exasol-test-setup-abstraction-java:2.0.2` to `2.0.4`
-* Updated `io.javalin:javalin:5.6.1` to `5.6.2`
-* Added `org.eclipse.jetty:jetty-http:11.0.17`
+* Updated `io.javalin:javalin:5.6.1` to `5.6.3`
 
 #### Runtime Dependency Updates
 
@@ -48,3 +47,14 @@ We assume that these vulnerabilities are not exploitable.
 * Updated `org.codehaus.mojo:flatten-maven-plugin:1.4.1` to `1.5.0`
 * Updated `org.codehaus.mojo:versions-maven-plugin:2.15.0` to `2.16.0`
 * Updated `org.jacoco:jacoco-maven-plugin:0.8.9` to `0.8.10`
+
+### Go-client
+
+#### Compile Dependency Updates
+
+* Updated `golang:1.19` to `1.20`
+* Updated `github.com/exasol/exasol-driver-go:v1.0.0` to `v1.0.3`
+
+#### Test Dependency Updates
+
+* Updated `github.com/antchfx/xmlquery:v1.3.17` to `v1.3.18`
