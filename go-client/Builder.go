@@ -13,7 +13,7 @@ func New() Builder {
 	return Builder{
 		configFilePath:  "",
 		dockerDbVersion: "",
-		startupTimeout:  time.Minute * 6,
+		startupTimeout:  time.Minute * 10,
 	}
 }
 
@@ -33,7 +33,7 @@ func (c Builder) DockerDbVersion(dockerDbVersion string) Builder {
 }
 
 // StartupTimeout sets the timeout for starting the Exasol test setup.
-// This defaults to 6 minutes.
+// This defaults to 10 minutes.
 func (c Builder) StartupTimeout(timeout time.Duration) Builder {
 	c.startupTimeout = timeout
 	return c

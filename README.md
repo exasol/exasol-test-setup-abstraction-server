@@ -32,7 +32,11 @@ package test
 import testSetupAbstraction "github.com/exasol/exasol-test-setup-abstraction-server/go-client"
 
 func myTest() {
-	exasol, err := testSetupAbstraction.New().CloudSetupConfigFilePath("myConfig.json").DockerDbVersion("7.1.23").Start()
+	exasol, err := testSetupAbstraction.New().
+                    CloudSetupConfigFilePath("myConfig.json").
+                    DockerDbVersion("7.1.23").
+                    StartupTimeout(time.Minute * 10).
+                    Start()
 	if err != nil {
 		panic("failed to start test setup")
 	}

@@ -1,8 +1,10 @@
-# Exasol Test Setup Abstraction Server 0.3.4, released 2023-??-??
+# Exasol Test Setup Abstraction Server 0.3.4, released 2023-10-19
 
-Code name:
+Code name: Configure startup timeout
 
 ## Summary
+
+This release allows configuring the server startup timeout for the Go client. This is useful when the default of 10 minutes is not long enough, e.g. on slow GitHub runners.
 
 The release also upgrades the default Exasol version to 7.1.23.
 
@@ -14,7 +16,7 @@ We assume that these vulnerabilities are not exploitable.
 
 ## Features
 
-* ISSUE_NUMBER: description
+* #41: Added configuration for server startup timeout
 
 ## Dependency Updates
 
