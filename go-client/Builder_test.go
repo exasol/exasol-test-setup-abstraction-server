@@ -4,6 +4,7 @@ import (
 	"os"
 	"path"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/suite"
 )
@@ -48,8 +49,15 @@ func (suite *BuilderSuite) TestCustomMissingConfigFile() {
 func (suite *BuilderSuite) TestConfigFileWithInvalidContent() {
 	var err error
 	suite.setup, err = New().CloudSetupConfigFilePath(suite.writeTempFile("invalid json content")).Start()
-	suite.ErrorContains(err, "failed to start server. Server did not print a port number")
+	suite.ErrorContains(err, "server stopped after")
 	suite.ErrorContains(err, "E-ETSAS-7: Failed to start server: 'Unexpected char 105 at")
+	suite.Nil(suite.setup)
+}
+
+func (suite *BuilderSuite) TestTimeoutTooShort() {
+	var err error
+	suite.setup, err = New().StartupTimeout(time.Second * 1).Start()
+	suite.ErrorContains(err, "failed to start server. Server did not print a port number after")
 	suite.Nil(suite.setup)
 }
 
