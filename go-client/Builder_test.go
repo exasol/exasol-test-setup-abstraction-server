@@ -4,13 +4,14 @@ import (
 	"os"
 	"path"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/suite"
 )
 
-// Default version specified in exasol-test-setup-abstraction-java
-const DEFAULT_EXASOL_VERSION = "7.1.19"
-const NON_DEFAULT_EXASOL_VERSION = "7.1.21"
+// Default version specified in exasol-test-setup-abstraction-java.
+const DEFAULT_EXASOL_VERSION = "7.1.23"
+const NON_DEFAULT_EXASOL_VERSION = "8.23.0"
 
 type BuilderSuite struct {
 	suite.Suite
@@ -48,8 +49,15 @@ func (suite *BuilderSuite) TestCustomMissingConfigFile() {
 func (suite *BuilderSuite) TestConfigFileWithInvalidContent() {
 	var err error
 	suite.setup, err = New().CloudSetupConfigFilePath(suite.writeTempFile("invalid json content")).Start()
-	suite.ErrorContains(err, "failed to start server. The server did not print a port number")
+	suite.ErrorContains(err, "server stopped after")
 	suite.ErrorContains(err, "E-ETSAS-7: Failed to start server: 'Unexpected char 105 at")
+	suite.Nil(suite.setup)
+}
+
+func (suite *BuilderSuite) TestTimeoutTooShort() {
+	var err error
+	suite.setup, err = New().StartupTimeout(time.Second * 1).Start()
+	suite.ErrorContains(err, "failed to start server. Server did not print a port number after")
 	suite.Nil(suite.setup)
 }
 

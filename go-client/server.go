@@ -21,22 +21,22 @@ type serverProcess struct {
 	errorStream    *bytes.Buffer
 }
 
-// startServer starts the server in the given version and with the given config file
+// startServer starts the server in the given version and with the given config file.
 func startServer(serverVersion string, config Builder) (*serverProcess, error) {
 	serverPath, err := downloadServerIfNotPresent()
 	if err != nil {
 		return nil, err
 	}
 	args := getServerProcessArguments(serverPath, config)
-	log.Printf("Starting server with arguments %v", args)
+	log.Printf("Starting server version %s with arguments %v", serverVersion, args)
 	process := exec.Command("java", args...)
-	var output, errorStream bytes.Buffer
-	process.Stdout = &output
+	var outputStream, errorStream bytes.Buffer
+	process.Stdout = &outputStream
 	process.Stderr = &errorStream
 	stoppedMutex := &sync.Mutex{}
 	stopped := false
-	go waitForServer(process, &errorStream, &stopped, stoppedMutex)
-	port, err := getServerPort(&stopped, &output, &errorStream)
+	go waitForServer(process, &errorStream, &outputStream, &stopped, stoppedMutex)
+	port, err := getServerPort(config.startupTimeout, &stopped, &outputStream, &errorStream)
 	if err != nil {
 		return nil, err
 	}
@@ -59,13 +59,13 @@ func getServerProcessArguments(serverPath string, config Builder) []string {
 func downloadServerIfNotPresent() (string, error) {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
-		return "", fmt.Errorf("failed to get home dir. Cause: %v", err.Error())
+		return "", fmt.Errorf("failed to get home dir. Cause: %w", err)
 	}
 	serverDir := path.Join(homeDir, ".test-setup-abstraction-server")
 	if _, err := os.Stat(serverDir); os.IsNotExist(err) {
 		err := os.Mkdir(serverDir, 0700)
 		if err != nil {
-			return "", fmt.Errorf("failed to create directory %q: %v", serverDir, err.Error())
+			return "", fmt.Errorf("failed to create directory %q: %w", serverDir, err)
 		}
 	}
 	const serverJar = "exasol-test-setup-abstraction-server-" + serverVersion + ".jar"
@@ -80,9 +80,10 @@ func downloadServerIfNotPresent() (string, error) {
 	return localPath, nil
 }
 
-func getServerPort(stopped *bool, output *bytes.Buffer, errorStream *bytes.Buffer) (int, error) {
-	for counter := 0; counter < 500; counter++ { // we need to wait quite long here if the server can't reuse a testcontainer
-		pattern := regexp.MustCompile("Server running on port: (\\d+)\n")
+func getServerPort(timeout time.Duration, stopped *bool, output *bytes.Buffer, errorStream *bytes.Buffer) (int, error) {
+	startTime := time.Now()
+	pattern := regexp.MustCompile("Server running on port: (\\d+)\n")
+	for {
 		result := pattern.FindSubmatch(output.Bytes())
 		if len(result) != 0 {
 			portString := string(result[1])
@@ -92,17 +93,22 @@ func getServerPort(stopped *bool, output *bytes.Buffer, errorStream *bytes.Buffe
 			}
 			return int(port), nil
 		}
+		duration := time.Since(startTime)
+		if duration >= timeout {
+			return -1, fmt.Errorf("failed to start server. Server did not print a port number after %v seconds. Output: '%s', Error: '%s'", duration, output, errorStream)
+		}
 		if !*stopped {
 			time.Sleep(1 * time.Second)
+		} else {
+			return -1, fmt.Errorf("server stopped after %v seconds. Output: '%s', Error: '%s'", duration, output, errorStream)
 		}
 	}
-	return -1, fmt.Errorf("failed to start server. The server did not print a port number. Output: %q, error stream: %q", output, errorStream)
 }
 
-func waitForServer(serverProcess *exec.Cmd, errorStream *bytes.Buffer, stopped *bool, stoppedMutex *sync.Mutex) {
+func waitForServer(serverProcess *exec.Cmd, errorStream *bytes.Buffer, outputStream *bytes.Buffer, stopped *bool, stoppedMutex *sync.Mutex) {
 	err := serverProcess.Run()
 	if err != nil && !isStopped(stopped, stoppedMutex) { // after we killed the thread we expect an error
-		fmt.Println(errorStream.String())
+		fmt.Printf("failed to start server: %v. Error output: '%s', output stream: '%s'\n", err, errorStream.String(), outputStream.String())
 	}
 	stoppedMutex.Lock()
 	*stopped = true
@@ -121,7 +127,7 @@ func (testSetup *serverProcess) stop() error {
 	testSetup.stoppedMutex.Unlock()
 	err := testSetup.process.Process.Signal(os.Kill)
 	if err != nil {
-		return fmt.Errorf("failed to stop test-setup-abstraction server. Cause: %v", err.Error())
+		return fmt.Errorf("failed to stop test-setup-abstraction server. Cause: %w", err)
 	}
 	return nil
 }

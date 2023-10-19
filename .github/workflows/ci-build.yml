@@ -13,20 +13,23 @@ jobs:
       group: ${{ github.workflow }}-${{ github.ref }}
       cancel-in-progress: true
     steps:
+      - name: Free Disk Space
+        run: |
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /usr/share/dotnet
       - name: Checkout the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
+          distribution: "temurin"
           java-version: 11
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
-          go-version: 1.19
-        id: go
+          go-version: "1.20"
       - name: Cache local Maven repository
         uses: actions/cache@v3
         with:

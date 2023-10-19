@@ -1,6 +1,7 @@
 package exasol_test_setup_abstraction_go
 
 import (
+	"context"
 	"database/sql"
 	_ "embed"
 	"encoding/json"
@@ -18,7 +19,7 @@ type TestSetupAbstraction struct {
 	server *serverProcess
 }
 
-const serverVersion = "0.3.3"
+const serverVersion = "0.3.4"
 
 // Create creates a new Exasol test setup with the given path to the config file
 // and starts a local server.
@@ -47,33 +48,35 @@ func (testSetup *TestSetupAbstraction) GetConnectionInfo() (*ConnectionInfo, err
 }
 
 func (testSetup *TestSetupAbstraction) makeApiRequest(method string, path string, jsonResult interface{}, payload url.Values) error {
+	//nolint:exhaustruct // default values are OK
 	client := http.Client{}
-	req, err := http.NewRequest(method, testSetup.server.serverEndpoint+path, strings.NewReader(payload.Encode()))
+	req, err := http.NewRequestWithContext(context.Background(), method, testSetup.server.serverEndpoint+path, strings.NewReader(payload.Encode()))
 	if err != nil {
-		return fmt.Errorf("failed to create http request for the server. Cause: %v", err.Error())
+		return fmt.Errorf("failed to create http request for the server. Cause: %w", err)
 	}
 	if payload != nil {
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	}
 	response, err := client.Do(req)
 	if err != nil {
-		return fmt.Errorf("failed to execute %v %v from test-setup-abstraction server. Cause %v", method, path, err.Error())
+		return fmt.Errorf("failed to execute %v %v from test-setup-abstraction server. Cause %w", method, path, err)
 	}
+	defer response.Body.Close()
 	body, err := io.ReadAll(response.Body)
 	if err != nil {
-		return fmt.Errorf("failed to read response body. Cause %v", err.Error())
+		return fmt.Errorf("failed to read response body. Cause %w", err)
 	}
 	if response.StatusCode != 200 {
 		return fmt.Errorf("request failed with status %d (%v). Response: %q", response.StatusCode, response.Status, body)
 	}
 	err = json.Unmarshal(body, &jsonResult)
 	if err != nil {
-		return fmt.Errorf("invalid JSON response:\n%v\nCause: %v", string(body), err.Error())
+		return fmt.Errorf("invalid JSON response:\n%v\nCause: %w", string(body), err)
 	}
 	return nil
 }
 
-// Contains information required for connecting to an exasol database
+// Contains information required for connecting to an exasol database.
 type ConnectionInfo struct {
 	Host     string `json:"host"`     // Host name
 	Port     int    `json:"port"`     // Port number
@@ -99,7 +102,7 @@ func (testSetup *TestSetupAbstraction) CreateConnectionWithConfig(autocommit boo
 		Autocommit(autocommit).
 		String())
 	if err != nil {
-		return nil, fmt.Errorf("failed to connect to the database. Cause %v", err.Error())
+		return nil, fmt.Errorf("failed to connect to the database. Cause %w", err)
 	}
 	return connection, nil
 }
@@ -121,7 +124,7 @@ func (testSetup *TestSetupAbstraction) MakeDatabaseTcpServiceAccessibleFromLocal
 // MakeLocalTcpServiceAccessibleFromDatabase makes a local TCP service available from within the Exasol database.
 // You can use this method for example for accessing a local s3 bucket implementation from inside the Exasol database.
 // Another example is to connect from UDFs to a debugger running on the test PC.
-// Returns the address under which the service is available from within the exasol database (same port)
+// Returns the address under which the service is available from within the exasol database (same port).
 func (testSetup *TestSetupAbstraction) MakeLocalTcpServiceAccessibleFromDatabase(localPort int) (*ServiceAddress, error) {
 	var serviceAddress ServiceAddress
 	err := testSetup.makeApiRequest("POST", "makeLocalTcpServiceAccessibleFromDatabase", &serviceAddress, url.Values{
@@ -148,7 +151,7 @@ func (testSetup *TestSetupAbstraction) MakeTcpServiceAccessibleFromDatabase(serv
 
 // UploadFile uploads a local file to the default BucketFS bucket.
 func (testSetup TestSetupAbstraction) UploadFile(localPath string, remoteName string) error {
-	return testSetup.makeApiRequest("POST", "bfs/uploadFile", &successResult{}, url.Values{
+	return testSetup.makeApiRequest("POST", "bfs/uploadFile", &successResult{Success: true}, url.Values{
 		"localPath":  {localPath},
 		"remoteName": {remoteName},
 	})
@@ -156,7 +159,7 @@ func (testSetup TestSetupAbstraction) UploadFile(localPath string, remoteName st
 
 // UploadStringContent uploads the given string content to a file in the default BucketFS bucket.
 func (testSetup TestSetupAbstraction) UploadStringContent(stringContent string, remoteName string) error {
-	return testSetup.makeApiRequest("POST", "bfs/uploadStringContent", &successResult{}, url.Values{
+	return testSetup.makeApiRequest("POST", "bfs/uploadStringContent", &successResult{Success: true}, url.Values{
 		"stringContent": {stringContent},
 		"remoteName":    {remoteName},
 	})
@@ -168,6 +171,7 @@ type downloadFileAsStringResult struct {
 
 // DownloadFileAsString downloads a file from the default BucketFS bucket.
 func (testSetup TestSetupAbstraction) DownloadFileAsString(path string) (string, error) {
+	//nolint:exhaustruct // struct will be filled during unmarshal
 	result := downloadFileAsStringResult{}
 	err := testSetup.makeApiRequest("GET", "bfs/downloadFileAsString?path="+url.QueryEscape(path), &result, url.Values{})
 	if err != nil {
@@ -178,18 +182,19 @@ func (testSetup TestSetupAbstraction) DownloadFileAsString(path string) (string,
 
 // DownloadFile downloads a file from the default BucketFS bucket to a local file.
 func (testSetup TestSetupAbstraction) DownloadFile(remotePath string, localPath string) error {
-	return testSetup.makeApiRequest("GET", "bfs/downloadFile?remotePath="+url.QueryEscape(remotePath)+"&localPath="+url.QueryEscape(localPath), &successResult{}, url.Values{})
+	return testSetup.makeApiRequest("GET", "bfs/downloadFile?remotePath="+url.QueryEscape(remotePath)+"&localPath="+url.QueryEscape(localPath), &successResult{Success: true}, url.Values{})
 }
 
 // DeleteFile deletes a file from the default BucketFS bucket.
 func (testSetup TestSetupAbstraction) DeleteFile(path string) error {
-	return testSetup.makeApiRequest("DELETE", "bfs/deleteFile", &successResult{}, url.Values{
+	return testSetup.makeApiRequest("DELETE", "bfs/deleteFile", &successResult{Success: true}, url.Values{
 		"path": {path},
 	})
 }
 
 // ListFiles lists files in the default BucketFS bucket.
 func (testSetup TestSetupAbstraction) ListFiles(path string) ([]string, error) {
+	//nolint:exhaustruct // struct will be filled during unmarshal
 	result := &listResult{}
 	err := testSetup.makeApiRequest("GET", "bfs/listFiles?path="+url.QueryEscape(path), result, url.Values{
 		"path": {path},
