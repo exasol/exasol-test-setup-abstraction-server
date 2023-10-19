@@ -4,7 +4,7 @@ Code name: Configure startup timeout
 
 ## Summary
 
-This release allows configuring the server startup timeout for the Go client. This is useful when the default of 10 minutes is not long enough, e.g. on slow GitHub runners.
+This release increases the timeout for starting the server using the Go client from 500s to 10 minutes. This might be necessary in case of a slow machine. The release also allows configuring the timeout.
 
 The release also upgrades the default Exasol version to 7.1.23.
 
