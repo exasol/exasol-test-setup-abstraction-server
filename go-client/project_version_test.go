@@ -6,25 +6,26 @@ import (
 
 	"github.com/antchfx/xmlquery"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"gopkg.in/yaml.v3"
 )
 
 // These tests verify consistent project versions.
 
 func TestServerVersionSameAsPom(t *testing.T) {
-	assert.Equal(t, readVersionFromPom(t), serverVersion, "version in pom.xml and constant match")
+	assert.Equal(t, serverVersion, readVersionFromPom(t), "version in pom.xml and constant match")
 }
 
 func TestServerVersionSameAsProjectKeeperConfig(t *testing.T) {
-	assert.Equal(t, readProjectKeeperConf(t).Version, serverVersion, "version in .project-keeper.yml and constant match")
+	assert.Equal(t, serverVersion, readProjectKeeperConf(t).Version, "version in .project-keeper.yml and constant match")
 }
 
 func readVersionFromPom(t *testing.T) string {
 	pomFile, err := os.Open("../server/pom.xml")
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	defer pomFile.Close()
 	pom, err := xmlquery.Parse(pomFile)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	return xmlquery.FindOne(pom, "/project/version").InnerText()
 }
 

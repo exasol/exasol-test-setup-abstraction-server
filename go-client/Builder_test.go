@@ -26,24 +26,25 @@ func (suite *BuilderSuite) BeforeTest(suiteName, testName string) {
 
 func (suite *BuilderSuite) AfterTest(suiteName, testName string) {
 	if suite.setup != nil {
-		suite.NoError(suite.setup.Stop())
+		suite.Require().NoError(suite.setup.Stop())
 	}
 }
 
 func (suite *BuilderSuite) TestDefaultConfiguration() {
 	var err error
 	suite.setup, err = New().Start()
-	suite.NoError(err)
+	suite.Require().NoError(err)
 	suite.Equal(DEFAULT_EXASOL_VERSION, suite.getExasolDbVersion())
 }
 
 func (suite *BuilderSuite) TestCustomMissingConfigFile() {
 	var err error
 	suite.setup, err = New().CloudSetupConfigFilePath("missing-config-file.json").Start()
-	suite.NoError(err)
+	suite.Require().NoError(err)
 	suite.Equal(DEFAULT_EXASOL_VERSION, suite.getExasolDbVersion())
 }
 
+//nolint:testifylint // We have two assertions for the same error
 func (suite *BuilderSuite) TestConfigFileWithInvalidContent() {
 	var err error
 	suite.setup, err = New().CloudSetupConfigFilePath(suite.writeTempFile("invalid json content")).Start()
@@ -55,14 +56,14 @@ func (suite *BuilderSuite) TestConfigFileWithInvalidContent() {
 func (suite *BuilderSuite) TestTimeoutTooShort() {
 	var err error
 	suite.setup, err = New().StartupTimeout(time.Second * 1).Start()
-	suite.ErrorContains(err, "failed to start server. Server did not print a port number after")
+	suite.Require().ErrorContains(err, "failed to start server. Server did not print a port number after")
 	suite.Nil(suite.setup)
 }
 
 func (suite *BuilderSuite) TestCustomExasolVersion() {
 	var err error
 	suite.setup, err = New().DockerDbVersion(NON_DEFAULT_EXASOL_VERSION).Start()
-	suite.NoError(err)
+	suite.Require().NoError(err)
 	suite.Equal(NON_DEFAULT_EXASOL_VERSION, suite.getExasolDbVersion())
 }
 
@@ -70,17 +71,17 @@ func (suite *BuilderSuite) writeTempFile(content string) string {
 	tempDir := suite.T().TempDir()
 	file := path.Join(tempDir, "temp-file")
 	err := os.WriteFile(file, []byte(content), 0600)
-	suite.NoError(err)
+	suite.Require().NoError(err)
 	return file
 }
 
 func (suite *BuilderSuite) getExasolDbVersion() string {
 	db, err := suite.setup.CreateConnection()
-	suite.NoError(err)
+	suite.Require().NoError(err)
 	defer db.Close()
 	row := db.QueryRow("select param_value from exa_metadata where param_name = 'databaseProductVersion'")
-	suite.NoError(err)
+	suite.Require().NoError(err)
 	var result string
-	suite.NoError(row.Scan(&result))
+	suite.Require().NoError(row.Scan(&result))
 	return result
 }
