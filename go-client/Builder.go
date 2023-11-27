@@ -8,7 +8,7 @@ type Builder struct {
 	startupTimeout  time.Duration
 }
 
-const DEFAULT_EXASOL_VERSION = "2.23.1"
+const DEFAULT_EXASOL_VERSION = "8.23.1"
 
 // New creates a new builder that allows creating a new TestSetupAbstraction.
 func New() Builder {
