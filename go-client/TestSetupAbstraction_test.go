@@ -184,7 +184,7 @@ func (suite *TestSetupAbstractionSuite) TestListFilesInRootDir() {
 	files, err := suite.testSetup.ListFiles("/")
 	suite.Require().NoError(err)
 	suite.Len(files, 1)
-	suite.Contains(files, "EXAClusterOS/")
+	suite.Contains(files, "") // BucketFS in Exasol 8 does not contain "EXAClusterOS/" any more
 }
 
 //nolint:testifylint // We have three assertions for the same error
