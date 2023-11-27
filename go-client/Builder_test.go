@@ -9,8 +9,6 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-// Default version specified in exasol-test-setup-abstraction-java.
-const DEFAULT_EXASOL_VERSION = "8.23.1"
 const NON_DEFAULT_EXASOL_VERSION = "7.1.24"
 
 type BuilderSuite struct {
