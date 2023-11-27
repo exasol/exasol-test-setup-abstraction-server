@@ -1,4 +1,4 @@
-# Exasol Test Setup Abstraction Server 0.3.5, released 2023-11-27
+# Exasol Test Setup Abstraction Server 0.3.5, released 2023-11-28
 
 Code name: Update default Exasol version to 8.23.1
 
