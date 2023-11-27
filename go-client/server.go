@@ -46,8 +46,8 @@ func startServer(serverVersion string, config Builder) (*serverProcess, error) {
 
 func getServerProcessArguments(serverPath string, config Builder) []string {
 	var args = []string{}
-	if config.dockerDbVersion != "" {
-		args = append(args, "-Dcom.exasol.dockerdb.image="+config.dockerDbVersion)
+	if config.exasolDbVersion != "" {
+		args = append(args, "-Dcom.exasol.dockerdb.image="+config.exasolDbVersion)
 	}
 	args = append(args, "-jar", serverPath)
 	if config.configFilePath != "" {
