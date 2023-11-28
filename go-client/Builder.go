@@ -4,15 +4,17 @@ import "time"
 
 type Builder struct {
 	configFilePath  string
-	dockerDbVersion string
+	exasolDbVersion string
 	startupTimeout  time.Duration
 }
+
+const DEFAULT_EXASOL_VERSION = "8.23.1"
 
 // New creates a new builder that allows creating a new TestSetupAbstraction.
 func New() Builder {
 	return Builder{
 		configFilePath:  "",
-		dockerDbVersion: "",
+		exasolDbVersion: DEFAULT_EXASOL_VERSION,
 		startupTimeout:  time.Minute * 10,
 	}
 }
@@ -28,7 +30,7 @@ func (c Builder) CloudSetupConfigFilePath(path string) Builder {
 // DockerDbVersion sets the Exasol Docker DB version to start.
 // This defaults to the version defined in exasol-test-setup-abstraction-java.
 func (c Builder) DockerDbVersion(dockerDbVersion string) Builder {
-	c.dockerDbVersion = dockerDbVersion
+	c.exasolDbVersion = dockerDbVersion
 	return c
 }
 
