@@ -125,7 +125,6 @@
                 <artifactId>ossindex-maven-plugin</artifactId>
                 <configuration>
                     <excludeVulnerabilityIds>
-                        <exclude>CVE-2023-4586</exclude>
                         <!-- Transitive dependency fr.turri:aXMLRPC Transitive dependency fr.turri:aXMLRPC used by
                              com.exasol:exasol-test-setup-abstraction-java for connecting to ExaOperation.
                              We accept this vulnerability (CWE-833: Deadlock) as we assume that we only connect to the known endpoint ExaOperations. -->
