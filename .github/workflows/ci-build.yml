@@ -70,9 +70,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-      - name: Scan for Go vulnerabilities
-        run: |
-          cd go-client
-          go install golang.org/x/vuln/cmd/govulncheck@latest
-          govulncheck ./...

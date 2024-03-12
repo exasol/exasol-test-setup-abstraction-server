@@ -6,10 +6,7 @@ Code name: Fix CVE-2024-25710 and CVE-2024-26308 in compile dependency
 
 This release fixes vulnerabilities CVE-2024-25710 and CVE-2024-26308 in compile dependency `org.apache.commons:commons-compress`.
 
-The Go client now requires Go version 1.22.1 to fix the following vulnerabilities in Go libraries:
-* [GO-2024-2600](https://pkg.go.dev/vuln/GO-2024-2600): Incorrect forwarding of sensitive headers and cookies on HTTP redirect in net/http
-* [GO-2024-2599](https://pkg.go.dev/vuln/GO-2024-2599): Memory exhaustion in multipart form parsing in net/textproto and net/http
-* [GO-2024-2598](https://pkg.go.dev/vuln/GO-2024-2598): Verify panics on certificates with an unknown public key algorithm in crypto/x509
+The Go client now requires Go version 1.22.
 
 **Excluded Vulnerability** We accept vulnerability CVE-2017-10355 (CWE-833: Deadlock) in transitive compile dependency `xerces:xercesImpl:jar:2.12.2` as we assume that we only connect to the known endpoint ExaOperations.
 
@@ -50,5 +47,5 @@ The Go client now requires Go version 1.22.1 to fix the following vulnerabilitie
 
 #### Compile Dependency Updates
 
-* Updated `golang:1.20` to `1.21`
+* Updated `golang:1.20` to `1.22`
 * Updated `github.com/stretchr/testify:v1.8.4` to `v1.9.0`
