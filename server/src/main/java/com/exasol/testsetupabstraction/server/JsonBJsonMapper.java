@@ -18,7 +18,9 @@ class JsonBJsonMapper implements JsonMapper {
 
     @NotNull
     @Override
-    public String toJsonString(@NotNull final Object obj, Type type) {
+    @SuppressWarnings("try") // auto-closeable resource Jsonb has a member method close() that could throw
+                             // InterruptedException
+    public String toJsonString(@NotNull final Object obj, final Type type) {
         try (final Jsonb jsonb = JsonbBuilder.create()) {
             return jsonb.toJson(obj, type);
         } catch (final Exception exception) {
@@ -29,12 +31,14 @@ class JsonBJsonMapper implements JsonMapper {
 
     @NotNull
     @Override
-    public InputStream toJsonStream(@NotNull final Object obj, Type type) {
+    public InputStream toJsonStream(@NotNull final Object obj, final Type type) {
         return new ByteArrayInputStream(toJsonString(obj, type).getBytes(StandardCharsets.UTF_8));
     }
 
     @NotNull
     @Override
+    @SuppressWarnings("try") // auto-closeable resource Jsonb has a member method close() that could throw
+                             // InterruptedException
     public <T> T fromJsonString(@NotNull final String json, @NotNull final Type type) {
         try (final Jsonb jsonb = JSONB_PROVIDER.create().build()) {
             return jsonb.fromJson(json, type);

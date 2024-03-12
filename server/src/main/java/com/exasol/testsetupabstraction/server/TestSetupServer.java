@@ -122,6 +122,5 @@ public class TestSetupServer implements AutoCloseable {
     @Override
     public void close() {
         this.server.stop();
-        this.server.close();
     }
 }
