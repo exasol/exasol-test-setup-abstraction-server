@@ -1,6 +1,6 @@
 module github.com/exasol/exasol-test-setup-abstraction-server/go-client
 
-go 1.22
+go 1.21
 
 require github.com/exasol/exasol-driver-go v1.0.4
 
