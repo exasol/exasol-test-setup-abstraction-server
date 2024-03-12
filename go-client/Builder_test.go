@@ -9,8 +9,6 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-const NON_DEFAULT_EXASOL_VERSION = "7.1.24"
-
 type BuilderSuite struct {
 	suite.Suite
 	setup *TestSetupAbstraction
@@ -62,9 +60,9 @@ func (suite *BuilderSuite) TestTimeoutTooShort() {
 
 func (suite *BuilderSuite) TestCustomExasolVersion() {
 	var err error
-	suite.setup, err = New().DockerDbVersion(NON_DEFAULT_EXASOL_VERSION).Start()
+	suite.setup, err = New().DockerDbVersion(DEFAULT_EXASOL_VERSION).Start()
 	suite.Require().NoError(err)
-	suite.Equal(NON_DEFAULT_EXASOL_VERSION, suite.getExasolDbVersion())
+	suite.Equal(DEFAULT_EXASOL_VERSION, suite.getExasolDbVersion())
 }
 
 func (suite *BuilderSuite) writeTempFile(content string) string {
