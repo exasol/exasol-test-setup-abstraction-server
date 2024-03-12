@@ -10,4 +10,5 @@ linkReplacements:
   - https://javalin.io/javalin|https://javalin.io/
 version: 0.3.6
 excludes:
+  # Using old release process with release-droid
   - regex: "E-PK-CORE-26: '.github/workflows/release_droid_.*.yml' exists but must not exist. Reason: Release-droid workflows are replaced by release.yml"
