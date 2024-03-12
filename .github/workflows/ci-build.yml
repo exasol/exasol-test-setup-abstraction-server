@@ -2,13 +2,15 @@ name: CI Build
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: "bash"
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
       cancel-in-progress: true
@@ -22,29 +24,26 @@ jobs:
         with:
           fetch-depth: 0
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: "temurin"
-          java-version: 11
+          java-version: |
+            11
+            17
+          cache: "maven"
+          cache-dependency-path: "server/pom.xml"
       - name: Set up Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v5
         with:
-          go-version: "1.20"
-      - name: Cache local Maven repository
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml', '.github/workflows/project-keeper.sh') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+          go-version: "1.21"
       - name: Cache SonarCloud packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
       - name: Cache Go packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cache/go-build
@@ -53,7 +52,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v3
+        uses: golangci/golangci-lint-action@v4
         with:
           version: latest
           skip-pkg-cache: true # Caching already done by actions/cache

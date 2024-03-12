@@ -8,4 +8,6 @@ sources:
     path: go-client/go.mod
 linkReplacements:
   - https://javalin.io/javalin|https://javalin.io/
-version: 0.3.5
+version: 0.3.6
+excludes:
+  - regex: "E-PK-CORE-26: '.github/workflows/release_droid_.*.yml' exists but must not exist. Reason: Release-droid workflows are replaced by release.yml"

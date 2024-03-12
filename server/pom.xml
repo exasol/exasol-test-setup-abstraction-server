@@ -3,28 +3,28 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.exasol</groupId>
     <artifactId>exasol-test-setup-abstraction-server</artifactId>
-    <version>0.3.5</version>
+    <version>0.3.6</version>
     <name>Server for the Exasol Test-Setup Abstraction</name>
     <description>Test setup abstraction backend for Go and other languages.</description>
     <url>https://github.com/exasol/exasol-test-setup-abstraction-server/</url>
     <properties>
-        <junit.version>5.10.1</junit.version>
+        <junit.version>5.10.2</junit.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>exasol-test-setup-abstraction-java</artifactId>
-            <version>2.1.0</version>
+            <version>2.1.1</version>
         </dependency>
         <dependency>
             <groupId>io.javalin</groupId>
             <artifactId>javalin</artifactId>
-            <version>5.6.3</version>
+            <version>6.1.3</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-jdk14</artifactId>
-            <version>2.0.9</version>
+            <version>2.0.12</version>
             <scope>runtime</scope>
         </dependency>
         <!-- test dependencies -->
@@ -49,13 +49,13 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>5.7.0</version>
+            <version>5.11.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
-            <version>5.3.2</version>
+            <version>5.4.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -115,14 +115,11 @@
                 <artifactId>ossindex-maven-plugin</artifactId>
                 <configuration>
                     <excludeVulnerabilityIds>
-                        <!-- Transitive dependency fr.turri:aXMLRPC used by
-                        com.exasol:exasol-test-setup-abstraction-java / com.exasol:bucketfs-java.
-                        CVE-2020-36641 is reported to be fixed in aXMLRPC 1.12.1. We use version
-                        1.13.0, so this is a false positive. -->
-                        <exclude>CVE-2020-36641</exclude>
-                        <!-- Transitive dependency io.netty:netty-handler of software.amazon.awssdk:cloudformation.
-                             We assume that the AWS client's usage of `netty-handler` is not affected by the vulnerability. -->
                         <exclude>CVE-2023-4586</exclude>
+                        <!-- Transitive dependency fr.turri:aXMLRPC Transitive dependency fr.turri:aXMLRPC used by
+                             com.exasol:exasol-test-setup-abstraction-java for connecting to ExaOperation.
+                             We accept this vulnerability (CWE-833: Deadlock) as we assume that we only connect to the known endpoint ExaOperations. -->
+                        <exclude>CVE-2017-10355</exclude>
                     </excludeVulnerabilityIds>
                 </configuration>
             </plugin>
@@ -141,7 +138,7 @@
     <parent>
         <artifactId>exasol-test-setup-abstraction-server-generated-parent</artifactId>
         <groupId>com.exasol</groupId>
-        <version>0.3.5</version>
+        <version>0.3.6</version>
         <relativePath>pk_generated_parent.pom</relativePath>
     </parent>
 </project>
