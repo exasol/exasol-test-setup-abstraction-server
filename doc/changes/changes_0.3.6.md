@@ -34,7 +34,7 @@ This release fixes vulnerabilities CVE-2024-25710 and CVE-2024-26308 in compile 
 
 #### Plugin Dependency Updates
 
-* Updated `com.exasol:error-code-crawler-maven-plugin:1.3.1` to `2.0.1`
+* Updated `com.exasol:error-code-crawler-maven-plugin:1.3.1` to `2.0.0`
 * Updated `org.apache.maven.plugins:maven-compiler-plugin:3.11.0` to `3.12.1`
 * Updated `org.apache.maven.plugins:maven-failsafe-plugin:3.2.2` to `3.2.5`
 * Updated `org.apache.maven.plugins:maven-surefire-plugin:3.2.2` to `3.2.5`
