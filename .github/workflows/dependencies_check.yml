@@ -3,18 +3,25 @@ name: Dependencies Check
 on:
   schedule:
     - cron: "0 2 * * *"
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: "bash"
 
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: "temurin"
-          java-version: 11
+          java-version: |
+            11
+            17
           cache: "maven"
+          cache-dependency-path: "server/pom.xml"
       - name: Checking dependencies for vulnerabilities
         run: mvn --batch-mode org.sonatype.ossindex.maven:ossindex-maven-plugin:audit --file server/pom.xml
