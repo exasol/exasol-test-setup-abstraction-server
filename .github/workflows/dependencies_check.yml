@@ -8,6 +8,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: "bash"
 
     steps:
       - uses: actions/checkout@v4
@@ -22,3 +25,10 @@ jobs:
           cache-dependency-path: "server/pom.xml"
       - name: Checking dependencies for vulnerabilities
         run: mvn --batch-mode org.sonatype.ossindex.maven:ossindex-maven-plugin:audit --file server/pom.xml
+
+      - name: Scan for Go vulnerabilities
+        if: ${{ always() }}
+        run: |
+          cd go-client
+          go install golang.org/x/vuln/cmd/govulncheck@latest
+          govulncheck ./...
