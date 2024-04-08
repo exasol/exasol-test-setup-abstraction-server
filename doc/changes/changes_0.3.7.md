@@ -1,4 +1,4 @@
-# Exasol Test Setup Abstraction Server 0.3.7, released 2024-04-08
+# Exasol Test Setup Abstraction Server 0.3.7, released 2024-04-09
 
 Code name: Fix CVE-2024-29025 in io.netty:netty-codec-http:jar:4.1.107.Final:runtime
 
