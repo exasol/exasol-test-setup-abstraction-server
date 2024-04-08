@@ -15,9 +15,9 @@ func TestDownloadFails(t *testing.T) {
 		url                string
 		expectedErrorRegex string
 	}{
-		{"invalid scheme", "invalid", `download failed: Get "invalid": unsupported protocol scheme ""`},
-		{"connection refused", "http://0.0.0.0/", `download failed: Get "http://0\.0\.0\.0/": dial tcp 0.0.0.0:80: connect: connection refused`},
-		{"file not found", "https://example.com/non-existing-file", "download of \"https://example.com/non-existing-file\" failed with status .*"},
+		{"invalid scheme", "invalid", `^download failed: Get "invalid": unsupported protocol scheme ""$`},
+		{"connection refused", "http://0.0.0.0/", `^download failed: Get "http://0\.0\.0\.0/": dial tcp 0.0.0.0:80: connect: connection refused$`},
+		{"file not found", "https://example.com/non-existing-file", "^download of \"https://example.com/non-existing-file\" failed with status .*$"},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
