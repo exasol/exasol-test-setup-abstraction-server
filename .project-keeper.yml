@@ -8,4 +8,9 @@ sources:
     path: go-client/go.mod
 linkReplacements:
   - https://javalin.io/javalin|https://javalin.io/
-version: 0.3.6
+version: 0.3.7
+excludes:
+  # We use release-droid until PK supports Go projects
+  - "E-PK-CORE-26: '.github/workflows/release_droid_prepare_original_checksum.yml' exists but must not exist. Reason: Release-droid workflows are replaced by release.yml"
+  - "E-PK-CORE-26: '.github/workflows/release_droid_print_quick_checksum.yml' exists but must not exist. Reason: Release-droid workflows are replaced by release.yml"
+  - "E-PK-CORE-26: '.github/workflows/release_droid_upload_github_release_assets.yml' exists but must not exist. Reason: Release-droid workflows are replaced by release.yml"

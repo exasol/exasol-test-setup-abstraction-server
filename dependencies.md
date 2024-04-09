@@ -45,7 +45,7 @@
 | [Apache Maven JAR Plugin][29]                           | [Apache License, Version 2.0][19] |
 | [Artifact reference checker and unifier][30]            | [MIT License][31]                 |
 | [Maven Failsafe Plugin][32]                             | [Apache-2.0][19]                  |
-| [JaCoCo :: Maven Plugin][33]                            | [Eclipse Public License 2.0][34]  |
+| [JaCoCo :: Maven Plugin][33]                            | [EPL-2.0][34]                     |
 | [error-code-crawler-maven-plugin][35]                   | [MIT License][36]                 |
 | [Reproducible Build Maven Plugin][37]                   | [Apache 2.0][3]                   |
 
@@ -103,7 +103,7 @@
 [35]: https://github.com/exasol/error-code-crawler-maven-plugin/
 [36]: https://github.com/exasol/error-code-crawler-maven-plugin/blob/main/LICENSE
 [37]: http://zlika.github.io/reproducible-build-maven-plugin
-[38]: https://github.com/exasol/exasol-driver-go/blob/v1.0.4/LICENSE
+[38]: https://github.com/exasol/exasol-driver-go/blob/v1.0.6/LICENSE
 [39]: https://github.com/stretchr/testify/blob/v1.9.0/LICENSE
 [40]: https://github.com/go-yaml/yaml/blob/v3.0.1/LICENSE
 [41]: https://github.com/antchfx/xmlquery/blob/HEAD/LICENSE
