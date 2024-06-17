@@ -58,7 +58,7 @@ func (suite *TestSetupAbstractionSuite) TestGetConnectionInfo() {
 	suite.Equal("SYS", info.User)
 	suite.Equal("exasol", info.Password)
 	suite.NotEmpty(info.Host)
-	suite.Greater(info.Port, 0)
+	suite.Positive(info.Port)
 }
 
 func (suite *TestSetupAbstractionSuite) TestGetConnectionInfoReturnsValidSettings() {
