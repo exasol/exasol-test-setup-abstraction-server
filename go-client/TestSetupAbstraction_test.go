@@ -147,7 +147,7 @@ func (suite *TestSetupAbstractionSuite) TestDownloadNonExistingFileFails() {
 	tempDir := suite.T().TempDir()
 	targetFile := path.Join(tempDir, "myFile.txt")
 	err := suite.testSetup.DownloadFile("non-existing-file.txt", targetFile)
-	suite.Require().ErrorContains(err, "request failed with status 500 (500 Server Error). Response: \"E-BFSJ-2: File or directory not found trying to download 'http://")
+	suite.Require().ErrorContains(err, "request failed with status 500 (500 Server Error). Response: \"E-BFSJ-2: File or directory not found trying to download 'https://")
 }
 
 func (suite *TestSetupAbstractionSuite) TestDeleteFile() {

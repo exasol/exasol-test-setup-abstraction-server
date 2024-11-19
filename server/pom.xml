@@ -23,7 +23,8 @@
             <version>6.3.0</version>
         </dependency>
         <dependency>
-            <!-- Upgrade transitive dependency of io.javalin:javalin to fix CVE-2024-8184 in org.eclipse.jetty:jetty-server -->
+            <!-- Upgrade transitive dependency of io.javalin:javalin to fix CVE-2024-8184 in org.eclipse.jetty:jetty-server.
+                 We can upgrade to 12.0.x due to API incompatibility with javalin. -->
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
             <version>11.0.24</version>

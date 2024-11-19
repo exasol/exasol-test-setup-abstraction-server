@@ -24,6 +24,19 @@ following languages:
 
 ## Usage
 
+### Docker Environment
+
+Test-Setup Abstraction should work with standard Docker setup on Linux and macOS with Docker Desktop.
+
+For other setups you might need configuration, see the [documentation](https://java.testcontainers.org/supported_docker_environment/) for details.
+
+#### Colima
+
+```sh
+export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock
+export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
+````
+
 ### Go
 
 ```go
