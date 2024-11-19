@@ -21,6 +21,7 @@ func TestServerVersionSameAsProjectKeeperConfig(t *testing.T) {
 }
 
 func readVersionFromPom(t *testing.T) string {
+	t.Helper()
 	pomFile, err := os.Open("../server/pom.xml")
 	require.NoError(t, err)
 	defer pomFile.Close()
@@ -34,6 +35,7 @@ type projectKeeperConfig struct {
 }
 
 func readProjectKeeperConf(t *testing.T) *projectKeeperConfig {
+	t.Helper()
 	yamlFile, err := os.ReadFile("../.project-keeper.yml")
 	if err != nil {
 		t.Fatalf("failed to read project keeper file: %v", err)

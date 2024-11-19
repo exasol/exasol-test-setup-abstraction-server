@@ -34,7 +34,7 @@ import testSetupAbstraction "github.com/exasol/exasol-test-setup-abstraction-ser
 func myTest() {
 	exasol, err := testSetupAbstraction.New().
                     CloudSetupConfigFilePath("myConfig.json").
-                    DockerDbVersion("8.27.0").
+                    DockerDbVersion("8.32.0").
                     StartupTimeout(time.Minute * 10).
                     Start()
 	if err != nil {
