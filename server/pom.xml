@@ -23,14 +23,9 @@
             <version>6.3.0</version>
         </dependency>
         <dependency>
-            <!-- Upgrade transitive dependency of io.javalin:javalin to fix CVE-2024-6763 in org.eclipse.jetty:jetty-http -->
+            <!-- Upgrade transitive dependency of io.javalin:javalin to fix CVE-2024-8184 in org.eclipse.jetty:jetty-server -->
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
-            <version>12.0.15</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty.websocket</groupId>
-            <artifactId>websocket-jetty-server</artifactId>
             <version>11.0.24</version>
         </dependency>
         <dependency>
@@ -141,6 +136,9 @@
                              com.exasol:exasol-test-setup-abstraction-java for connecting to ExaOperation.
                              We accept this vulnerability (CWE-833: Deadlock) as we assume that we only connect to the known endpoint ExaOperations. -->
                         <exclude>CVE-2017-10355</exclude>
+                        <!-- Transitive dependency of io.javalin:javalin (org.eclipse.jetty:jetty-http) can't be upgraded to 12.0.x because of API changes causing
+                             incompatibility with javalin -->
+                        <exclude>CVE-2024-6763</exclude>
                     </excludeVulnerabilityIds>
                 </configuration>
             </plugin>
