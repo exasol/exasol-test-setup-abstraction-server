@@ -8,7 +8,6 @@
     <description>Test setup abstraction backend for Go and other languages.</description>
     <url>https://github.com/exasol/exasol-test-setup-abstraction-server/</url>
     <properties>
-        <java.version>17</java.version>
         <junit.version>5.11.3</junit.version>
     </properties>
     <dependencies>
