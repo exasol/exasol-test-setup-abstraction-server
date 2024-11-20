@@ -19,7 +19,7 @@ type TestSetupAbstraction struct {
 	server *serverProcess
 }
 
-const serverVersion = "0.3.9"
+const serverVersion = "0.3.10"
 
 // Create creates a new Exasol test setup with the given path to the config file
 // and starts a local server.
@@ -150,7 +150,7 @@ func (testSetup *TestSetupAbstraction) MakeTcpServiceAccessibleFromDatabase(serv
 }
 
 // UploadFile uploads a local file to the default BucketFS bucket.
-func (testSetup TestSetupAbstraction) UploadFile(localPath string, remoteName string) error {
+func (testSetup *TestSetupAbstraction) UploadFile(localPath string, remoteName string) error {
 	return testSetup.makeApiRequest("POST", "bfs/uploadFile", &successResult{Success: true}, url.Values{
 		"localPath":  {localPath},
 		"remoteName": {remoteName},
@@ -158,7 +158,7 @@ func (testSetup TestSetupAbstraction) UploadFile(localPath string, remoteName st
 }
 
 // UploadStringContent uploads the given string content to a file in the default BucketFS bucket.
-func (testSetup TestSetupAbstraction) UploadStringContent(stringContent string, remoteName string) error {
+func (testSetup *TestSetupAbstraction) UploadStringContent(stringContent string, remoteName string) error {
 	return testSetup.makeApiRequest("POST", "bfs/uploadStringContent", &successResult{Success: true}, url.Values{
 		"stringContent": {stringContent},
 		"remoteName":    {remoteName},
@@ -170,7 +170,7 @@ type downloadFileAsStringResult struct {
 }
 
 // DownloadFileAsString downloads a file from the default BucketFS bucket.
-func (testSetup TestSetupAbstraction) DownloadFileAsString(path string) (string, error) {
+func (testSetup *TestSetupAbstraction) DownloadFileAsString(path string) (string, error) {
 	//nolint:exhaustruct // struct will be filled during unmarshal
 	result := downloadFileAsStringResult{}
 	err := testSetup.makeApiRequest("GET", "bfs/downloadFileAsString?path="+url.QueryEscape(path), &result, url.Values{})
@@ -181,19 +181,19 @@ func (testSetup TestSetupAbstraction) DownloadFileAsString(path string) (string,
 }
 
 // DownloadFile downloads a file from the default BucketFS bucket to a local file.
-func (testSetup TestSetupAbstraction) DownloadFile(remotePath string, localPath string) error {
+func (testSetup *TestSetupAbstraction) DownloadFile(remotePath string, localPath string) error {
 	return testSetup.makeApiRequest("GET", "bfs/downloadFile?remotePath="+url.QueryEscape(remotePath)+"&localPath="+url.QueryEscape(localPath), &successResult{Success: true}, url.Values{})
 }
 
 // DeleteFile deletes a file from the default BucketFS bucket.
-func (testSetup TestSetupAbstraction) DeleteFile(path string) error {
+func (testSetup *TestSetupAbstraction) DeleteFile(path string) error {
 	return testSetup.makeApiRequest("DELETE", "bfs/deleteFile", &successResult{Success: true}, url.Values{
 		"path": {path},
 	})
 }
 
 // ListFiles lists files in the default BucketFS bucket.
-func (testSetup TestSetupAbstraction) ListFiles(path string) ([]string, error) {
+func (testSetup *TestSetupAbstraction) ListFiles(path string) ([]string, error) {
 	//nolint:exhaustruct // struct will be filled during unmarshal
 	result := &listResult{}
 	err := testSetup.makeApiRequest("GET", "bfs/listFiles?path="+url.QueryEscape(path), result, url.Values{

@@ -24,6 +24,18 @@ following languages:
 
 ## Usage
 
+### Docker Environment
+
+Test-Setup Abstraction should work with standard Docker setup on Linux and macOS with Docker Desktop.
+
+For other setups you might need configuration, see the [documentation](https://java.testcontainers.org/supported_docker_environment/) for details.
+
+#### Colima
+
+```sh
+export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
+```
+
 ### Go
 
 ```go
@@ -34,7 +46,7 @@ import testSetupAbstraction "github.com/exasol/exasol-test-setup-abstraction-ser
 func myTest() {
 	exasol, err := testSetupAbstraction.New().
                     CloudSetupConfigFilePath("myConfig.json").
-                    DockerDbVersion("8.27.0").
+                    DockerDbVersion("8.32.0").
                     StartupTimeout(time.Minute * 10).
                     Start()
 	if err != nil {

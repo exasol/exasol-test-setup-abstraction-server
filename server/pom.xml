@@ -3,28 +3,35 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.exasol</groupId>
     <artifactId>exasol-test-setup-abstraction-server</artifactId>
-    <version>0.3.9</version>
+    <version>0.3.10</version>
     <name>Server for the Exasol Test-Setup Abstraction</name>
     <description>Test setup abstraction backend for Go and other languages.</description>
     <url>https://github.com/exasol/exasol-test-setup-abstraction-server/</url>
     <properties>
-        <junit.version>5.10.2</junit.version>
+        <junit.version>5.11.3</junit.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>exasol-test-setup-abstraction-java</artifactId>
-            <version>2.1.4</version>
+            <version>2.1.6</version>
         </dependency>
         <dependency>
             <groupId>io.javalin</groupId>
             <artifactId>javalin</artifactId>
-            <version>6.1.6</version>
+            <version>6.3.0</version>
+        </dependency>
+        <dependency>
+            <!-- Upgrade transitive dependency of io.javalin:javalin to fix CVE-2024-8184 in org.eclipse.jetty:jetty-server.
+                 We can upgrade to 12.0.x due to API incompatibility with javalin. -->
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>11.0.24</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-jdk14</artifactId>
-            <version>2.0.13</version>
+            <version>2.0.16</version>
             <scope>runtime</scope>
         </dependency>
         <!-- test dependencies -->
@@ -43,25 +50,25 @@
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest</artifactId>
-            <version>2.2</version>
+            <version>3.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>5.12.0</version>
+            <version>5.14.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
-            <version>5.4.0</version>
+            <version>5.5.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.itsallcode</groupId>
             <artifactId>junit5-system-extensions</artifactId>
-            <version>1.2.0</version>
+            <version>1.2.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -103,7 +110,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.5.0</version>
                 <executions>
                     <execution>
                         <id>installLocally</id>
@@ -129,6 +136,9 @@
                              com.exasol:exasol-test-setup-abstraction-java for connecting to ExaOperation.
                              We accept this vulnerability (CWE-833: Deadlock) as we assume that we only connect to the known endpoint ExaOperations. -->
                         <exclude>CVE-2017-10355</exclude>
+                        <!-- Transitive dependency of io.javalin:javalin (org.eclipse.jetty:jetty-http) can't be upgraded to 12.0.x because of API changes causing
+                             incompatibility with javalin -->
+                        <exclude>CVE-2024-6763</exclude>
                     </excludeVulnerabilityIds>
                 </configuration>
             </plugin>
@@ -147,7 +157,7 @@
     <parent>
         <artifactId>exasol-test-setup-abstraction-server-generated-parent</artifactId>
         <groupId>com.exasol</groupId>
-        <version>0.3.9</version>
+        <version>0.3.10</version>
         <relativePath>pk_generated_parent.pom</relativePath>
     </parent>
 </project>
