@@ -1,4 +1,4 @@
-# Exasol Test Setup Abstraction Server 0.3.10, released 2024-11-19
+# Exasol Test Setup Abstraction Server 0.3.10, released 2024-11-20
 
 Code name: Fix startup with Exasol 8.32.0
 
