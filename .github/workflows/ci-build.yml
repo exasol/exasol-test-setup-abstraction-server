@@ -59,5 +59,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: Run Go vulnerability check
         run: |
+          cd go-client/
           govulncheck -version
           govulncheck -format text -mode source -scan symbol -show verbose -test ./...
