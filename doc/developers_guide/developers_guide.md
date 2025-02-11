@@ -30,7 +30,7 @@ go test -p 1 ./...
 
 ### Linter
 
-To install golangci-lint on your machine, follow [these instruction](https://golangci-lint.run/usage/install/#local-installation). Then run
+To install golangci-lint on your machine, follow [these instruction](https://golangci-lint.run/welcome/install/#local-installation). Then run
 
 ```shell
 cd go-client
@@ -41,7 +41,7 @@ golangci-lint run
 
 Use [release-droid](https://github.com/exasol/release-droid) as usual for building releases.
 
-To allow Go projects to use the go-client module, additionally create and push a lightweight tag for the new version:
+To allow Go projects to use the `go-client` module, additionally create and push a lightweight tag for the new version:
 
 ```shell
 version=0.2.1

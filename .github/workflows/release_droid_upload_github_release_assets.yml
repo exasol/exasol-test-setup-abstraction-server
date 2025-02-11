@@ -10,6 +10,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Upload artifacts
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
