@@ -4,12 +4,11 @@ Code name: Fix CVE-2024-45338 in `golang.org/x/net`
 
 ## Summary
 
-This release fixes vulnerabilitiy CVE-2024-45338 in dependency `golang.org/x/net`.
+This release fixes vulnerability CVE-2024-45338 in dependency `golang.org/x/net`.
 
 ## Security
 
 * #54: Fixed CVE-2024-45338 in dependency `golang.org/x/net`
-
 
 ## Dependency Updates
 
@@ -17,6 +16,7 @@ This release fixes vulnerabilitiy CVE-2024-45338 in dependency `golang.org/x/net
 
 #### Compile Dependency Updates
 
+* Updated `com.exasol:exasol-test-setup-abstraction-java:2.1.6` to `2.1.7`
 * Updated `io.javalin:javalin:6.3.0` to `6.4.0`
 * Removed `org.eclipse.jetty:jetty-server:11.0.24`
 
