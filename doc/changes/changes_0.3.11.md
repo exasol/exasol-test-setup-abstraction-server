@@ -40,7 +40,8 @@ This release fixes vulnerabilitiy CVE-2024-45338 in dependency `golang.org/x/net
 
 * Updated `golang:1.22` to `1.23`
 * Updated `github.com/stretchr/testify:v1.9.0` to `v1.10.0`
+* Updated `github.com/exasol/exasol-driver-go:v1.0.10` to `v1.0.12`
 
 #### Test Dependency Updates
 
-* Updated `github.com/antchfx/xmlquery:v1.4.2` to `v1.4.3`
+* Updated `github.com/antchfx/xmlquery:v1.4.2` to `v1.4.4`

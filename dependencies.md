@@ -115,7 +115,7 @@
 [42]: https://github.com/exasol/error-code-crawler-maven-plugin/
 [43]: https://github.com/exasol/error-code-crawler-maven-plugin/blob/main/LICENSE
 [44]: http://zlika.github.io/reproducible-build-maven-plugin
-[45]: https://github.com/exasol/exasol-driver-go/blob/v1.0.10/LICENSE
+[45]: https://github.com/exasol/exasol-driver-go/blob/v1.0.12/LICENSE
 [46]: https://github.com/stretchr/testify/blob/v1.10.0/LICENSE
 [47]: https://github.com/go-yaml/yaml/blob/v3.0.1/LICENSE
 [48]: https://github.com/antchfx/xmlquery/blob/HEAD/LICENSE
