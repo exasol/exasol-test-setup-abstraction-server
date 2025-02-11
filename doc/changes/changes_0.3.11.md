@@ -1,4 +1,4 @@
-# Exasol Test Setup Abstraction Server 0.3.11, released 2025-01-15
+# Exasol Test Setup Abstraction Server 0.3.11, released 2025-02-11
 
 Code name: Fix CVE-2024-45338 in `golang.org/x/net`
 
