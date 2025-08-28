@@ -74,3 +74,13 @@ HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net
 * Updated `org.codehaus.mojo:flatten-maven-plugin:1.6.0` to `1.7.0`
 * Updated `org.jacoco:jacoco-maven-plugin:0.8.12` to `0.8.13`
 * Updated `org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389` to `5.1.0.4751`
+
+### Go-client
+
+#### Compile Dependency Updates
+
+* Updated `golang:1.23` to `1.23.0`
+
+#### Other Dependency Updates
+
+* Added `toolchain:go1.23.1`
