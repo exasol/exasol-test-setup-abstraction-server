@@ -3,7 +3,7 @@
 ## Running PK locally
 
 You'll need to get the latest CLI version of project keeper, you can get it in the repository. Use this to update the project.
-Then run the project-keeper fix command like this:
+Run the project-keeper fix command like this:
 `java -jar /path-to-pj-jar/project-keeper-cli-5.2.3.jar fix`
 
 ## Running Build Locally
