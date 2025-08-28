@@ -1,6 +1,6 @@
 # Exasol Test Setup Abstraction Server 0.3.12, released 2025-08-28
 
-Code name: Fixes for vulnerability CVE-2025-48924 and CVE-2024-55551 
+Code name: Fixes for vulnerability CVE-2025-48924 CVE-2024-55551, CVE-2025-22872, CVE-2025-22870
 
 ## Summary
 
@@ -39,10 +39,17 @@ CWE: CWE-94
 - http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-55551
 - https://gist.github.com/azraelxuemo/9565ec9219e0c3e9afd5474904c39d0f
 
+## CVE-2025-22872
+golang.org/x/net vulnerable to Cross-site Scripting
+
+## CVE-2025-22870
+HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net
+
 ## Security
 
-* #17: CVE-2025-48924 in `org.apache.commons:commons-lang3:jar:3.11:compile`
-* #180: CVE-2024-55551 in `com.exasol:exasol-jdbc:jar:24.2.1:runtime`
+* #61: CVE-2025-48924 in `org.apache.commons:commons-lang3:jar:3.11:compile`
+* #60: CVE-2024-55551 in `com.exasol:exasol-jdbc:jar:24.2.1:runtime`
+* #63: CVE-2025-22872, CVE-2025-22870 in `golang.org/x/net`
 
 ## Dependency Updates
 
