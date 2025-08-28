@@ -8,7 +8,7 @@ sources:
     path: go-client/go.mod
 linkReplacements:
   - https://javalin.io/javalin|https://javalin.io/
-version: 0.3.11
+version: 0.3.12
 excludes:
   # We use release-droid until PK supports Go projects
   - "E-PK-CORE-26: '.github/workflows/release_droid_prepare_original_checksum.yml' exists but must not exist. Reason: Release-droid workflows are replaced by release.yml"
