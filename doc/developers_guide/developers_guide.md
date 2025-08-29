@@ -2,9 +2,9 @@
 
 ## Running PK locally
 
-You'll need to get the latest CLI version of project keeper, you can get it in the repository. Use this to update the project.
-Run the project-keeper fix command like this:
-`java -jar /path-to-pj-jar/project-keeper-cli-5.2.3.jar fix`
+Run PK locally in this repo using the generated shell script:
+`.github/workflows/project-keeper.sh fix`
+This will automatically download and run the correct PK version.
 
 ## Running Build Locally
 
