@@ -1,5 +1,11 @@
 # Developers Guide
 
+## Running PK locally
+
+Run PK locally in this repo using the generated shell script:
+`.github/workflows/project-keeper.sh fix`
+This will automatically download and run the correct PK version.
+
 ## Running Build Locally
 
 ```shell

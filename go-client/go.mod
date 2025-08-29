@@ -1,6 +1,8 @@
 module github.com/exasol/exasol-test-setup-abstraction-server/go-client
 
-go 1.23
+go 1.23.0
+
+toolchain go1.23.1
 
 require github.com/exasol/exasol-driver-go v1.0.12
 
@@ -20,8 +22,8 @@ require (
 	github.com/kr/pretty v0.3.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/stretchr/objx v0.5.2 // indirect
-	golang.org/x/net v0.35.0 // indirect
-	golang.org/x/sync v0.11.0 // indirect
-	golang.org/x/text v0.22.0 // indirect
+	golang.org/x/net v0.38.0 // indirect
+	golang.org/x/sync v0.12.0 // indirect
+	golang.org/x/text v0.23.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 )
