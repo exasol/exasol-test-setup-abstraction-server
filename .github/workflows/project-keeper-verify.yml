@@ -35,9 +35,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: |-
-            11
-            17
+          java-version: '17'
           cache-dependency-path: |
             .github/workflows/project-keeper-verify.yml
             .github/workflows/project-keeper.sh

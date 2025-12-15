@@ -1,10 +1,12 @@
-# Exasol Test Setup Abstraction Server 0.3.12, released 2025-12-15
+# Exasol Test Setup Abstraction Server 1.0.0, released 2025-12-15
 
 Code name: Fixes for vulnerability CVE-2025-48924 CVE-2024-55551, CVE-2025-22872, CVE-2025-22870
 
 ## Summary
 
-This release fixes the following vulnerability:
+This release updates Java and requires Java 17.
+
+The release also fixes the following vulnerability:
 
 ### CVE-2025-48924 (CWE-674) in dependency `org.apache.commons:commons-lang3:jar:3.11:compile`
 
@@ -68,8 +70,8 @@ HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net
 #### Test Dependency Updates
 
 * Updated `io.rest-assured:rest-assured:5.5.0` to `6.0.0`
-* Updated `org.junit.jupiter:junit-jupiter-engine:5.11.4` to `5.14.1`
-* Updated `org.junit.jupiter:junit-jupiter-params:5.11.4` to `5.14.1`
+* Updated `org.junit.jupiter:junit-jupiter-engine:5.11.4` to `6.0.1`
+* Updated `org.junit.jupiter:junit-jupiter-params:5.11.4` to `6.0.1`
 * Updated `org.mockito:mockito-junit-jupiter:5.15.2` to `5.21.0`
 
 #### Plugin Dependency Updates

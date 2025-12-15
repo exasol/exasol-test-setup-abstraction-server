@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.exasol</groupId>
     <artifactId>exasol-test-setup-abstraction-server</artifactId>
-    <version>0.3.12</version>
+    <version>1.0.0</version>
     <name>Server for the Exasol Test-Setup Abstraction</name>
     <description>Test setup abstraction backend for Go and other languages.</description>
     <url>https://github.com/exasol/exasol-test-setup-abstraction-server/</url>
     <properties>
-        <!-- JUnit 6 requires Java 17 -->
-        <junit.version>5.14.1</junit.version>
+        <java.version>17</java.version>
+        <junit.version>6.0.1</junit.version>
     </properties>
     <dependencies>
         <dependency>
@@ -150,7 +150,7 @@
     <parent>
         <artifactId>exasol-test-setup-abstraction-server-generated-parent</artifactId>
         <groupId>com.exasol</groupId>
-        <version>0.3.12</version>
+        <version>1.0.0</version>
         <relativePath>pk_generated_parent.pom</relativePath>
     </parent>
 </project>
