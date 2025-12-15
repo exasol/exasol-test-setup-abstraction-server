@@ -77,7 +77,7 @@ func (suite *BuilderSuite) getExasolDbVersion() string {
 	db, err := suite.setup.CreateConnection()
 	suite.Require().NoError(err)
 	defer db.Close()
-	row := db.QueryRow("select param_value from exa_metadata where param_name = 'databaseProductVersion'")
+	row := db.QueryRowContext(suite.T().Context(), "select param_value from exa_metadata where param_name = 'databaseProductVersion'")
 	suite.Require().NoError(err)
 	var result string
 	suite.Require().NoError(row.Scan(&result))

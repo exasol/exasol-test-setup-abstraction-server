@@ -2,6 +2,7 @@ package exasol_test_setup_abstraction_go
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"log"
 	"os"
@@ -29,7 +30,7 @@ func startServer(serverVersion string, config Builder) (*serverProcess, error) {
 	}
 	args := getServerProcessArguments(serverPath, config)
 	log.Printf("Starting server version %s with arguments %v", serverVersion, args)
-	process := exec.Command("java", args...)
+	process := exec.CommandContext(context.Background(), "java", args...)
 	var outputStream, errorStream bytes.Buffer
 	process.Stdout = &outputStream
 	process.Stderr = &errorStream
