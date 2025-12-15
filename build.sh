@@ -6,7 +6,7 @@ readonly base_dir
 
 cd "$base_dir"
 
-mvn --batch-mode --file server/ clean install
+mvn --batch-mode --file server/ clean install -Dcom.exasol.dockerdb.image=2025.1.8
 
 cd "$base_dir/go-client"
 go test -timeout 20m -count 1 -p 1 -v -coverprofile=coverage.out ./...
