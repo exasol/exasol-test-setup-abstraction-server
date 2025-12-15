@@ -162,7 +162,7 @@ func (suite *TestSetupAbstractionSuite) TestDeleteFile() {
 
 func (suite *TestSetupAbstractionSuite) TestDeleteNonExistingFileSucceeds() {
 	err := suite.testSetup.DeleteFile("non-existing-file.txt")
-	suite.Require().NoError(err)
+	suite.Require().ErrorContains(err, "E-BFSJ-2: File or directory not found trying to delete")
 }
 
 func (suite *TestSetupAbstractionSuite) TestUploadFile() {
