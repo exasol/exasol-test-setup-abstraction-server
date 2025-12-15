@@ -68,8 +68,8 @@ HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net
 #### Test Dependency Updates
 
 * Updated `io.rest-assured:rest-assured:5.5.0` to `6.0.0`
-* Updated `org.junit.jupiter:junit-jupiter-engine:5.11.4` to `6.0.1`
-* Updated `org.junit.jupiter:junit-jupiter-params:5.11.4` to `6.0.1`
+* Updated `org.junit.jupiter:junit-jupiter-engine:5.11.4` to `5.14.1`
+* Updated `org.junit.jupiter:junit-jupiter-params:5.11.4` to `5.14.1`
 * Updated `org.mockito:mockito-junit-jupiter:5.15.2` to `5.21.0`
 
 #### Plugin Dependency Updates
