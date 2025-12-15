@@ -23,9 +23,9 @@
 
 ### Runtime Dependencies
 
-| Dependency                 | License           |
-| -------------------------- | ----------------- |
-| [SLF4J JDK14 Provider][14] | [MIT License][15] |
+| Dependency                 | License   |
+| -------------------------- | --------- |
+| [SLF4J JDK14 Provider][14] | [MIT][15] |
 
 ### Plugin Dependencies
 
@@ -39,7 +39,7 @@
 | [Apache Maven Toolchains Plugin][23]                    | [Apache-2.0][17]                            |
 | [Apache Maven Compiler Plugin][24]                      | [Apache-2.0][17]                            |
 | [Apache Maven Enforcer Plugin][25]                      | [Apache-2.0][17]                            |
-| [Maven Flatten Plugin][26]                              | [Apache Software Licenese][17]              |
+| [Maven Flatten Plugin][26]                              | [Apache Software License][17]               |
 | [Exec Maven Plugin][27]                                 | [Apache License 2][17]                      |
 | [org.sonatype.ossindex.maven:ossindex-maven-plugin][28] | [ASL2][3]                                   |
 | [Maven Surefire Plugin][29]                             | [Apache-2.0][17]                            |
@@ -75,7 +75,7 @@
 [1]: https://github.com/exasol/exasol-test-setup-abstraction-java/blob/main/LICENSE
 [2]: https://javalin.io/
 [3]: http://www.apache.org/licenses/LICENSE-2.0.txt
-[4]: https://junit.org/junit5/
+[4]: https://junit.org/
 [5]: https://www.eclipse.org/legal/epl-v20.html
 [6]: http://hamcrest.org/JavaHamcrest/
 [7]: https://raw.githubusercontent.com/hamcrest/JavaHamcrest/master/LICENSE
@@ -86,7 +86,7 @@
 [12]: https://github.com/itsallcode/junit5-system-extensions
 [13]: http://www.eclipse.org/legal/epl-v20.html
 [14]: http://www.slf4j.org
-[15]: http://www.opensource.org/licenses/mit-license.php
+[15]: https://opensource.org/license/mit
 [16]: https://maven.apache.org/plugins/maven-clean-plugin/
 [17]: https://www.apache.org/licenses/LICENSE-2.0.txt
 [18]: https://maven.apache.org/plugins/maven-install-plugin/
@@ -118,7 +118,7 @@
 [44]: https://github.com/exasol/error-code-crawler-maven-plugin/blob/main/LICENSE
 [45]: https://github.com/git-commit-id/git-commit-id-maven-plugin
 [46]: http://www.gnu.org/licenses/lgpl-3.0.txt
-[47]: https://github.com/exasol/exasol-driver-go/blob/v1.0.12/LICENSE
-[48]: https://github.com/stretchr/testify/blob/v1.10.0/LICENSE
+[47]: https://github.com/exasol/exasol-driver-go/blob/v1.0.14/LICENSE
+[48]: https://github.com/stretchr/testify/blob/v1.11.1/LICENSE
 [49]: https://github.com/go-yaml/yaml/blob/v3.0.1/LICENSE
 [50]: https://github.com/antchfx/xmlquery/blob/HEAD/LICENSE

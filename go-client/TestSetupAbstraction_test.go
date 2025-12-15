@@ -36,7 +36,7 @@ func (suite *TestSetupAbstractionSuite) TestCreateConnection() {
 	connection, err := suite.testSetup.CreateConnection()
 	suite.Require().NoError(err)
 	defer func() { suite.Require().NoError(connection.Close()) }()
-	row := connection.QueryRow("SELECT 1")
+	row := connection.QueryRowContext(suite.T().Context(), "SELECT 1")
 	var result int
 	suite.Require().NoError(row.Scan(&result))
 	suite.Equal(1, result)
@@ -46,7 +46,7 @@ func (suite *TestSetupAbstractionSuite) TestCreateConnectionWithAutocommitOff() 
 	connection, err := suite.testSetup.CreateConnectionWithConfig(false)
 	suite.Require().NoError(err)
 	defer func() { suite.Require().NoError(connection.Close()) }()
-	row := connection.QueryRow("SELECT 1")
+	row := connection.QueryRowContext(suite.T().Context(), "SELECT 1")
 	var result int
 	suite.Require().NoError(row.Scan(&result))
 	suite.Equal(1, result)
@@ -71,7 +71,7 @@ func (suite *TestSetupAbstractionSuite) TestGetConnectionInfoReturnsValidSetting
 		String())
 	suite.Require().NoError(err)
 	defer func() { suite.Require().NoError(db.Close()) }()
-	row := db.QueryRow("SELECT 1")
+	row := db.QueryRowContext(suite.T().Context(), "SELECT 1")
 	var result int
 	suite.Require().NoError(row.Scan(&result))
 	suite.Equal(1, result)
@@ -160,9 +160,9 @@ func (suite *TestSetupAbstractionSuite) TestDeleteFile() {
 	suite.NotContains(files, "TestDeleteFile.txt")
 }
 
-func (suite *TestSetupAbstractionSuite) TestDeleteNonExistingFileSucceeds() {
+func (suite *TestSetupAbstractionSuite) TestDeleteNonExistingFileReturnsError() {
 	err := suite.testSetup.DeleteFile("non-existing-file.txt")
-	suite.Require().NoError(err)
+	suite.Require().ErrorContains(err, "E-BFSJ-2: File or directory not found trying to delete")
 }
 
 func (suite *TestSetupAbstractionSuite) TestUploadFile() {

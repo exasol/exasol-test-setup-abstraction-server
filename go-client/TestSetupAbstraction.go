@@ -3,7 +3,6 @@ package exasol_test_setup_abstraction_go
 import (
 	"context"
 	"database/sql"
-	_ "embed"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -19,7 +18,7 @@ type TestSetupAbstraction struct {
 	server *serverProcess
 }
 
-const serverVersion = "0.3.12"
+const serverVersion = "1.0.0"
 
 // Create creates a new Exasol test setup with the given path to the config file
 // and starts a local server.
@@ -150,7 +149,7 @@ func (testSetup *TestSetupAbstraction) MakeTcpServiceAccessibleFromDatabase(serv
 }
 
 // UploadFile uploads a local file to the default BucketFS bucket.
-func (testSetup *TestSetupAbstraction) UploadFile(localPath string, remoteName string) error {
+func (testSetup *TestSetupAbstraction) UploadFile(localPath, remoteName string) error {
 	return testSetup.makeApiRequest("POST", "bfs/uploadFile", &successResult{Success: true}, url.Values{
 		"localPath":  {localPath},
 		"remoteName": {remoteName},
@@ -158,7 +157,7 @@ func (testSetup *TestSetupAbstraction) UploadFile(localPath string, remoteName s
 }
 
 // UploadStringContent uploads the given string content to a file in the default BucketFS bucket.
-func (testSetup *TestSetupAbstraction) UploadStringContent(stringContent string, remoteName string) error {
+func (testSetup *TestSetupAbstraction) UploadStringContent(stringContent, remoteName string) error {
 	return testSetup.makeApiRequest("POST", "bfs/uploadStringContent", &successResult{Success: true}, url.Values{
 		"stringContent": {stringContent},
 		"remoteName":    {remoteName},
@@ -181,7 +180,7 @@ func (testSetup *TestSetupAbstraction) DownloadFileAsString(path string) (string
 }
 
 // DownloadFile downloads a file from the default BucketFS bucket to a local file.
-func (testSetup *TestSetupAbstraction) DownloadFile(remotePath string, localPath string) error {
+func (testSetup *TestSetupAbstraction) DownloadFile(remotePath, localPath string) error {
 	return testSetup.makeApiRequest("GET", "bfs/downloadFile?remotePath="+url.QueryEscape(remotePath)+"&localPath="+url.QueryEscape(localPath), &successResult{Success: true}, url.Values{})
 }
 
