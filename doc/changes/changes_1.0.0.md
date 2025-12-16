@@ -1,4 +1,4 @@
-# Exasol Test Setup Abstraction Server 1.0.0, released 2025-12-15
+# Exasol Test Setup Abstraction Server 1.0.0, released 2025-12-16
 
 Code name: Fixes for vulnerability CVE-2025-48924 CVE-2024-55551, CVE-2025-22872, CVE-2025-22870
 
