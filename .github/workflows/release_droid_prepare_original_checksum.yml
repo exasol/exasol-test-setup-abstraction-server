@@ -26,7 +26,7 @@ jobs:
       - name: Enable testcontainer reuse
         run: echo 'testcontainers.reuse.enable=true' > "$HOME/.testcontainers.properties"
       - name: Run tests and build with Maven
-        run: mvn --batch-mode clean verify --file server/pom.xml -Dcom.exasol.dockerdb.image=2025.1.8
+        run: mvn --batch-mode clean verify --file server/pom.xml -Dcom.exasol.dockerdb.image=2025.2.1
       - name: Prepare checksum
         run: find server/target -maxdepth 1 -name *.jar -exec sha256sum "{}" + > original_checksum
       - name: Upload checksum to the artifactory

@@ -1,10 +1,10 @@
-# Exasol Test Setup Abstraction Server 1.0.1, released 2026-??-??
+# Exasol Test Setup Abstraction Server 1.0.1, released 2026-04-06
 
 Code name: Fix CVE-2026-32287 in Go dependency `github.com/antchfx/xpath`
 
 ## Summary
 
-This release updates dependencies to fix CVE-2026-32287 in Go dependency `github.com/antchfx/xpath`.
+This release updates dependencies to fix CVE-2026-32287 in Go dependency `github.com/antchfx/xpath`. The release also updates the default Exasol version to 2025.2.1
 
 ## Security
 
