@@ -5,8 +5,9 @@ base_dir="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 readonly base_dir
 
 cd "$base_dir"
-
-mvn --batch-mode --file server/ clean install -Dcom.exasol.dockerdb.image=2025.1.8
+echo "Building server and running tests..."
+mvn --batch-mode --file server/ clean install -Dcom.exasol.dockerdb.image=2025.2.1
 
 cd "$base_dir/go-client"
+echo "Running Go client tests..."
 go test -timeout 20m -count 1 -p 1 -v -coverprofile=coverage.out ./...
